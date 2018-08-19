@@ -1,0 +1,19 @@
+# Java
+slimchat-service-core/**/*.class
+slimchat-service-core/**/*.jar
+slimchat-service-core/**/*.war
+
+# Gradle
+slimchat-service-core/.gradle/
+slimchat-service-core/build/
+slimchat-service-core/out/
+
+# Gradle Wrapper (exclude)
+!slimchat-service-core/gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ IDEA
+slimchat-service-core/.idea/
+slimchat-service-core/**/*.iml
+
+# Miscellaneous
+slimchat-service-core/**/*.log
