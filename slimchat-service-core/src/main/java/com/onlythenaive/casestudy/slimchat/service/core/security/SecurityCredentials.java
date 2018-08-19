@@ -18,4 +18,5 @@ public class SecurityCredentials {
 
     private String nickname;
     private String password;
+    private String passwordDuplicate;
 }
