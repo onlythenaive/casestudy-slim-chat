@@ -33,18 +33,18 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
     private TokenService tokenService;
 
     @Override
-    public void createAccount(String nickname, String password) {
-        Account account = this.accountService.createAccount(nickname, password);
+    public void createAccount(SecurityCredentials credentials) {
+        Account account = this.accountService.createAccount(credentials.getNickname(), credentials.getPassword());
         createNewAuthenticationAndToken(account);
     }
 
     @Override
-    public void login(String nickname, String password) {
-        Account account = this.accountService.findAccountByNickname(nickname);
+    public void login(SecurityCredentials credentials) {
+        Account account = this.accountService.findAccountByNickname(credentials.getNickname());
         if (account == null) {
             throw loginFailed();
         }
-        boolean verified = this.passwordService.verify(password, account.getPasswordHash());
+        boolean verified = this.passwordService.verify(credentials.getPassword(), account.getPasswordHash());
         if (!verified) {
             throw loginFailed();
         }
