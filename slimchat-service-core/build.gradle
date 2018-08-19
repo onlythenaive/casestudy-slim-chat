@@ -16,4 +16,5 @@ repositories {
 dependencies {
 
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'com.github.jknack:handlebars:4.1.0'
 }
