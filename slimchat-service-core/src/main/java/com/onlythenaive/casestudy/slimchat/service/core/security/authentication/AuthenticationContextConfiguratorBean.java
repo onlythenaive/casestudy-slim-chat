@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.authentication;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
@@ -11,7 +12,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponent
  * @author Ilia Gubarev
  */
 @Component
-@Scope(scopeName = "request")
+@Scope(scopeName = "request", proxyMode = ScopedProxyMode.INTERFACES)
 public class AuthenticationContextConfiguratorBean extends GenericComponentBean
         implements AuthenticationContextConfigurator {
 
