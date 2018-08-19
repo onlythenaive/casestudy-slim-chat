@@ -17,5 +17,6 @@ dependencies {
 
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'com.github.jknack:handlebars:4.1.0'
+    compile 'com.github.jknack:handlebars-springmvc:4.1.0'
     compile 'org.mindrot:jbcrypt:0.4'
 }
