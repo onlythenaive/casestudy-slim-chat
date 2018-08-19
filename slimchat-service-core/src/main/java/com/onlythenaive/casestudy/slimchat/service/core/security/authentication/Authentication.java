@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
+import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 
 /**
  * Security authentication.
@@ -19,4 +20,5 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
 public class Authentication {
 
     private Account account;
+    private Token token;
 }
