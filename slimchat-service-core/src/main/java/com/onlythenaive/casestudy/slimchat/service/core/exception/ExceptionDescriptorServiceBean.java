@@ -37,6 +37,8 @@ public class ExceptionDescriptorServiceBean implements ExceptionDescriptorServic
         String originalTextcode = descriptor.getTextcode();
         String textcode = originalTextcode != null ? originalTextcode : descriptor.getCategory().getDefaultTextcode();
         return ExceptionDescriptor.builder()
+                .category(descriptor.getCategory())
+                .data(descriptor.getData())
                 .message(messageByTextcode(textcode))
                 .messageLocalized(localizedMessageByTextcode(textcode))
                 .textcode(textcode)
