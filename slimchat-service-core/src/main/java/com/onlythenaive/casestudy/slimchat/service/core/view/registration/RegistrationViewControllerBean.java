@@ -1,8 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.view.registration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityCredentials;
+import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityService;
-import com.onlythenaive.casestudy.slimchat.service.core.view.generic.GenericViewControllerBean;
+import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
 @RequestMapping("/view/registration")
@@ -23,41 +21,32 @@ public class RegistrationViewControllerBean extends GenericViewControllerBean {
 
     @GetMapping
     public ModelAndView get() {
-        return view("registration");
+        return defaultView();
     }
 
     @PostMapping
-    public ModelAndView post(SecurityCredentials credentials) {
-        String password = credentials.getPassword();
-        String passwordDuplicate = credentials.getPasswordDuplicate();
-        if (!password.equals(passwordDuplicate)) {
-            return passwordNotMatchDuplicate();
+    public ModelAndView post(RegistrationFormData formData) {
+        ensurePasswordDuplicate(formData);
+        this.securityService.createAccount(formData.getNickname(), formData.getPassword());
+        return view("registration-complete");
+    }
+
+    @Override
+    protected String defaultViewName() {
+        return "registration";
+    }
+
+    private void ensurePasswordDuplicate(RegistrationFormData formData) {
+        if (!formData.getPassword().equals(formData.getPasswordDuplicate())) {
+            RegistrationFormData data = RegistrationFormData.builder()
+                    .nickname(formData.getNickname())
+                    .build();
+            throw OperationException.builder()
+                    .category(ExceptionCategory.LOGIC)
+                    .comment("Password does not match with its duplicate")
+                    .data(data)
+                    .textcode("x.logic.account.creation.password-duplicate-mismatch")
+                    .build();
         }
-        try {
-            this.securityService.createAccount(credentials);
-            return view("/registration-complete");
-        } catch (Exception e) {
-            return registrationFailed();
-        }
-    }
-
-    private ModelAndView passwordNotMatchDuplicate() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("registration");
-        modelAndView.addObject("content", mistakeContent("Passwords do not match!"));
-        return modelAndView;
-    }
-
-    private ModelAndView registrationFailed() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("registration");
-        modelAndView.addObject("content", mistakeContent("Registration failed!"));
-        return modelAndView;
-    }
-
-    private Object mistakeContent(String message) {
-        Map<String, String> content = new HashMap<>();
-        content.put("mistake", message);
-        return content;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityService;
-import com.onlythenaive.casestudy.slimchat.service.core.view.generic.GenericViewControllerBean;
+import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
 @RequestMapping("/view/logout")
@@ -19,6 +19,11 @@ public class LogoutViewControllerBean extends GenericViewControllerBean {
     @PostMapping
     public ModelAndView post() {
         this.securityService.logout();
-        return redirect("/view/login");
+        return redirectToView("login");
+    }
+
+    @Override
+    protected String defaultViewName() {
+        return "logout";
     }
 }

@@ -1,8 +1,13 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
@@ -33,20 +38,20 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
     private TokenService tokenService;
 
     @Override
-    public void createAccount(SecurityCredentials credentials) {
-        Account account = this.accountService.createAccount(credentials.getNickname(), credentials.getPassword());
+    public void createAccount(String nickname, String password) {
+        Account account = this.accountService.createAccount(nickname, password);
         createNewAuthenticationAndToken(account);
     }
 
     @Override
-    public void login(SecurityCredentials credentials) {
-        Account account = this.accountService.findAccountByNickname(credentials.getNickname());
+    public void login(String nickname, String password) {
+        Account account = this.accountService.findAccountByNickname(nickname);
         if (account == null) {
-            throw loginFailed();
+            throw loginFailed(nickname);
         }
-        boolean verified = this.passwordService.verify(credentials.getPassword(), account.getPasswordHash());
+        boolean verified = this.passwordService.verify(password, account.getPasswordHash());
         if (!verified) {
-            throw loginFailed();
+            throw loginFailed(nickname);
         }
         createNewAuthenticationAndToken(account);
     }
@@ -75,7 +80,14 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
         }
     }
 
-    private RuntimeException loginFailed() {
-        return new RuntimeException("Login attempt failed");
+    private RuntimeException loginFailed(String nickname) {
+        Map<String, String> data = new HashMap<>();
+        data.put("nickname", nickname);
+        throw OperationException.builder()
+                .category(ExceptionCategory.LOGIC)
+                .comment("Login attempt failed")
+                .data(data)
+                .textcode("x.logic.security.login-failed")
+                .build();
     }
 }

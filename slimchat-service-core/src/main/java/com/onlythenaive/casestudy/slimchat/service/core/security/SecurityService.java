@@ -10,16 +10,18 @@ public interface SecurityService {
     /**
      * Creates a new security account.
      *
-     * @param credentials account security credentials.
+     * @param nickname account nickname.
+     * @param password account password.
      */
-    void createAccount(SecurityCredentials credentials);
+    void createAccount(String nickname, String password);
 
     /**
      * Creates a new authentication and security token.
      *
-     * @param credentials account security credentials.
+     * @param nickname account nickname.
+     * @param password account password.
      */
-    void login(SecurityCredentials credentials);
+    void login(String nickname, String password);
 
     /**
      * Removes current authentication and security token.

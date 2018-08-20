@@ -1,9 +1,9 @@
 <h1>Registration</h1>
 <form action="/view/registration" method="post">
-    <input type="text" name="nickname" value="" placeholder="Your nickname, f.e. onlythenaive"/><br/>
+    <input type="text" name="nickname" value="{{data.nickname}}" placeholder="Your nickname, f.e. onlythenaive"/><br/>
     <input type="password" name="password" value="" placeholder="Password"/><br/>
     <input type="password" name="passwordDuplicate" value="" placeholder="Password once again"/><br/>
     <button type="submit">Register</button>
 </form>
-<span>{{content.mistake}}</span><br/>
+<span>{{error.messageLocalized}}</span><br/>
 <a href="/view/login">Already have an account?</a>
