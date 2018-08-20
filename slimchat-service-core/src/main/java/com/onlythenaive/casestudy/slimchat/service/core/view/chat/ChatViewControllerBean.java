@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.Chat;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatService;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -16,11 +16,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewC
 public class ChatViewControllerBean extends GenericViewControllerBean {
 
     @Autowired
-    private ChatService chatService;
+    private ChatFacade chatFacade;
 
     @GetMapping("/{id}")
     public ModelAndView get(@PathVariable("id") String id) {
-        Chat chat = this.chatService.getChatById(id);
+        Chat chat = this.chatFacade.getChatById(id);
         return defaultView(chat);
     }
 

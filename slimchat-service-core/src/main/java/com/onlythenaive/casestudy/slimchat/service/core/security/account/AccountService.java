@@ -10,17 +10,17 @@ public interface AccountService {
     /**
      * Creates a new security account.
      *
-     * @param nickname account nickname.
+     * @param name account name.
      * @param password account password
      * @return a new security account.
      */
-    Account createAccount(String nickname, String password);
+    Account createAccount(String name, String password);
 
     /**
-     * Finds an existing security account by its nickname.
+     * Finds an existing security account by its name.
      *
-     * @param nickname account nickname.
+     * @param name account name.
      * @return the requested security account if it exists.
      */
-    Account findAccountByNickname(String nickname);
+    Account getAccountByName(String name);
 }

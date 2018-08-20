@@ -7,20 +7,21 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chat {
+@Document(collection = "chats")
+public class ChatEntity {
 
+    @Id
     private String id;
 
     private String caption;
     private Boolean personal;
-    private Collection<Profile> admins;
-    private Collection<Profile> participants;
-    private Collection<Message> latestMessages;
+    private Collection<String> adminIds;
+    private Collection<String> participantIds;
 }

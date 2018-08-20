@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileService;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileFacade;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileInvoice;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
@@ -21,7 +22,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewC
 public class ProfileViewControllerBean extends GenericViewControllerBean {
 
     @Autowired
-    private ProfileService profileService;
+    private ProfileFacade profileFacade;
 
     @Autowired
     private AuthenticationContext authenticationContext;
@@ -36,26 +37,26 @@ public class ProfileViewControllerBean extends GenericViewControllerBean {
                     .textcode("x.security.not-authenticated")
                     .build();
         }
-        String nickname = authentication.getAccount().getNickname();
-        Profile profile = this.profileService.findProfileByNickname(nickname);
+        String nickname = authentication.getAccount().getName();
+        Profile profile = this.profileFacade.getProfileByAccountName(nickname);
         return defaultView(profile);
     }
 
     @GetMapping("/{nickname}")
     public ModelAndView getByNickname(@PathVariable("nickname") String nickname) {
-        Profile profile = this.profileService.findProfileByNickname(nickname);
+        Profile profile = this.profileFacade.getProfileByAccountName(nickname);
         return defaultView(profile);
     }
 
     @GetMapping("/id-{id}")
     public ModelAndView getById(@PathVariable("id") String id) {
-        Profile profile = this.profileService.getProfileById(id);
+        Profile profile = this.profileFacade.getProfileById(id);
         return defaultView(profile);
     }
 
     @PostMapping("/id-{id}")
-    public ModelAndView post(@PathVariable("id") String id, Profile profile) {
-        Profile updatedProfile = this.profileService.updateProfile(id, profile);
+    public ModelAndView post(@PathVariable("id") String id, ProfileInvoice invoice) {
+        Profile updatedProfile = this.profileFacade.updateProfile(invoice);
         return defaultView(updatedProfile);
     }
 

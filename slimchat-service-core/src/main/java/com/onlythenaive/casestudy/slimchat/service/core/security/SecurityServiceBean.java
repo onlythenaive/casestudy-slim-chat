@@ -47,14 +47,14 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
     public void authenticateByToken(String tokenId) {
         Token token = this.tokenService.findTokenById(tokenId);
         if (token != null) {
-            Account account = this.accountService.findAccountByNickname(token.getAccountNickname());
+            Account account = this.accountService.getAccountByName(token.getAccountNickname());
             createNewAuthentication(account, token);
         }
     }
 
     @Override
     public void login(String nickname, String password) {
-        Account account = this.accountService.findAccountByNickname(nickname);
+        Account account = this.accountService.getAccountByName(nickname);
         if (account == null) {
             throw loginFailed(nickname);
         }
@@ -79,7 +79,7 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
     }
 
     private void createNewAuthenticationAndToken(Account account) {
-        String nickname = account.getNickname();
+        String nickname = account.getName();
         Token token = this.tokenService.createToken(nickname);
         createNewAuthentication(account, token);
     }
