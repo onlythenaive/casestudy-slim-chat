@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordService;
 
@@ -28,7 +30,14 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
     public Account createAccount(String nickname, String password) {
         Account account = retrieveAccount(nickname);
         if (account != null) {
-            throw new RuntimeException("Account already exists");
+            Map<String, String> data = new HashMap<>();
+            data.put("nickname", nickname);
+            throw OperationException.builder()
+                    .category(ExceptionCategory.LOGIC)
+                    .comment("Account already exists")
+                    .data(data)
+                    .textcode("x.logic.account.creation.account-already-exists")
+                    .build();
         }
         return createNewAccount(nickname, password);
     }
