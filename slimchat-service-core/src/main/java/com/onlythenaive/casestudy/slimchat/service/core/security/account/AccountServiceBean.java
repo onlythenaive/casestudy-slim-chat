@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileService;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
@@ -22,6 +24,9 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
 
     @Autowired
     private PasswordService passwordService;
+
+    @Autowired
+    private ProfileService profileService;
 
     // TODO: replace with the real DB
     private Map<String, Account> accounts;
@@ -62,6 +67,8 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
                 .createdAt(now())
                 .build();
         persistAccount(account);
+        Profile profile = Profile.builder().nickname(account.getNickname()).build();
+        this.profileService.createProfile(profile);
         return account;
     }
 
