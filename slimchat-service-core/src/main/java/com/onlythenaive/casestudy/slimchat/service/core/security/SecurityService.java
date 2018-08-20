@@ -15,6 +15,8 @@ public interface SecurityService {
      */
     void createAccount(String nickname, String password);
 
+    void authenticateByToken(String tokenId);
+
     /**
      * Creates a new authentication and security token.
      *

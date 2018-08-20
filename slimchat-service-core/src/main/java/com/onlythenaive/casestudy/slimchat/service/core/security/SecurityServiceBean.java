@@ -44,6 +44,15 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
     }
 
     @Override
+    public void authenticateByToken(String tokenId) {
+        Token token = this.tokenService.findTokenById(tokenId);
+        if (token != null) {
+            Account account = this.accountService.findAccountByNickname(token.getAccountNickname());
+            createNewAuthentication(account, token);
+        }
+    }
+
+    @Override
     public void login(String nickname, String password) {
         Account account = this.accountService.findAccountByNickname(nickname);
         if (account == null) {
@@ -61,14 +70,18 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
         removeCurrentAuthenticationAndToken();
     }
 
-    private void createNewAuthenticationAndToken(Account account) {
-        String nickname = account.getNickname();
-        Token token = this.tokenService.createToken(nickname);
+    private void createNewAuthentication(Account account, Token token) {
         Authentication authentication = Authentication.builder()
                 .account(account)
                 .token(token)
                 .build();
         this.authenticationContextConfigurator.setAuthentication(authentication);
+    }
+
+    private void createNewAuthenticationAndToken(Account account) {
+        String nickname = account.getNickname();
+        Token token = this.tokenService.createToken(nickname);
+        createNewAuthentication(account, token);
     }
 
     private void removeCurrentAuthenticationAndToken() {
