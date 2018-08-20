@@ -19,5 +19,6 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'com.github.jknack:handlebars:4.1.0'
     compile 'com.github.jknack:handlebars-springmvc:4.1.0'
+    compile 'org.aspectj:aspectjweaver:1.9.1'
     compile 'org.mindrot:jbcrypt:0.4'
 }
