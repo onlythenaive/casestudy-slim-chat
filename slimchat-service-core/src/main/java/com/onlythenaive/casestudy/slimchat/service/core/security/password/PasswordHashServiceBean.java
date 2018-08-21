@@ -11,7 +11,7 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author Ilia Gubarev
  */
 @Service
-public class PasswordServiceBean extends GenericComponentBean implements PasswordService {
+public class PasswordHashServiceBean extends GenericComponentBean implements PasswordHashService {
 
     @Override
     public String hash(String password) {

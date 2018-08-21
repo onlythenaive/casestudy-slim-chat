@@ -5,7 +5,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.security.password;
  *
  * @author Ilia Gubarev
  */
-public interface PasswordService {
+public interface PasswordHashService {
 
     /**
      * Generates a hash from specified account password.

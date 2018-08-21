@@ -12,7 +12,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContextConfigurator;
-import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordHashService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
@@ -27,7 +27,7 @@ public class SecurityFacadeBean extends GenericComponentBean implements Security
     private AuthenticationContextConfigurator authenticationContextConfigurator;
 
     @Autowired
-    private PasswordService passwordService;
+    private PasswordHashService passwordHashService;
 
     @Autowired
     private TokenService tokenService;
@@ -35,7 +35,7 @@ public class SecurityFacadeBean extends GenericComponentBean implements Security
     @Override
     public void authenticateByAccountCredentials(String name, String password) {
         Account account = this.accountService.findAccountByName(name).orElseThrow(() -> loginFailed(name));
-        boolean verified = this.passwordService.verify(password, account.getPasswordHash());
+        boolean verified = this.passwordHashService.verify(password, account.getPasswordHash());
         if (!verified) {
             throw loginFailed(name);
         }

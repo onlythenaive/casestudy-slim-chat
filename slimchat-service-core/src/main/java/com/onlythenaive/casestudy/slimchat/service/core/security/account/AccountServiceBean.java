@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordHashService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -27,7 +27,7 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
     private AccountRepository accountRepository;
 
     @Autowired
-    private PasswordService passwordService;
+    private PasswordHashService passwordHashService;
 
     @Override
     public Account createAccount(String name, String password) {
@@ -72,7 +72,7 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
     }
 
     private String hashPassword(String password) {
-        return this.passwordService.hash(password);
+        return this.passwordHashService.hash(password);
     }
 
     private Account project(AccountEntity entity) {
