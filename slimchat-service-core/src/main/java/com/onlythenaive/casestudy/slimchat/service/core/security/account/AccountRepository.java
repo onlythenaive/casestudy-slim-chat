@@ -1,10 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
+import java.util.Optional;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface AccountRepository extends MongoRepository<AccountEntity, String> {
 
-    AccountEntity getById(String id);
+    Optional<AccountEntity> findById(String id);
 
-    AccountEntity getByName(String name);
+    Optional<AccountEntity> findByName(String name);
 }

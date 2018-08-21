@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityService;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
+import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -16,22 +15,16 @@ import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewC
 public class LoginViewControllerBean extends GenericViewControllerBean {
 
     @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private AuthenticationContext authenticationContext;
+    private SecurityFacade securityFacade;
 
     @GetMapping
     public ModelAndView get() {
-        if (authenticationContext.getAuthentication() != null) {
-            return redirectToView("home");
-        }
-        return defaultView();
+        return isAuthenticated() ? redirectToView("home") : defaultView();
     }
 
     @PostMapping
-    public ModelAndView post(LoginFormData formData) {
-        this.securityService.login(formData.getAccountName(), formData.getAccountPassword());
+    public ModelAndView post(LoginFormData data) {
+        this.securityFacade.authenticateByAccountCredentials(data.getAccountName(), data.getAccountPassword());
         return redirectToView("home");
     }
 

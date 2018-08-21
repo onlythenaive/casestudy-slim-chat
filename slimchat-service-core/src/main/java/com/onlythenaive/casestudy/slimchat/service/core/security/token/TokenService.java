@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 
+import java.util.Optional;
+
 /**
  * Security token service.
  *
@@ -21,7 +23,7 @@ public interface TokenService {
      * @param id the ID of a token.
      * @return the requested token if it exists.
      */
-    Token findTokenById(String id);
+    Optional<Token> findTokenById(String id);
 
     /**
      * Removes an existing security token by its ID.

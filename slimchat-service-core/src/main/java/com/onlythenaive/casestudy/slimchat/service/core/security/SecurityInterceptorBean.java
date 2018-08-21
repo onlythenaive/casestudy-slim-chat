@@ -1,15 +1,14 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security;
 
+import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContextConfigurator;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
@@ -29,10 +28,10 @@ public class SecurityInterceptorBean extends GenericComponentBean implements Sec
         logger().info("------------------------------------------------------------------------");
         logger().info("New request received: " + request.getMethod() + " " + request.getRequestURI());
         logCookies(request);
-        String tokenIdFromRequest = discoverTokenIdIfAny(request);
-        if (tokenIdFromRequest != null) {
+        Optional<String> tokenIdFromRequest = discoverTokenId(request);
+        if (tokenIdFromRequest.isPresent()) {
             logger().info("Discovered token in request: " + tokenIdFromRequest);
-            authenticateByTokenIdIfPossible(tokenIdFromRequest);
+            authenticateByTokenIdIfPossible(tokenIdFromRequest.get());
         } else {
             logger().info("No token discovered in request");
         }
@@ -55,14 +54,12 @@ public class SecurityInterceptorBean extends GenericComponentBean implements Sec
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mv) {
-        String tokenId = currentTokenIdIfAny();
-        Cookie cookie = new Cookie(ATTRIBUTE_SECURITY_TOKEN, tokenId);
+        Optional<String> tokenId = currentTokenId();
+        Cookie cookie = new Cookie(ATTRIBUTE_SECURITY_TOKEN, tokenId.orElse(null));
         cookie.setMaxAge(Integer.MAX_VALUE);
         cookie.setPath("/");
         response.addCookie(cookie);
-        if (tokenId != null) {
-            response.addHeader(ATTRIBUTE_SECURITY_TOKEN, tokenId);
-        }
+        tokenId.ifPresent(id -> response.addHeader(ATTRIBUTE_SECURITY_TOKEN, id));
     }
 
     private void authenticateByTokenIdIfPossible(String tokenId) {
@@ -73,52 +70,39 @@ public class SecurityInterceptorBean extends GenericComponentBean implements Sec
         }
     }
 
-    @Nullable
-    private String discoverTokenIdIfAny(HttpServletRequest request) {
-        String tokenIdFromHeader = discoverTokenIdFromHeaderIfAny(request);
-        if (tokenIdFromHeader != null) {
+    private Optional<String> discoverTokenId(HttpServletRequest request) {
+        Optional<String> tokenIdFromHeader = discoverTokenIdFromHeader(request);
+        if (tokenIdFromHeader.isPresent()) {
             return tokenIdFromHeader;
         }
-        String tokenIdFromCookie = discoverTokenIdFromCookieIfAny(request);
-        if (tokenIdFromCookie != null) {
-            return tokenIdFromCookie;
-        }
-        return null;
+        return discoverTokenIdFromCookie(request);
     }
 
-    @Nullable
-    private String discoverTokenIdFromCookieIfAny(HttpServletRequest request) {
+    private Optional<String> discoverTokenIdFromCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) {
-            return null;
+            return Optional.empty();
         }
         for (Cookie cookie : cookies) {
             if (cookie.getName().equals(ATTRIBUTE_SECURITY_TOKEN)) {
-                return normalizeTokenId(cookie.getValue());
+                return Optional.ofNullable(cookie.getValue()).map(this::normalizeTokenId);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
-    @Nullable
-    private String discoverTokenIdFromHeaderIfAny(HttpServletRequest request) {
+    private Optional<String> discoverTokenIdFromHeader(HttpServletRequest request) {
         String headerValue = request.getHeader(ATTRIBUTE_SECURITY_TOKEN);
-        return normalizeTokenId(headerValue);
+        return Optional.ofNullable(headerValue).map(this::normalizeTokenId);
     }
 
-    @Nullable
-    private String normalizeTokenId(@Nullable String tokenId) {
-        if (tokenId == null) {
-            return null;
-        }
-        String normalizedTokenId = tokenId.trim();
+    private String normalizeTokenId(String id) {
+        String normalizedTokenId = id.trim();
         return normalizedTokenId.isEmpty() ? null : normalizedTokenId;
     }
 
-    @Nullable
-    private String currentTokenIdIfAny() {
-        Authentication authentication = this.authenticationContextConfigurator.getAuthentication();
-        return authentication != null ? authentication.getToken().getId() : null;
+    private Optional<String> currentTokenId() {
+        return this.authenticationContextConfigurator.getAuthentication().map(a -> a.getToken().getId());
     }
 
     private void logAuthenticationFailure(Throwable throwable) {

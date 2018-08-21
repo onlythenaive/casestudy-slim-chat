@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.authentication;
 
+import java.util.Optional;
+
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -19,12 +21,17 @@ public class AuthenticationContextConfiguratorBean extends GenericComponentBean
     private Authentication authentication;
 
     @Override
-    public Authentication getAuthentication() {
-        return this.authentication;
+    public Optional<Authentication> getAuthentication() {
+        return Optional.ofNullable(this.authentication);
     }
 
     @Override
     public void setAuthentication(Authentication authentication) {
         this.authentication = authentication;
+        if (authentication == null) {
+            logger().debug("Removed current authentication from the context");
+        } else {
+            logger().debug("Set a new authentication into the context");
+        }
     }
 }

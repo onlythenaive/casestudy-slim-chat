@@ -29,22 +29,14 @@ public class ProfileViewControllerBean extends GenericViewControllerBean {
 
     @GetMapping("/me")
     public ModelAndView getCurrent() {
-        Authentication authentication = this.authenticationContext.getAuthentication();
-        if (authentication == null) {
-            throw OperationException.builder()
-                    .category(ExceptionCategory.SECURITY)
-                    .comment("Not authenticated")
-                    .textcode("x.security.not-authenticated")
-                    .build();
-        }
-        String nickname = authentication.getAccount().getName();
-        Profile profile = this.profileFacade.getProfileByAccountName(nickname);
+        String accountName = authenticated().getName();
+        Profile profile = this.profileFacade.getProfileByAccountName(accountName);
         return defaultView(profile);
     }
 
-    @GetMapping("/{nickname}")
-    public ModelAndView getByNickname(@PathVariable("nickname") String nickname) {
-        Profile profile = this.profileFacade.getProfileByAccountName(nickname);
+    @GetMapping("/{accountName}")
+    public ModelAndView getByNickname(@PathVariable("accountName") String accountName) {
+        Profile profile = this.profileFacade.getProfileByAccountName(accountName);
         return defaultView(profile);
     }
 

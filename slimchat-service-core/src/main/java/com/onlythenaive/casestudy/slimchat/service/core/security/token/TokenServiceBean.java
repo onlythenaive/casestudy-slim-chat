@@ -2,6 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 
 import org.springframework.stereotype.Service;
@@ -20,30 +21,34 @@ public class TokenServiceBean extends GenericComponentBean implements TokenServi
 
     @Override
     public Token createToken(String accountId) {
+        String id = uuid();
         Token token = Token.builder()
-                .id(uuid())
+                .id(id)
                 .accountId(accountId)
                 .createdAt(now())
                 .build();
-        this.tokens.put(token.getId(), token);
-        logger().info("Token created: " + token.getId());
+        this.tokens.put(id, token);
+        logger().debug("Created a new security token with ID = {}", id);
         return token;
     }
 
     @Override
-    public Token findTokenById(String id) {
+    public Optional<Token> findTokenById(String id) {
         Token token = this.tokens.get(id);
         if (token != null) {
-            logger().info("Token found: " + token.getId());
+            logger().debug("Found existing security token with ID = {}", token.getId());
         } else {
-            logger().info("Token not found");
+            logger().debug("No existing security token found with ID = {}", id);
         }
-        return token;
+        return Optional.ofNullable(token);
     }
 
     @Override
     public void removeTokenById(String id) {
-        this.tokens.remove(id);
+        Token removedToken = this.tokens.remove(id);
+        if (removedToken != null) {
+            logger().debug("Removed existing security token with ID = {}", removedToken.getId());
+        }
     }
 
     @PostConstruct

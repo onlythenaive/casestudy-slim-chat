@@ -9,8 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityService;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
+import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -18,23 +17,17 @@ import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewC
 public class RegistrationViewControllerBean extends GenericViewControllerBean {
 
     @Autowired
-    private SecurityService securityService;
-
-    @Autowired
-    private AuthenticationContext authenticationContext;
+    private SecurityFacade securityFacade;
 
     @GetMapping
     public ModelAndView get() {
-        if (authenticationContext.getAuthentication() != null) {
-            return redirectToView("home");
-        }
-        return defaultView();
+        return isAuthenticated() ? redirectToView("home") : defaultView();
     }
 
     @PostMapping
-    public ModelAndView post(RegistrationFormData formData) {
-        ensurePasswordDuplicate(formData);
-        this.securityService.createAccount(formData.getAccountName(), formData.getAccountPassword());
+    public ModelAndView post(RegistrationFormData data) {
+        ensurePasswordDuplicate(data);
+        this.securityFacade.createAccount(data.getAccountName(), data.getAccountPassword());
         return view("registration-complete");
     }
 

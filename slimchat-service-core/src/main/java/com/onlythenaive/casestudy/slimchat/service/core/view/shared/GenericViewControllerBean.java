@@ -8,10 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescriptor;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescriptorService;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.logging.LoggingService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -22,10 +26,21 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public abstract class GenericViewControllerBean extends GenericComponentBean {
 
     @Autowired
+    private AuthenticationContext authenticationContext;
+
+    @Autowired
     private ExceptionDescriptorService exceptionDescriptorService;
 
     @Autowired
     private LoggingService loggingService;
+
+    protected boolean isAuthenticated() {
+        return this.authenticationContext.getAuthentication().isPresent();
+    }
+
+    protected Account authenticated() {
+        return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
+    }
 
     protected ModelAndView defaultView() {
         return defaultView(null);
@@ -137,5 +152,13 @@ public abstract class GenericViewControllerBean extends GenericComponentBean {
 
     private void logError(Exception exception) {
         this.loggingService.error(exception);
+    }
+
+    private RuntimeException notAuthenticated() {
+        return OperationException.builder()
+                .category(ExceptionCategory.SECURITY)
+                .comment("Not authenticated")
+                .textcode("x.security.not-authenticated")
+                .build();
     }
 }

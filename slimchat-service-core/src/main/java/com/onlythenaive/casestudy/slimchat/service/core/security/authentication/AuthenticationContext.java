@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.authentication;
 
+import java.util.Optional;
+
 /**
  * Security authentication context.
  *
@@ -10,7 +12,7 @@ public interface AuthenticationContext {
     /**
      * Retrieves a current authentication.
      *
-     * @return current authentication if it exists.
+     * @return current authentication if any.
      */
-    Authentication getAuthentication();
+    Optional<Authentication> getAuthentication();
 }

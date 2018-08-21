@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -14,11 +14,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewC
 public class LogoutViewControllerBean extends GenericViewControllerBean {
 
     @Autowired
-    private SecurityService securityService;
+    private SecurityFacade securityFacade;
 
     @PostMapping
     public ModelAndView post() {
-        this.securityService.logout();
+        this.securityFacade.deauthenticate();
         return redirectToView("login");
     }
 

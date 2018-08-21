@@ -2,6 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,53 +31,62 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
 
     @Override
     public Account createAccount(String name, String password) {
-        AccountEntity existingEntity = retrieveAccount(name);
-        if (existingEntity != null) {
-            Map<String, String> data = new HashMap<>();
-            data.put("name", name);
-            throw OperationException.builder()
-                    .category(ExceptionCategory.LOGIC)
-                    .comment("Account already exists")
-                    .data(data)
-                    .textcode("x.logic.account.creation.account-already-exists")
-                    .build();
-        }
-        AccountEntity entity = createNewAccount(name, password);
-        return this.accountProjector.intoAccount(entity);
+        ensureNameUniqueness(name);
+        AccountEntity accountEntity = createNewAccountEntity(name, password);
+        return project(accountEntity);
     }
 
     @Override
-    public Account getAccountById(String id) {
-        AccountEntity entity = this.accountRepository.getById(id);
-        return this.accountProjector.intoAccount(entity);
+    public Optional<Account> findAccountById(String id) {
+        return this.accountRepository.findById(id).map(this::project);
     }
 
     @Override
-    public Account getAccountByName(String name) {
-        AccountEntity entity = retrieveAccount(name);
-        return this.accountProjector.intoAccount(entity);
+    public Optional<Account> findAccountByName(String name) {
+        return this.findAccountEntityByName(name).map(this::project);
     }
 
-    private AccountEntity createNewAccount(String name, String password) {
-        AccountEntity entity = AccountEntity.builder()
+    private void ensureNameUniqueness(String name) {
+        findAccountEntityByName(name).ifPresent((accountEntity) -> {
+            throw accountAlreadyExists(accountEntity.getName());
+        });
+    }
+
+    private AccountEntity createNewAccountEntity(String name, String password) {
+        AccountEntity accountEntity = AccountEntity.builder()
                 .id(uuid())
-                .name(normalizedName(name))
-                .passwordHash(passwordHash(password))
+                .name(normalizeName(name))
+                .passwordHash(hashPassword(password))
                 .createdAt(now())
                 .build();
-        this.accountRepository.insert(entity);
-        return entity;
+        this.accountRepository.insert(accountEntity);
+        return accountEntity;
     }
 
-    private AccountEntity retrieveAccount(String name) {
-        return this.accountRepository.getByName(normalizedName(name));
+    private Optional<AccountEntity> findAccountEntityByName(String name) {
+        return this.accountRepository.findByName(normalizeName(name));
     }
 
-    private String normalizedName(String name) {
+    private String normalizeName(String name) {
         return name.toLowerCase();
     }
 
-    private String passwordHash(String password) {
+    private String hashPassword(String password) {
         return this.passwordService.hash(password);
+    }
+
+    private Account project(AccountEntity entity) {
+        return this.accountProjector.intoAccount(entity);
+    }
+
+    private RuntimeException accountAlreadyExists(String name) {
+        Map<String, String> data = new HashMap<>();
+        data.put("name", name);
+        return OperationException.builder()
+                .category(ExceptionCategory.LOGIC)
+                .comment("Account already exists")
+                .data(data)
+                .textcode("x.logic.account.creation.account-already-exists")
+                .build();
     }
 }

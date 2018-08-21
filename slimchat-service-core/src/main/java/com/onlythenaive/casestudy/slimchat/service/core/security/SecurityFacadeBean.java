@@ -1,0 +1,80 @@
+package com.onlythenaive.casestudy.slimchat.service.core.security;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContextConfigurator;
+import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
+import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
+
+@Service
+public class SecurityFacadeBean extends GenericComponentBean implements SecurityFacade {
+
+    @Autowired
+    private AccountService accountService;
+
+    @Autowired
+    private AuthenticationContextConfigurator authenticationContextConfigurator;
+
+    @Autowired
+    private PasswordService passwordService;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Override
+    public void authenticateByAccountCredentials(String name, String password) {
+        Account account = this.accountService.findAccountByName(name).orElseThrow(() -> loginFailed(name));
+        boolean verified = this.passwordService.verify(password, account.getPasswordHash());
+        if (!verified) {
+            throw loginFailed(name);
+        }
+        Token token = this.tokenService.createToken(account.getId());
+        setupCurrentAuthentication(account, token);
+    }
+
+    @Override
+    public void createAccount(String name, String password) {
+        Account account = this.accountService.createAccount(name, password);
+        Token token = this.tokenService.createToken(account.getId());
+        setupCurrentAuthentication(account, token);
+    }
+
+    @Override
+    public void deauthenticate() {
+        this.authenticationContextConfigurator.getAuthentication().ifPresent(authentication -> {
+            Token token = authentication.getToken();
+            this.tokenService.removeTokenById(token.getId());
+            this.authenticationContextConfigurator.setAuthentication(null);
+        });
+    }
+
+    private void setupCurrentAuthentication(Account account, Token token) {
+        Authentication authentication = Authentication.builder()
+                .account(account)
+                .token(token)
+                .build();
+        this.authenticationContextConfigurator.setAuthentication(authentication);
+    }
+
+    private RuntimeException loginFailed(String accountName) {
+        Map<String, String> data = new HashMap<>();
+        data.put("accountName", accountName);
+        return OperationException.builder()
+                .category(ExceptionCategory.SECURITY)
+                .textcode("x.security.authentication.login-failed")
+                .comment("Login attempt failed")
+                .data(data)
+                .build();
+    }
+}
