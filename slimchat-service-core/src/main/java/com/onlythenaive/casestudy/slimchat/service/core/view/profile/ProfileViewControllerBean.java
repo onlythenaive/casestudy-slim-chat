@@ -11,9 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileInvoice;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
