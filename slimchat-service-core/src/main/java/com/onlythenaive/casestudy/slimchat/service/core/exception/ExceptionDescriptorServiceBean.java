@@ -2,13 +2,15 @@ package com.onlythenaive.casestudy.slimchat.service.core.exception;
 
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
+
 /**
  * Exception descriptor service implementation.
  *
  * @author Ilia Gubarev
  */
 @Service
-public class ExceptionDescriptorServiceBean implements ExceptionDescriptorService {
+public class ExceptionDescriptorServiceBean extends GenericComponentBean implements ExceptionDescriptorService {
 
     @Override
     public ExceptionDescriptor defaultDescriptor() {

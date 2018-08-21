@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
@@ -16,8 +15,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.
 import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Security service.
@@ -26,8 +24,6 @@ import org.slf4j.LoggerFactory;
  */
 @Service
 public class SecurityServiceBean extends GenericComponentBean implements SecurityService {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AccountService accountService;
@@ -49,7 +45,7 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
         }
         Account account = this.accountService.getAccountById(token.getAccountId());
         setupCurrentAuthentication(account, token);
-        logger.info("Authenticated with token " + tokenId);
+        logger().info("Authenticated with token " + tokenId);
     }
 
     @Override

@@ -11,13 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContextConfigurator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 @Component
-public class SecurityInterceptorBean implements SecurityInterceptor {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public class SecurityInterceptorBean extends GenericComponentBean implements SecurityInterceptor {
 
     private static final String ATTRIBUTE_SECURITY_TOKEN = "X-Security-Token";
 
@@ -29,15 +26,15 @@ public class SecurityInterceptorBean implements SecurityInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        logger.info("------------------------------------------------------------------------");
-        logger.info("New request received: " + request.getMethod() + " " + request.getRequestURI());
+        logger().info("------------------------------------------------------------------------");
+        logger().info("New request received: " + request.getMethod() + " " + request.getRequestURI());
         logCookies(request);
         String tokenIdFromRequest = discoverTokenIdIfAny(request);
         if (tokenIdFromRequest != null) {
-            logger.info("Discovered token in request: " + tokenIdFromRequest);
+            logger().info("Discovered token in request: " + tokenIdFromRequest);
             authenticateByTokenIdIfPossible(tokenIdFromRequest);
         } else {
-            logger.info("No token discovered in request");
+            logger().info("No token discovered in request");
         }
         return true;
     }
@@ -45,14 +42,14 @@ public class SecurityInterceptorBean implements SecurityInterceptor {
     private void logCookies(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null || cookies.length == 0) {
-            logger.info("Cookies are empty");
+            logger().info("Cookies are empty");
             return;
         }
         for (Cookie cookie : cookies) {
             String name = cookie.getName();
             String path = cookie.getPath();
             String value = cookie.getValue();
-            logger.info(String.format("Cookie found: name = %s, path = %s, value = %s, ", name, path, value));
+            logger().info(String.format("Cookie found: name = %s, path = %s, value = %s, ", name, path, value));
         }
     }
 
@@ -125,6 +122,6 @@ public class SecurityInterceptorBean implements SecurityInterceptor {
     }
 
     private void logAuthenticationFailure(Throwable throwable) {
-        // TODO: log authentication failure
+        logger().info("Authentication failed due to occurred exception: " + throwable.getMessage());
     }
 }

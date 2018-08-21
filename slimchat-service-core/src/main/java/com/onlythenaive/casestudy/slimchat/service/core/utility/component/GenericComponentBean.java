@@ -1,14 +1,29 @@
-package com.onlythenaive.casestudy.slimchat.service.core.generic;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.component;
 
 import java.time.Instant;
 import java.util.UUID;
+import javax.annotation.PostConstruct;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- * Generic component implementation.
+ * Generic implementation of a component.
  *
  * @author Ilia Gubarev
  */
 public abstract class GenericComponentBean {
+
+    private Logger logger;
+
+    /**
+     * Provides a current logger.
+     *
+     * @return current logger.
+     */
+    protected Logger logger() {
+        return this.logger;
+    }
 
     /**
      * Provides current date and time.
@@ -36,5 +51,10 @@ public abstract class GenericComponentBean {
      */
     protected RuntimeException wrappedException(Exception exception) {
         return new RuntimeException(exception);
+    }
+
+    @PostConstruct
+    private void init() {
+        this.logger = LoggerFactory.getLogger(this.getClass());
     }
 }

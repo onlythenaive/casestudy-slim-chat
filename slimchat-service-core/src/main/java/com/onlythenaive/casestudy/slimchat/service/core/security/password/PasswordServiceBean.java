@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.security.password;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**

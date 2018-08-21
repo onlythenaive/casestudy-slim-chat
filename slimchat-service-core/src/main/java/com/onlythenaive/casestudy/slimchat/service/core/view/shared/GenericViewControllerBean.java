@@ -12,17 +12,14 @@ import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescr
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescriptorService;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.logging.LoggingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Generic view controller implementation.
  *
  * @author Ilia Gubarev
  */
-public abstract class GenericViewControllerBean {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public abstract class GenericViewControllerBean extends GenericComponentBean {
 
     @Autowired
     private ExceptionDescriptorService exceptionDescriptorService;
@@ -85,7 +82,7 @@ public abstract class GenericViewControllerBean {
         if (parameters != null) {
             modelAndView.addAllObjects(parameters);
         }
-        logger.info("Redirect: " + uri);
+        logger().info("Redirect: " + uri);
         return modelAndView;
     }
 
