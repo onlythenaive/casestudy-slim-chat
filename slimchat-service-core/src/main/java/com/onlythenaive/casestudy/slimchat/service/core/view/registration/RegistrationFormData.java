@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegistrationFormData {
 
-    private String nickname;
-    private String password;
-    private String passwordDuplicate;
+    private String accountName;
+    private String accountPassword;
+    private String accountPasswordDuplicate;
 }

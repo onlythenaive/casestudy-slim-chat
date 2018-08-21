@@ -16,6 +16,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.
 import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Security service.
@@ -24,6 +26,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenServ
  */
 @Service
 public class SecurityServiceBean extends GenericComponentBean implements SecurityService {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AccountService accountService;
@@ -38,31 +42,35 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
     private TokenService tokenService;
 
     @Override
-    public void createAccount(String nickname, String password) {
-        Account account = this.accountService.createAccount(nickname, password);
-        createNewAuthenticationAndToken(account);
-    }
-
-    @Override
-    public void authenticateByToken(String tokenId) {
+    public void authenticateByTokenId(String tokenId) {
         Token token = this.tokenService.findTokenById(tokenId);
-        if (token != null) {
-            Account account = this.accountService.getAccountByName(token.getAccountNickname());
-            createNewAuthentication(account, token);
+        if (token == null) {
+            throw authenticationByTokenFailed();
         }
+        Account account = this.accountService.getAccountById(token.getAccountId());
+        setupCurrentAuthentication(account, token);
+        logger.info("Authenticated with token " + tokenId);
     }
 
     @Override
-    public void login(String nickname, String password) {
-        Account account = this.accountService.getAccountByName(nickname);
+    public void createAccount(String name, String password) {
+        Account account = this.accountService.createAccount(name, password);
+        Token token = this.tokenService.createToken(account.getId());
+        setupCurrentAuthentication(account, token);
+    }
+
+    @Override
+    public void login(String name, String password) {
+        Account account = this.accountService.getAccountByName(name);
         if (account == null) {
-            throw loginFailed(nickname);
+            throw loginFailed(name);
         }
         boolean verified = this.passwordService.verify(password, account.getPasswordHash());
         if (!verified) {
-            throw loginFailed(nickname);
+            throw loginFailed(name);
         }
-        createNewAuthenticationAndToken(account);
+        Token token = this.tokenService.createToken(account.getId());
+        setupCurrentAuthentication(account, token);
     }
 
     @Override
@@ -70,18 +78,12 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
         removeCurrentAuthenticationAndToken();
     }
 
-    private void createNewAuthentication(Account account, Token token) {
+    private void setupCurrentAuthentication(Account account, Token token) {
         Authentication authentication = Authentication.builder()
                 .account(account)
                 .token(token)
                 .build();
         this.authenticationContextConfigurator.setAuthentication(authentication);
-    }
-
-    private void createNewAuthenticationAndToken(Account account) {
-        String nickname = account.getName();
-        Token token = this.tokenService.createToken(nickname);
-        createNewAuthentication(account, token);
     }
 
     private void removeCurrentAuthenticationAndToken() {
@@ -93,14 +95,22 @@ public class SecurityServiceBean extends GenericComponentBean implements Securit
         }
     }
 
-    private RuntimeException loginFailed(String nickname) {
+    private RuntimeException authenticationByTokenFailed() {
+        return OperationException.builder()
+                .category(ExceptionCategory.SECURITY)
+                .textcode("x.security.authentication.invalid-token")
+                .comment("Cannot authenticate by provided token")
+                .build();
+    }
+
+    private RuntimeException loginFailed(String accountName) {
         Map<String, String> data = new HashMap<>();
-        data.put("nickname", nickname);
-        throw OperationException.builder()
-                .category(ExceptionCategory.LOGIC)
+        data.put("nickname", accountName);
+        return OperationException.builder()
+                .category(ExceptionCategory.SECURITY)
+                .textcode("x.security.authentication.login-failed")
                 .comment("Login attempt failed")
                 .data(data)
-                .textcode("x.logic.security.login-failed")
                 .build();
     }
 }

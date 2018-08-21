@@ -12,6 +12,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescr
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescriptorService;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.logging.LoggingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Generic view controller implementation.
@@ -19,6 +21,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.logging.LoggingService;
  * @author Ilia Gubarev
  */
 public abstract class GenericViewControllerBean {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private ExceptionDescriptorService exceptionDescriptorService;
@@ -75,11 +79,13 @@ public abstract class GenericViewControllerBean {
     }
 
     protected ModelAndView redirectToView(String name, Map<String, String> parameters) {
+        String uri = "/view/" + name;
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/view/" + name);
+        modelAndView.setViewName("redirect:" + uri);
         if (parameters != null) {
             modelAndView.addAllObjects(parameters);
         }
+        logger.info("Redirect: " + uri);
         return modelAndView;
     }
 

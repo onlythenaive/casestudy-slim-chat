@@ -8,12 +8,12 @@ package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 public interface TokenService {
 
     /**
-     * Creates a new security token for specified account nickname.
+     * Creates a new security token.
      *
-     * @param accountNickname the nickname of an existing account.
+     * @param accountId the ID of an existing account.
      * @return a new security token.
      */
-    Token createToken(String accountNickname);
+    Token createToken(String accountId);
 
     /**
      * Finds an existing security token by its ID.

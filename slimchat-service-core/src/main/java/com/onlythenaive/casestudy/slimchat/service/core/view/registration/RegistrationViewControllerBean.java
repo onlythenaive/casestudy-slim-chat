@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityService;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -19,15 +20,21 @@ public class RegistrationViewControllerBean extends GenericViewControllerBean {
     @Autowired
     private SecurityService securityService;
 
+    @Autowired
+    private AuthenticationContext authenticationContext;
+
     @GetMapping
     public ModelAndView get() {
+        if (authenticationContext.getAuthentication() != null) {
+            return redirectToView("home");
+        }
         return defaultView();
     }
 
     @PostMapping
     public ModelAndView post(RegistrationFormData formData) {
         ensurePasswordDuplicate(formData);
-        this.securityService.createAccount(formData.getNickname(), formData.getPassword());
+        this.securityService.createAccount(formData.getAccountName(), formData.getAccountPassword());
         return view("registration-complete");
     }
 
@@ -37,9 +44,9 @@ public class RegistrationViewControllerBean extends GenericViewControllerBean {
     }
 
     private void ensurePasswordDuplicate(RegistrationFormData formData) {
-        if (!formData.getPassword().equals(formData.getPasswordDuplicate())) {
+        if (!formData.getAccountPassword().equals(formData.getAccountPasswordDuplicate())) {
             RegistrationFormData data = RegistrationFormData.builder()
-                    .nickname(formData.getNickname())
+                    .accountName(formData.getAccountName())
                     .build();
             throw OperationException.builder()
                     .category(ExceptionCategory.LOGIC)

@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginFormData {
 
-    private String nickname;
-    private String password;
+    private String accountName;
+    private String accountPassword;
 }

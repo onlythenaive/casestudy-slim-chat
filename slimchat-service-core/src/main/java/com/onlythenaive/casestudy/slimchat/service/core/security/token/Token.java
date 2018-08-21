@@ -19,6 +19,6 @@ import lombok.NoArgsConstructor;
 public class Token {
 
     private String id;
-    private String accountNickname;
+    private String accountId;
     private Instant createdAt;
 }

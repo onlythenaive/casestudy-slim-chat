@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponentBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Security token service implementation.
@@ -16,22 +18,31 @@ import com.onlythenaive.casestudy.slimchat.service.core.generic.GenericComponent
 @Service
 public class TokenServiceBean extends GenericComponentBean implements TokenService {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     private Map<String, Token> tokens;
 
     @Override
-    public Token createToken(String accountNickname) {
+    public Token createToken(String accountId) {
         Token token = Token.builder()
                 .id(uuid())
-                .accountNickname(accountNickname)
+                .accountId(accountId)
                 .createdAt(now())
                 .build();
         this.tokens.put(token.getId(), token);
+        logger.info("Token created: " + token.getId());
         return token;
     }
 
     @Override
     public Token findTokenById(String id) {
-        return this.tokens.get(id);
+        Token token = this.tokens.get(id);
+        if (token != null) {
+            logger.info("Token found: " + token.getId());
+        } else {
+            logger.info("Token not found");
+        }
+        return token;
     }
 
     @Override

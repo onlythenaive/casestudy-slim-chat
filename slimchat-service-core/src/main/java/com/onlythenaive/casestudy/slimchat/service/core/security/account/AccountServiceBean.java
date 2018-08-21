@@ -46,6 +46,12 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
     }
 
     @Override
+    public Account getAccountById(String id) {
+        AccountEntity entity = this.accountRepository.getById(id);
+        return this.accountProjector.intoAccount(entity);
+    }
+
+    @Override
     public Account getAccountByName(String name) {
         AccountEntity entity = retrieveAccount(name);
         return this.accountProjector.intoAccount(entity);
