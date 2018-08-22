@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,11 @@ public class GroupProviderBean extends GenericDomainComponentBean implements Gro
         return this.groupRepository.findById(id)
                 .map(this::project)
                 .orElseThrow(this::groupNotFound);
+    }
+
+    @Override
+    public Optional<Group> findGroup(String id) {
+        return this.groupRepository.findById(id).map(this::project);
     }
 
     private Group project(GroupEntity entity) {
