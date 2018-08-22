@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.lang.Nullable;
 
 @Data
 @Builder
@@ -20,8 +22,23 @@ public class MessageEntity {
     @Id
     private String id;
 
-    private String authorId;
-    private String chatId;
-    private Instant createdAt;
+    @Field
     private String text;
+
+    @Field
+    private String authorId;
+
+    @Field
+    private boolean personal;
+
+    @Field
+    @Nullable
+    private String recipientId;
+
+    @Field
+    @Nullable
+    private String groupId;
+
+    @Field
+    private Instant createdAt;
 }

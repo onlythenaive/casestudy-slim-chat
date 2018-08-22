@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 
 @Data
@@ -16,8 +17,10 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 public class Message {
 
     private String id;
-    private Profile author;
-    private String chatId;
-    private Instant createdAt;
     private String text;
+    private Profile author;
+    private boolean personal;
+    private Profile recipient;
+    private Group group;
+    private Instant createdAt;
 }

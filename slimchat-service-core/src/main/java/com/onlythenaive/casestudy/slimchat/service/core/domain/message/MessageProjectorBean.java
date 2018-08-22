@@ -1,36 +1,47 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
 
 @Service
 public class MessageProjectorBean extends GenericDomainComponentBean implements MessageProjector {
 
     @Autowired
-    private ProfileProjector profileProjector;
+    private GroupProvider groupProvider;
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private ProfileProvider profileProvider;
 
     @Override
     public Message intoMessage(MessageEntity entity) {
         return Message.builder()
                 .id(entity.getId())
-                .author(authorProfile(entity.getAuthorId()))
-                .chatId(entity.getChatId())
-                .createdAt(entity.getCreatedAt())
                 .text(entity.getText())
+                .author(getAuthor(entity.getAuthorId()))
+                .personal(entity.isPersonal())
+                .recipient(findRecipient(entity.getRecipientId()).orElse(null))
+                .group(findGroup(entity.getGroupId()).orElse(null))
+                .createdAt(entity.getCreatedAt())
                 .build();
     }
 
-    private Profile authorProfile(String authorId) {
-        ProfileEntity profileEntity = this.profileRepository.getById(authorId);
-        return this.profileProjector.intoProfile(profileEntity);
+    private Profile getAuthor(String profileId) {
+        return this.profileProvider.getProfile(profileId);
+    }
+
+    private Optional<Profile> findRecipient(String profileId) {
+        return this.profileProvider.findProfile(profileId);
+    }
+
+    private Optional<Group> findGroup(String groupId) {
+        return this.groupProvider.findGroup(groupId);
     }
 }

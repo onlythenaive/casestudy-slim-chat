@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageInvoice {
 
-    private String chatId;
     private String text;
+    private Boolean personal;
+    private String recipientId;
+    private String groupId;
 }

@@ -3,8 +3,10 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatEntity;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
@@ -13,8 +15,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
 @Service
 public class MessageFacadeBean extends GenericDomainComponentBean implements MessageFacade {
 
-    @Autowired
-    private ChatRepository chatRepository;
+    private GroupRepository groupRepository;
 
     @Autowired
     private MessageProjector messageProjector;
@@ -22,34 +23,31 @@ public class MessageFacadeBean extends GenericDomainComponentBean implements Mes
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     @Override
     public Message createMessage(MessageInvoice invoice) {
-
-        // NOTE: retrieve current authenticated account
         Account account = authenticated();
-
-        // NOTE: retrieve a chat by its ID if any
-        String chatId = invoice.getChatId();
-        ChatEntity chatEntity = this.chatRepository.findById(chatId).orElseThrow(this::chatNotFound);
-
-        // NOTE: if account does not participate in the chat
-        if (!chatEntity.getParticipantIds().contains(account.getId())) {
-            throw chatNotFound();
+        if (invoice.getPersonal()) {
+            String recipientId = invoice.getRecipientId();
+            ProfileEntity profileEntity = this.profileRepository.findById(recipientId).orElseThrow(RuntimeException::new);
+            // TODO: check recipient in the contacts
+        } else {
+            String groupId = invoice.getGroupId();
+            GroupEntity groupEntity = this.groupRepository.findById(groupId).orElseThrow(RuntimeException::new);
+            // TODO: check participation in the group
         }
-
-        // NOTE: create a new message from the invoice
         MessageEntity entity = MessageEntity.builder()
                 .id(uuid())
                 .authorId(account.getId())
-                .chatId(chatId)
-                .createdAt(now())
                 .text(invoice.getText())
+                .personal(invoice.getPersonal())
+                .recipientId(invoice.getRecipientId())
+                .groupId(invoice.getGroupId())
+                .createdAt(now())
                 .build();
-
-        // NOTE: persist the created message
         this.messageRepository.insert(entity);
-
-        // NOTE: return a projection of the created message
         return this.messageProjector.intoMessage(entity);
     }
 
