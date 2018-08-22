@@ -1,10 +1,8 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
@@ -17,42 +15,39 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 @Service
 public class TokenServiceBean extends GenericComponentBean implements TokenService {
 
-    private Map<String, Token> tokens;
+    @Autowired
+    private TokenProjector tokenProjector;
+
+    @Autowired
+    private TokenRepository tokenRepository;
 
     @Override
     public Token createToken(String accountId) {
         String id = uuid();
-        Token token = Token.builder()
+        TokenEntity entity = TokenEntity.builder()
                 .id(id)
                 .accountId(accountId)
                 .createdAt(now())
                 .build();
-        this.tokens.put(id, token);
+        this.tokenRepository.insert(entity);
         logger().debug("Created a new security token with ID = {}", id);
-        return token;
+        return project(entity);
     }
 
     @Override
     public Optional<Token> findTokenById(String id) {
-        Token token = this.tokens.get(id);
-        if (token != null) {
-            logger().debug("Found existing security token with ID = {}", token.getId());
-        } else {
-            logger().debug("No existing security token found with ID = {}", id);
-        }
-        return Optional.ofNullable(token);
+        return this.tokenRepository.findById(id).map(this::project);
     }
 
     @Override
     public void removeTokenById(String id) {
-        Token removedToken = this.tokens.remove(id);
-        if (removedToken != null) {
-            logger().debug("Removed existing security token with ID = {}", removedToken.getId());
+        if (this.tokenRepository.existsById(id)) {
+            this.tokenRepository.deleteById(id);
+            logger().debug("Removed existing security token with ID = {}", id);
         }
     }
 
-    @PostConstruct
-    private void init() {
-        this.tokens = new HashMap<>();
+    private Token project(TokenEntity entity) {
+        return this.tokenProjector.intoToken(entity);
     }
 }
