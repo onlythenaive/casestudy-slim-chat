@@ -17,7 +17,15 @@ public abstract class GenericDomainComponentBean extends GenericComponentBean {
         return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
     }
 
-    private OperationException notAuthenticated() {
+    protected RuntimeException insufficientPrivileges() {
+        return OperationException.builder()
+                .category(ExceptionCategory.SECURITY)
+                .textcode("x.security.insufficient-privileges")
+                .comment("Not enough privileges for the requested operation")
+                .build();
+    }
+
+    protected OperationException notAuthenticated() {
         throw OperationException.builder()
                 .category(ExceptionCategory.SECURITY)
                 .comment("Not authenticated")
