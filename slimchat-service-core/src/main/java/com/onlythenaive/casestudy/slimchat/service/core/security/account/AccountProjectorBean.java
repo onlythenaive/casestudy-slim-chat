@@ -4,6 +4,11 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
+/**
+ * Security account projector implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class AccountProjectorBean extends GenericComponentBean implements AccountProjector {
 

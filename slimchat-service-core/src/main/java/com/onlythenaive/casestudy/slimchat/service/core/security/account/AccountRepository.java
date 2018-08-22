@@ -4,9 +4,18 @@ import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+/**
+ * Security account repository.
+ *
+ * @author Ilia Gubarev
+ */
 public interface AccountRepository extends MongoRepository<AccountEntity, String> {
 
-    Optional<AccountEntity> findById(String id);
-
+    /**
+     * Finds an account entity by its name.
+     *
+     * @param name the name of account.
+     * @return account entity if any.
+     */
     Optional<AccountEntity> findByName(String name);
 }

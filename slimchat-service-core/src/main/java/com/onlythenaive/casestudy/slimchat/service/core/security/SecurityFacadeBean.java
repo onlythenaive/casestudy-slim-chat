@@ -16,6 +16,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
+/**
+ * Security facade implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class SecurityFacadeBean extends GenericComponentBean implements SecurityFacade {
 

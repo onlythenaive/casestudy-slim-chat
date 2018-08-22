@@ -21,7 +21,7 @@ public interface TokenService {
      * Finds an existing security token by its ID.
      *
      * @param id the ID of a token.
-     * @return the requested token if it exists.
+     * @return the requested token if any.
      */
     Optional<Token> findTokenById(String id);
 

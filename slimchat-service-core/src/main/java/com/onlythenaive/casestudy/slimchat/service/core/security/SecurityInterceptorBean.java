@@ -12,6 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
+/**
+ * Security interceptor implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Component
 public class SecurityInterceptorBean extends GenericComponentBean implements SecurityInterceptor {
 

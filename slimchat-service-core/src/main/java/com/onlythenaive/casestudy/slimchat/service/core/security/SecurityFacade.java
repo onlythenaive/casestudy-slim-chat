@@ -1,5 +1,10 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security;
 
+/**
+ * Security facade.
+ *
+ * @author Ilia Gubarev
+ */
 public interface SecurityFacade {
 
     /**

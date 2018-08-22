@@ -13,7 +13,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenServ
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
- * Security service.
+ * Security service implementation.
  *
  * @author Ilia Gubarev
  */
