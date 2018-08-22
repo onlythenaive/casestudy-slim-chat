@@ -10,8 +10,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCateg
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.Authentication;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContextConfigurator;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordHashService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
@@ -24,7 +23,7 @@ public class SecurityFacadeBean extends GenericComponentBean implements Security
     private AccountService accountService;
 
     @Autowired
-    private AuthenticationContextConfigurator authenticationContextConfigurator;
+    private AuthenticationService authenticationService;
 
     @Autowired
     private PasswordHashService passwordHashService;
@@ -40,31 +39,19 @@ public class SecurityFacadeBean extends GenericComponentBean implements Security
             throw loginFailed(name);
         }
         Token token = this.tokenService.createToken(account.getId());
-        setupCurrentAuthentication(account, token);
+        this.authenticationService.createCurrentAuthentication(account, token);
     }
 
     @Override
     public void createAccount(String name, String password) {
         Account account = this.accountService.createAccount(name, password);
         Token token = this.tokenService.createToken(account.getId());
-        setupCurrentAuthentication(account, token);
+        this.authenticationService.createCurrentAuthentication(account, token);
     }
 
     @Override
     public void deauthenticate() {
-        this.authenticationContextConfigurator.getAuthentication().ifPresent(authentication -> {
-            Token token = authentication.getToken();
-            this.tokenService.removeTokenById(token.getId());
-            this.authenticationContextConfigurator.setAuthentication(null);
-        });
-    }
-
-    private void setupCurrentAuthentication(Account account, Token token) {
-        Authentication authentication = Authentication.builder()
-                .account(account)
-                .token(token)
-                .build();
-        this.authenticationContextConfigurator.setAuthentication(authentication);
+        this.authenticationService.removeCurrentAuthentication();
     }
 
     private RuntimeException loginFailed(String accountName) {

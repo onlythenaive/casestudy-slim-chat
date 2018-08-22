@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContextConfigurator;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 @Component
@@ -18,7 +18,7 @@ public class SecurityInterceptorBean extends GenericComponentBean implements Sec
     private static final String ATTRIBUTE_SECURITY_TOKEN = "X-Security-Token";
 
     @Autowired
-    private AuthenticationContextConfigurator authenticationContextConfigurator;
+    private AuthenticationContext authenticationContext;
 
     @Autowired
     private SecurityService securityService;
@@ -102,7 +102,7 @@ public class SecurityInterceptorBean extends GenericComponentBean implements Sec
     }
 
     private Optional<String> currentTokenId() {
-        return this.authenticationContextConfigurator.getAuthentication().map(a -> a.getToken().getId());
+        return this.authenticationContext.getAuthentication().map(a -> a.getToken().getId());
     }
 
     private void logAuthenticationFailure(Throwable throwable) {
