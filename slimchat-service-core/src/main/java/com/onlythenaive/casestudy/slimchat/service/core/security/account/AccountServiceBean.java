@@ -1,5 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,9 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public class AccountServiceBean extends GenericComponentBean implements AccountService {
 
     @Autowired
+    private Collection<AccountActionAware> accountHandlers;
+
+    @Autowired
     private AccountProjector accountProjector;
 
     @Autowired
@@ -33,7 +37,9 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
     public Account createAccount(String name, String password) {
         ensureNameUniqueness(name);
         AccountEntity accountEntity = createNewAccountEntity(name, password);
-        return project(accountEntity);
+        Account account = project(accountEntity);
+        this.accountHandlers.forEach(handler -> handler.onAccountCreated(account));
+        return account;
     }
 
     @Override
