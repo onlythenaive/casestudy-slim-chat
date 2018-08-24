@@ -43,7 +43,7 @@ public class HistoryProjectorBean extends GenericDomainComponentBean implements 
     }
 
     private Group projectReferencedGroup(String groupId) {
-        return this.groupProvider.findGroup(groupId).orElse(null);
+        return this.groupProvider.findPreviewById(groupId).orElse(null);
     }
 
     private Profile projectOwner(String ownerId) {

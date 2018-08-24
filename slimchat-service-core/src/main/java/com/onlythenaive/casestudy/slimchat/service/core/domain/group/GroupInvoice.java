@@ -7,6 +7,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Chat group invoice.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor

@@ -5,40 +5,32 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 
+/**
+ * Chat group provider implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class GroupProviderBean extends GenericDomainComponentBean implements GroupProvider {
 
     @Autowired
-    private GroupProjector groupProjector;
+    private GroupAccessor groupAccessor;
 
     @Autowired
-    private GroupRepository groupRepository;
+    private GroupProjector groupProjector;
 
     @Override
-    public Group getGroup(String id) {
-        return this.groupRepository.findById(id)
-                .map(this::project)
-                .orElseThrow(this::groupNotFound);
+    public Group getById(String id) {
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.VIEW, id);
+        return this.groupProjector.project(entity);
     }
 
     @Override
-    public Optional<Group> findGroup(String id) {
-        return this.groupRepository.findById(id).map(this::project);
-    }
-
-    private Group project(GroupEntity entity) {
-        return this.groupProjector.intoGroup(entity);
-    }
-
-    private OperationException groupNotFound() {
-        return OperationException.builder()
-                .comment("Group does not exist")
-                .textcode("x.logic.group.not-found")
-                .category(ExceptionCategory.LOGIC)
-                .build();
+    public Optional<Group> findPreviewById(String id) {
+        return this.groupAccessor.accessByIdIfAny(AccessLevel.VIEW, id)
+                .map(this.groupProjector::projectPreview);
     }
 }

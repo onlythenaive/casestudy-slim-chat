@@ -1,7 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainRepository;
 
-public interface GroupRepository extends MongoRepository<GroupEntity, String> {
+/**
+ * Chat group entity repository.
+ *
+ * @author Ilia Gubarev
+ */
+public interface GroupRepository extends GenericDomainRepository<GroupEntity> {
 
 }

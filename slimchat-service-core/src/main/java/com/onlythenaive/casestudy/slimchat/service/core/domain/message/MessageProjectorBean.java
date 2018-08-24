@@ -42,6 +42,6 @@ public class MessageProjectorBean extends GenericDomainComponentBean implements 
     }
 
     private Optional<Group> findGroup(String groupId) {
-        return this.groupProvider.findGroup(groupId);
+        return this.groupProvider.findPreviewById(groupId);
     }
 }

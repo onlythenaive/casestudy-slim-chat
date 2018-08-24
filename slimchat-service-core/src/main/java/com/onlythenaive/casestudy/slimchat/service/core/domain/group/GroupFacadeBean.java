@@ -8,9 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 
+/**
+ * Chat group operations facade implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class GroupFacadeBean extends GenericDomainComponentBean implements GroupFacade {
 
@@ -20,113 +25,99 @@ public class GroupFacadeBean extends GenericDomainComponentBean implements Group
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private GroupAccessor groupAccessor;
+
+    @Autowired
+    private GroupPersister groupPersister;
+
+    @Autowired
+    private GroupProvider groupProvider;
+
     @Override
     public Group create(GroupInvoice invoice) {
-        Account account = authenticated();
-        GroupEntity groupEntity = GroupEntity.builder()
-                .id(uuid())
-                .caption(invoice.getCaption())
-                .participantIds(invoice.getParticipantIds())
-                .moderatorIds(Collections.singleton(account.getId()))
-                .createdAt(now())
-                .build();
-        return project(groupEntity);
+        GroupEntity entity = createGroupFromInvoice(invoice);
+        this.groupPersister.insert(entity);
+        return project(entity);
     }
 
     @Override
-    public Collection<Group> findByCaptionTemplate(String captionTemplate) {
-        Account account = authenticated();
-        GroupEntity probe = GroupEntity.builder()
-                .participantIds(Collections.singleton(account.getId()))
-                .caption(captionTemplate)
-                .build();
-        return this.groupRepository.findAll(Example.of(probe))
+    public Collection<Group> findByCaption(String captionTemplate) {
+        return this.groupRepository.findAll(groupExampleFromCaptionTemplate(captionTemplate))
                 .stream()
-                .map(this::project)
+                .map(this.groupProjector::projectPreview)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Group getById(String id) {
-        Account account = authenticated();
-        GroupEntity groupEntity = getGroup(id);
-        ensureParticipation(account, groupEntity);
-        return project(groupEntity);
+        return this.groupProvider.getById(id);
     }
 
     @Override
-    public void inviteParticipant(String id, String participantId) {
-        Account account = authenticated();
-        GroupEntity groupEntity = getGroup(id);
-        ensureModeration(account, groupEntity);
-        // TODO: ensure participant is not there
-        groupEntity.getParticipantIds().add(participantId);
-        this.groupRepository.save(groupEntity);
+    public void inviteUser(String id, String userId) {
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MODERATE, id);
+        // TODO: check if user exists
+        if (!entity.getParticipantIds().contains(userId)) {
+            entity.getParticipantIds().add(id);
+        }
+        this.groupPersister.update(entity);
     }
 
     @Override
     public void promoteParticipant(String id, String participantId) {
-        Account account = authenticated();
-        GroupEntity groupEntity = getGroup(id);
-        ensureModeration(account, groupEntity);
-        // TODO: ensure participant is there
-        groupEntity.getModeratorIds().add(participantId);
-        this.groupRepository.save(groupEntity);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MODERATE, id);
+        if (entity.getParticipantIds().contains(participantId)) {
+            entity.getModeratorIds().add(participantId);
+        }
+        this.groupPersister.update(entity);
     }
 
     @Override
     public void kickParticipant(String id, String participantId) {
-        Account account = authenticated();
-        GroupEntity groupEntity = getGroup(id);
-        ensureModeration(account, groupEntity);
-        // TODO: ensure participant is there
-        groupEntity.getParticipantIds().remove(participantId);
-        groupEntity.getModeratorIds().remove(participantId);
-        this.groupRepository.save(groupEntity);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MODERATE, id);
+        entity.getParticipantIds().remove(participantId);
+        entity.getModeratorIds().remove(participantId);
+        // TODO: handle "last moderator" scenario
+        // TODO: handle "last participant" scenario
+        this.groupPersister.update(entity);
     }
 
     @Override
     public void leave(String id) {
-        Account account = authenticated();
-        GroupEntity groupEntity = getGroup(id);
-        ensureParticipation(account, groupEntity);
-        groupEntity.getParticipantIds().removeIf(account.getId()::equals);
-        groupEntity.getModeratorIds().removeIf(account.getId()::equals);
-        this.groupRepository.save(groupEntity);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.VIEW, id);
+        entity.getParticipantIds().remove(principalId());
+        entity.getModeratorIds().remove(principalId());
+        // TODO: handle "last moderator" scenario
+        // TODO: handle "last participant" scenario
+        this.groupPersister.update(entity);
     }
 
     @Override
     public Group updateCaption(String id, String caption) {
-        Account account = authenticated();
-        GroupEntity groupEntity = getGroup(id);
-        ensureModeration(account, groupEntity);
-        groupEntity.setCaption(caption);
-        this.groupRepository.save(groupEntity);
-        return project(groupEntity);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.EDIT, id);
+        entity.setCaption(caption);
+        this.groupPersister.update(entity);
+        return project(entity);
+    }
+
+    private Example<GroupEntity> groupExampleFromCaptionTemplate(String captionTemplate) {
+        GroupEntity probe = GroupEntity.builder()
+                .caption(captionTemplate)
+                .participantIds(Collections.singleton(principalId()))
+                .build();
+        return Example.of(probe);
+    }
+
+    private GroupEntity createGroupFromInvoice(GroupInvoice invoice) {
+        return GroupEntity.builder()
+                .caption(invoice.getCaption())
+                .participantIds(invoice.getParticipantIds())
+                .moderatorIds(invoice.getParticipantIds())
+                .build();
     }
 
     private Group project(GroupEntity entity) {
-        return this.groupProjector.intoGroup(entity);
-    }
-
-    // TODO: move to provider
-    private GroupEntity getGroup(String id) {
-        // TODO: throw a meaningful exception
-        return this.groupRepository.findById(id).orElseThrow(RuntimeException::new);
-    }
-
-    private void ensureParticipation(Account account, GroupEntity groupEntity) {
-        ensureAffiliation(account, groupEntity.getParticipantIds());
-    }
-
-    private void ensureModeration(Account account, GroupEntity groupEntity) {
-        ensureAffiliation(account, groupEntity.getModeratorIds());
-    }
-
-    private void ensureAffiliation(Account account, Collection<String> participantIds) {
-        if (participantIds.stream().noneMatch(account.getId()::equals)) {
-            // TODO: throw a meaningful exception
-            throw new RuntimeException();
-        }
+        return this.groupProjector.project(entity);
     }
 }

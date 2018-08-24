@@ -10,6 +10,11 @@ import lombok.NoArgsConstructor;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 
+/**
+ * Chat group.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,5 +25,8 @@ public class Group {
     private String caption;
     private Collection<Profile> participants;
     private Collection<Profile> moderators;
+    private Boolean principalIsParticipant;
+    private Boolean principalIsModerator;
+    private Instant lastModifiedAt;
     private Instant createdAt;
 }

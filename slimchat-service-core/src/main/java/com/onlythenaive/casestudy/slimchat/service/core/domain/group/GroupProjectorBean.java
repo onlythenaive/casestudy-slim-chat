@@ -9,6 +9,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
 
+/**
+ * Group chat projector service.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class GroupProjectorBean extends GenericDomainComponentBean implements GroupProjector {
 
@@ -16,17 +21,38 @@ public class GroupProjectorBean extends GenericDomainComponentBean implements Gr
     private ProfileProvider profileProvider;
 
     @Override
-    public Group intoGroup(GroupEntity entity) {
+    public Group project(GroupEntity entity) {
         return Group.builder()
                 .id(entity.getId())
                 .caption(entity.getCaption())
-                .participants(profiles(entity.getParticipantIds()))
-                .moderators(profiles(entity.getModeratorIds()))
+                .participants(profilePreviews(entity.getParticipantIds()))
+                .moderators(profilePreviews(entity.getModeratorIds()))
+                .principalIsParticipant(principalIsParticipant(entity))
+                .principalIsModerator(principalIsModerator(entity))
+                .lastModifiedAt(entity.getLastModifiedAt())
                 .createdAt(entity.getCreatedAt())
                 .build();
     }
 
-    private Collection<Profile> profiles(Collection<String> profileIds) {
+    @Override
+    public Group projectPreview(GroupEntity entity) {
+        return Group.builder()
+                .id(entity.getId())
+                .caption(entity.getCaption())
+                .principalIsParticipant(principalIsParticipant(entity))
+                .principalIsModerator(principalIsModerator(entity))
+                .build();
+    }
+
+    private boolean principalIsParticipant(GroupEntity entity) {
+        return entity.getParticipantIds().contains(principalId());
+    }
+
+    private boolean principalIsModerator(GroupEntity entity) {
+        return entity.getParticipantIds().contains(principalId());
+    }
+
+    private Collection<Profile> profilePreviews(Collection<String> profileIds) {
         return this.profileProvider.findPreviews(profileIds);
     }
 }
