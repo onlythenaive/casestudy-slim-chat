@@ -32,11 +32,15 @@ public class Profile {
     private Instant registeredAt;
     private Boolean restricted;
     private Boolean connected;
-    private Boolean own;
+    private Boolean ownedByPrincipal;
     private String status;
 
     public String getLastSpottedAtPretty() {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
         return this.lastSpottedAt.atOffset(ZoneOffset.ofHours(3)).format(dateTimeFormatter);
+    }
+
+    public boolean isOnline() {
+        return this.lastSpottedAt != null && this.lastSpottedAt.plusSeconds(60).isAfter(Instant.now());
     }
 }

@@ -68,4 +68,12 @@ public class ProfileEntity implements DomainEntity {
     @Field
     @Nullable
     private String status;
+
+    public boolean acceptsMessagesFrom(String anotherProfileId) {
+        return !restricted || connectedWith(anotherProfileId);
+    }
+
+    public boolean connectedWith(String anotherProfileId) {
+        return this.connectedUserIds.contains(anotherProfileId);
+    }
 }

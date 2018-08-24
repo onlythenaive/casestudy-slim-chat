@@ -28,7 +28,7 @@ public class ProfileProjectorBean extends DomainComponentBean implements Profile
                 .restricted(entity.getRestricted())
                 .connected(connectedToPrincipal(entity))
                 .status(entity.getStatus())
-                .own(ownedByPrincipal(entity))
+                .ownedByPrincipal(ownedByPrincipal(entity))
                 .build();
     }
 
@@ -39,7 +39,7 @@ public class ProfileProjectorBean extends DomainComponentBean implements Profile
                 .accountName(entity.getAccountName())
                 .firstname(entity.getFirstname())
                 .lastname(entity.getLastname())
-                .own(ownedByPrincipal(entity))
+                .ownedByPrincipal(ownedByPrincipal(entity))
                 .build();
     }
 
