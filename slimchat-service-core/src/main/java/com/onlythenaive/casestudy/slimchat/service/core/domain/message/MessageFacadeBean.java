@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,9 @@ public class MessageFacadeBean extends DomainComponentBean implements MessageFac
     private GroupAccessor groupAccessor;
 
     @Autowired
+    private Collection<MessageActionAware> messageHandlers;
+
+    @Autowired
     private MessagePersister messagePersister;
 
     @Autowired
@@ -34,7 +39,9 @@ public class MessageFacadeBean extends DomainComponentBean implements MessageFac
         ensurePermission(invoice);
         MessageEntity entity = messageFromInvoice(invoice);
         this.messagePersister.insert(entity);
-        return this.messageProjector.project(entity);
+        Message message = this.messageProjector.project(entity);
+        messageHandlers.forEach(handler -> handler.onMessageCreated(message));
+        return message;
     }
 
     private void ensurePermission(MessageInvoice invoice) {
