@@ -1,7 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainRepository;
 
-public interface HistoryRepository extends MongoRepository<HistoryEntity, String> {
+public interface HistoryRepository extends DomainRepository<HistoryEntity> {
 
 }

@@ -13,7 +13,7 @@ import org.springframework.data.repository.NoRepositoryBean;
  * @author Ilia Gubarev
  */
 @NoRepositoryBean
-public interface DomainRepository<E> extends MongoRepository<E, String> {
+public interface DomainRepository<E extends DomainEntity> extends MongoRepository<E, String> {
 
     @Override
     Collection<E> findAllById(Iterable<String> ids);

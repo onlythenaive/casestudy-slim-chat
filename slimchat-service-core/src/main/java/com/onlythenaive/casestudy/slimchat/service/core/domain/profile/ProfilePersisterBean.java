@@ -17,13 +17,13 @@ public class ProfilePersisterBean extends DomainComponentBean implements Profile
             entity.setId(uuid());
         }
         entity.setCreatedAt(now());
-        entity.setLastUpdatedAt(now());
+        entity.setLastModifiedAt(now());
         profileRepository.insert(entity);
     }
 
     @Override
     public void update(ProfileEntity entity) {
-        entity.setLastUpdatedAt(now());
+        entity.setLastModifiedAt(now());
         this.profileRepository.save(entity);
     }
 }

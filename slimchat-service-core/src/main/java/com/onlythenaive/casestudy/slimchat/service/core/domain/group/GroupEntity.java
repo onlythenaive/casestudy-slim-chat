@@ -13,6 +13,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+
 /**
  * Chat group entity.
  *
@@ -23,7 +25,7 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "groups")
-public class GroupEntity {
+public class GroupEntity implements DomainEntity {
 
     @Id
     private String id;

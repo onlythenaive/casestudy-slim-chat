@@ -9,7 +9,7 @@ import java.util.Optional;
  *
  * @author Ilia Gubarev
  */
-public interface DomainAccessor<E> {
+public interface DomainAccessor<E extends DomainEntity> {
 
     /**
      * Ensures if principal has sufficient privileges for provided entity.

@@ -2,9 +2,9 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.contact;
 
 import java.util.Collection;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainRepository;
 
-public interface ContactRepository extends MongoRepository<ContactEntity, String> {
+public interface ContactRepository extends DomainRepository<ContactEntity> {
 
     Collection<ContactEntity> findAllByAcceptorIdOrInitiatorIdAndAccepted(String acceptorId, String initiatorId, boolean accepted);
 

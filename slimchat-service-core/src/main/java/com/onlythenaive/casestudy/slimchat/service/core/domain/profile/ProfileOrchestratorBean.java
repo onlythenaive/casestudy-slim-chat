@@ -26,7 +26,7 @@ public class ProfileOrchestratorBean extends DomainComponentBean implements Acco
                 .id(account.getId())
                 .accountName(account.getName())
                 .lastSpottedAt(now())
-                .lastUpdatedAt(now())
+                .lastModifiedAt(now())
                 .registeredAt(now())
                 .restricted(false)
                 .connectedUserIds(new ArrayList<>())

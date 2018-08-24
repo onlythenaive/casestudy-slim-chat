@@ -23,7 +23,7 @@ public class ProfileProjectorBean extends DomainComponentBean implements Profile
                 .firstname(entity.getFirstname())
                 .lastname(entity.getLastname())
                 .lastSpottedAt(entity.getLastSpottedAt())
-                .lastUpdatedAt(entity.getLastUpdatedAt())
+                .lastUpdatedAt(entity.getLastModifiedAt())
                 .registeredAt(entity.getRegisteredAt())
                 .restricted(entity.getRestricted())
                 .connected(connectedToPrincipal(entity))

@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+
 /**
  * User profile entity.
  *
@@ -24,7 +26,7 @@ import org.springframework.lang.Nullable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "profiles")
-public class ProfileEntity {
+public class ProfileEntity implements DomainEntity {
 
     @Field
     @Id
@@ -49,13 +51,13 @@ public class ProfileEntity {
     private Instant lastSpottedAt;
 
     @Field
-    private Instant lastUpdatedAt;
-
-    @Field
     private Instant registeredAt;
 
     @Field
     private Instant createdAt;
+
+    @Field
+    private Instant lastModifiedAt;
 
     @Field
     private Boolean restricted;

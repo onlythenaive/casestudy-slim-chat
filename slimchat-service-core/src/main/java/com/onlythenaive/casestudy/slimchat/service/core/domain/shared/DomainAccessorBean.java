@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Ilia Gubarev
  */
-public abstract class DomainAccessorBean<E> extends DomainComponentBean
+public abstract class DomainAccessorBean<E extends DomainEntity> extends DomainComponentBean
         implements DomainAccessor<E> {
 
     @Autowired

@@ -11,12 +11,14 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "contacts")
-public class ContactEntity {
+public class ContactEntity implements DomainEntity {
 
     @Id
     @Field
@@ -36,4 +38,7 @@ public class ContactEntity {
 
     @Field
     private Instant createdAt;
+
+    @Field
+    private Instant lastModifiedAt;
 }

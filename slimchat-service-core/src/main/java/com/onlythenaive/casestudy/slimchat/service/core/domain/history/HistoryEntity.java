@@ -1,5 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
+import java.time.Instant;
 import java.util.Collection;
 
 import lombok.AllArgsConstructor;
@@ -12,12 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "histories")
-public class HistoryEntity {
+public class HistoryEntity implements DomainEntity {
 
     @Id
     private String id;
@@ -38,4 +41,10 @@ public class HistoryEntity {
 
     @Field
     private Collection<String> messageIds;
+
+    @Field
+    private Instant createdAt;
+
+    @Field
+    private Instant lastModifiedAt;
 }
