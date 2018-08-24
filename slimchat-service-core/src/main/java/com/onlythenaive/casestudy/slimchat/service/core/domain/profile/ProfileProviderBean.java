@@ -29,6 +29,14 @@ public class ProfileProviderBean extends DomainComponentBean implements ProfileP
     private ProfileRepository profileRepository;
 
     @Override
+    public Collection<Profile> findConnected(String id) {
+        ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.VIEW, id);
+        return this.profileRepository.findAllById(entity.getConnectedUserIds()).stream()
+                .map(this.profileProjector::projectPreview)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Profile getByAccountName(String accountName) {
         ProfileEntity entity = this.profileRepository.findByAccountName(accountName)
                 .orElseThrow(() -> profileNotFoundByAccountName(accountName));
