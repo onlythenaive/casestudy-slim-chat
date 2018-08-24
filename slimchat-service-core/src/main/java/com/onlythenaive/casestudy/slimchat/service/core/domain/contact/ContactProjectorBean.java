@@ -15,7 +15,7 @@ public class ContactProjectorBean extends GenericDomainComponentBean implements 
 
     @Override
     public Contact intoContact(ContactEntity entity) {
-        boolean own = entity.getInitiatorId().equals(authenticated().getId());
+        boolean own = entity.getInitiatorId().equals(principalId());
         return Contact.builder()
                 .id(entity.getId())
                 .initiator(participant(entity.getInitiatorId()))

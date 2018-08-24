@@ -23,9 +23,8 @@ public class ContactFacadeBean extends GenericDomainComponentBean implements Con
 
     @Override
     public Contact acceptContactById(String id) {
-        Account account = authenticated();
         ContactEntity entity = this.contactRepository.findById(id).orElseThrow(this::contactNotFound);
-        if (!entity.getAcceptorId().equals(account.getId())) {
+        if (!entity.getAcceptorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
         if (entity.isAccepted()) {
@@ -38,16 +37,15 @@ public class ContactFacadeBean extends GenericDomainComponentBean implements Con
 
     @Override
     public Optional<Contact> cancelContactById(String id) {
-        Account account = authenticated();
         ContactEntity entity = this.contactRepository.findById(id).orElseThrow(this::contactNotFound);
-        if (!entity.getAcceptorId().equals(account.getId()) && !entity.getInitiatorId().equals(account.getId())) {
+        if (!entity.getAcceptorId().equals(principalId()) && !entity.getInitiatorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
         if (!entity.isAccepted()) {
             this.contactRepository.deleteById(id);
             return Optional.empty();
         }
-        if (entity.getAcceptorId().equals(account.getId())) {
+        if (entity.getAcceptorId().equals(principalId())) {
             entity.setAccepted(false);
             this.contactRepository.save(entity);
             return Optional.of(project(entity));
@@ -59,12 +57,11 @@ public class ContactFacadeBean extends GenericDomainComponentBean implements Con
 
     @Override
     public Contact createContact(ContactInvoice invoice) {
-        Account account = authenticated();
         String acceptorId = invoice.getAcceptorId();
-        ensureUniqueness(account.getId(), acceptorId);
+        ensureUniqueness(principalId(), acceptorId);
         ContactEntity entity = ContactEntity.builder()
                 .id(uuid())
-                .initiatorId(account.getId())
+                .initiatorId(principalId())
                 .acceptorId(acceptorId)
                 .introduction(invoice.getIntroduction())
                 .createdAt(now())
@@ -81,8 +78,7 @@ public class ContactFacadeBean extends GenericDomainComponentBean implements Con
 
     @Override
     public Collection<Contact> findAllAcceptedContacts() {
-        Account account = authenticated();
-        return this.contactRepository.findAllByAcceptorIdOrInitiatorIdAndAccepted(account.getId(), account.getId(),true)
+        return this.contactRepository.findAllByAcceptorIdOrInitiatorIdAndAccepted(principalId(), principalId(),true)
                 .stream()
                 .map(this::project)
                 .collect(Collectors.toList());
@@ -95,16 +91,14 @@ public class ContactFacadeBean extends GenericDomainComponentBean implements Con
 
     @Override
     public Collection<Contact> findAllRequestedContacts() {
-        Account account = authenticated();
-        return this.contactRepository.findAllByAcceptorIdAndAccepted(account.getId(), false)
+        return this.contactRepository.findAllByAcceptorIdAndAccepted(principalId(), false)
                 .stream()
                 .map(this::project)
                 .collect(Collectors.toList());
     }
 
     private Collection<Contact> findAllInitiatedContacts(boolean accepted) {
-        Account account = authenticated();
-        return this.contactRepository.findAllByInitiatorIdAndAccepted(account.getId(), accepted)
+        return this.contactRepository.findAllByInitiatorIdAndAccepted(principalId(), accepted)
                 .stream()
                 .map(this::project)
                 .collect(Collectors.toList());

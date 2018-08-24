@@ -21,11 +21,6 @@ public abstract class GenericDomainComponentBean extends GenericComponentBean {
     @Autowired
     private AuthenticationContext authenticationContext;
 
-    @Deprecated
-    protected Account authenticated() {
-        return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
-    }
-
     /**
      * Retrieves the current principal.
      *

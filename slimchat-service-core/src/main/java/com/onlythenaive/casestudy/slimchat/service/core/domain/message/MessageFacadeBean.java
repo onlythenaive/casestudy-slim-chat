@@ -28,7 +28,6 @@ public class MessageFacadeBean extends GenericDomainComponentBean implements Mes
 
     @Override
     public Message createMessage(MessageInvoice invoice) {
-        Account account = authenticated();
         if (invoice.getPersonal()) {
             String recipientId = invoice.getRecipientId();
             ProfileEntity profileEntity = this.profileRepository.findById(recipientId).orElseThrow(RuntimeException::new);
@@ -40,7 +39,7 @@ public class MessageFacadeBean extends GenericDomainComponentBean implements Mes
         }
         MessageEntity entity = MessageEntity.builder()
                 .id(uuid())
-                .authorId(account.getId())
+                .authorId(principalId())
                 .text(invoice.getText())
                 .personal(invoice.getPersonal())
                 .recipientId(invoice.getRecipientId())

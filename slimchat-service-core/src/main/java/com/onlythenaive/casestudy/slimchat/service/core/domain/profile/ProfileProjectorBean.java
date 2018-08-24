@@ -45,10 +45,10 @@ public class ProfileProjectorBean extends GenericDomainComponentBean implements 
 
     private boolean connectedToPrincipal(ProfileEntity entity) {
         Collection<String> connections = entity.getConnectedUserIds();
-        return connections != null && connections.contains(authenticated().getId());
+        return connections != null && connections.contains(principalId());
     }
 
     private boolean ownedByPrincipal(ProfileEntity entity) {
-        return entity.getId().equals(authenticated().getId());
+        return entity.getId().equals(principalId());
     }
 }

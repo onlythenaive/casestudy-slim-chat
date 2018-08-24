@@ -21,9 +21,8 @@ public class HistoryFacadeBean extends GenericDomainComponentBean implements His
     public History getHistoryById(String id) {
 
         // NOTE: access with privilege checking
-        Account account = authenticated();
         HistoryEntity historyEntity = this.historyRepository.findById(id).orElseThrow(RuntimeException::new);
-        if (!historyEntity.getOwnerId().equals(account.getId())) {
+        if (!historyEntity.getOwnerId().equals(principalId())) {
             throw new RuntimeException();
         }
 
@@ -34,9 +33,8 @@ public class HistoryFacadeBean extends GenericDomainComponentBean implements His
     public History clearHistoryById(String id) {
 
         // NOTE: access with privilege checking
-        Account account = authenticated();
         HistoryEntity historyEntity = this.historyRepository.findById(id).orElseThrow(RuntimeException::new);
-        if (!historyEntity.getOwnerId().equals(account.getId())) {
+        if (!historyEntity.getOwnerId().equals(principalId())) {
             throw new RuntimeException();
         }
 

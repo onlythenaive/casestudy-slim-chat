@@ -51,10 +51,10 @@ public class ProfileAccessorBean extends GenericDomainAccessorBean<ProfileEntity
     }
 
     private boolean connectedWithPrincipal(ProfileEntity entity) {
-        return entity.getConnectedUserIds().contains(authenticated().getId());
+        return entity.getConnectedUserIds().contains(principalId());
     }
 
     private boolean ownedByPrincipal(ProfileEntity entity) {
-        return authenticated().getId().equals(entity.getId());
+        return entity.getId().equals(principalId());
     }
 }

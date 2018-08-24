@@ -41,7 +41,7 @@ public class GroupAccessorBean extends GenericDomainAccessorBean<GroupEntity> im
     }
 
     private void ensureInclusion(Collection<String> userIds) {
-        if (!userIds.contains(authenticated().getId())) {
+        if (!userIds.contains(principalId())) {
             throw insufficientPrivileges();
         }
     }
