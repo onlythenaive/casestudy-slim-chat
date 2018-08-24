@@ -20,6 +20,9 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
 public class GroupFacadeBean extends DomainComponentBean implements GroupFacade {
 
     @Autowired
+    private Collection<GroupActionAware> groupHandlers;
+
+    @Autowired
     private GroupProjector groupProjector;
 
     @Autowired
@@ -38,7 +41,9 @@ public class GroupFacadeBean extends DomainComponentBean implements GroupFacade 
     public Group create(GroupInvoice invoice) {
         GroupEntity entity = createGroupFromInvoice(invoice);
         this.groupPersister.insert(entity);
-        return project(entity);
+        Group group = project(entity);
+        this.groupHandlers.forEach(handler -> handler.onGroupCreated(group));
+        return group;
     }
 
     @Override
