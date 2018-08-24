@@ -5,17 +5,20 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Profile properties update invoice.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileInvoice {
+public class ProfileUpdateInvoice {
 
-    private String id;
-
-    private String accountName;
     private String email;
     private String firstname;
     private String lastname;
     private String status;
+    private Boolean restricted;
 }

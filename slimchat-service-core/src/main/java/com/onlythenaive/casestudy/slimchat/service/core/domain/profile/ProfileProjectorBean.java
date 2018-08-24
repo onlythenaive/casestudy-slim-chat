@@ -1,14 +1,21 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
 
+/**
+ * User profile projector implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class ProfileProjectorBean extends GenericDomainComponentBean implements ProfileProjector {
 
     @Override
-    public Profile intoProfile(ProfileEntity entity) {
+    public Profile project(ProfileEntity entity) {
         return Profile.builder()
                 .id(entity.getId())
                 .accountName(entity.getAccountName())
@@ -18,8 +25,30 @@ public class ProfileProjectorBean extends GenericDomainComponentBean implements 
                 .lastSpottedAt(entity.getLastSpottedAt())
                 .lastUpdatedAt(entity.getLastUpdatedAt())
                 .registeredAt(entity.getRegisteredAt())
+                .restricted(entity.getRestricted())
+                .connected(connectedToPrincipal(entity))
                 .status(entity.getStatus())
-                .own(entity.getId().equals(authenticated().getId()))
+                .own(ownedByPrincipal(entity))
                 .build();
+    }
+
+    @Override
+    public Profile projectPreview(ProfileEntity entity) {
+        return Profile.builder()
+                .id(entity.getId())
+                .accountName(entity.getAccountName())
+                .firstname(entity.getFirstname())
+                .lastname(entity.getLastname())
+                .own(ownedByPrincipal(entity))
+                .build();
+    }
+
+    private boolean connectedToPrincipal(ProfileEntity entity) {
+        Collection<String> connections = entity.getConnectedUserIds();
+        return connections != null && connections.contains(authenticated().getId());
+    }
+
+    private boolean ownedByPrincipal(ProfileEntity entity) {
+        return entity.getId().equals(authenticated().getId());
     }
 }

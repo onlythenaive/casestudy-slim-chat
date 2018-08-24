@@ -1,5 +1,48 @@
-<h1>User profile</h1>
+{{#with data.profile}}
+
+    <h1>Profile: {{accountName}}</h1>
+
+    <form action="/view/profile/update" method="post">
+        <div>
+            <input name="id" type="hidden" value="{{id}}"/>
+        </div>
+        <div>
+            <input name="viewToRedirect" type="hidden" value="{{@root.data.viewToRedirect}}"/>
+        </div>
+        <div>
+            <label for="email">Email: </label>
+            <input name="email" type="text" value="{{email}}"/>
+        </div>
+        <div>
+            <label for="firstname">First name: </label>
+            <input name="firstname" type="text" value="{{firstname}}"/>
+        </div>
+        <div>
+            <label for="lastname">Last name: </label>
+            <input name="lastname" type="text" value="{{lastname}}"/>
+        </div>
+        <div>
+            <label for="status">Status: </label>
+            <input name="status" type="text" value="{{status}}"/>
+        </div>
+        <div>
+            <label for="lastSpottedAtPretty">Last spotted at: </label>
+            <input name="lastSpottedAtPretty" type="text" value="{{lastSpottedAtPretty}}"/>
+        </div>
+        <div>
+            <label for="restricted">Restricted: </label>
+            <input name="restricted" type="radio" value="true"/>
+            <input name="restricted" type="radio" value="false"/>
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+{{/with}}
+
+<hr/>
+
 <div>
-    {{data}}
+    {{@root}}
 </div>
 <a href="/view/home">Back Home</a>

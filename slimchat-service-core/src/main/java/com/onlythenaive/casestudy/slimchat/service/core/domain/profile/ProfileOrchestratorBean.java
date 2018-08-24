@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,15 +10,15 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountActionAware;
 
 /**
- * Profile service implementation.
+ * User profile orchestrator implementation.
  *
  * @author Ilia Gubarev
  */
 @Service
-public class ProfileServiceBean extends GenericDomainComponentBean implements AccountActionAware {
+public class ProfileOrchestratorBean extends GenericDomainComponentBean implements AccountActionAware {
 
     @Autowired
-    private ProfileRepository profileRepository;
+    private ProfilePersister profilePersister;
 
     @Override
     public void onAccountCreated(Account account) {
@@ -26,7 +28,10 @@ public class ProfileServiceBean extends GenericDomainComponentBean implements Ac
                 .lastSpottedAt(now())
                 .lastUpdatedAt(now())
                 .registeredAt(now())
+                .restricted(false)
+                .connectedUserIds(new ArrayList<>())
+                .status("Hey, I'm using Slim Chat now!")
                 .build();
-        this.profileRepository.insert(entity);
+        this.profilePersister.insert(entity);
     }
 }

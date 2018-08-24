@@ -4,19 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
 
 @Service
 public class ContactProjectorBean extends GenericDomainComponentBean implements ContactProjector {
 
     @Autowired
-    private ProfileProjector profileProjector;
-
-    @Autowired
-    private ProfileRepository profileRepository;
+    private ProfileProvider profileProvider;
 
     @Override
     public Contact intoContact(ContactEntity entity) {
@@ -34,7 +29,6 @@ public class ContactProjectorBean extends GenericDomainComponentBean implements 
     }
 
     private Profile participant(String participantId) {
-        ProfileEntity profileEntity = this.profileRepository.getById(participantId);
-        return this.profileProjector.intoProfile(profileEntity);
+        return this.profileProvider.getById(participantId);
     }
 }

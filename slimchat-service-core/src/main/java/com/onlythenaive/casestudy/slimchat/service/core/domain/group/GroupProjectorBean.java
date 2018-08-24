@@ -27,6 +27,6 @@ public class GroupProjectorBean extends GenericDomainComponentBean implements Gr
     }
 
     private Collection<Profile> profiles(Collection<String> profileIds) {
-        return this.profileProvider.findProfiles(profileIds);
+        return this.profileProvider.findPreviews(profileIds);
     }
 }

@@ -47,11 +47,11 @@ public class HistoryProjectorBean extends GenericDomainComponentBean implements 
     }
 
     private Profile projectOwner(String ownerId) {
-        return this.profileProvider.getProfile(ownerId);
+        return this.profileProvider.getById(ownerId);
     }
 
     private Profile projectReferencedUser(String userId) {
-        return this.profileProvider.findProfile(userId).orElse(null);
+        return this.profileProvider.findPreviewById(userId).orElse(null);
     }
 
     private Collection<Message> projectMessages(Collection<String> messageIds) {

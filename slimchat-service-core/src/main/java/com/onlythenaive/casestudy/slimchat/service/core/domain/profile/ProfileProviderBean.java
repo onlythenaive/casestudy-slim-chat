@@ -7,12 +7,20 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 
+/**
+ * User profile provider implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class ProfileProviderBean extends GenericDomainComponentBean implements ProfileProvider {
+
+    @Autowired
+    private ProfileAccessor profileAccessor;
 
     @Autowired
     private ProfileProjector profileProjector;
@@ -21,34 +29,36 @@ public class ProfileProviderBean extends GenericDomainComponentBean implements P
     private ProfileRepository profileRepository;
 
     @Override
-    public Profile getProfile(String id) {
-        return this.profileRepository.findById(id)
-                .map(this::project)
-                .orElseThrow(this::profileNotFound);
+    public Profile getByAccountName(String accountName) {
+        ProfileEntity entity = this.profileRepository.findByAccountName(accountName)
+                .orElseThrow(() -> profileNotFoundByAccountName(accountName));
+        this.profileAccessor.ensureAccess(AccessLevel.VIEW, entity);
+        return project(entity);
     }
 
     @Override
-    public Optional<Profile> findProfile(String id) {
-        return this.profileRepository.findById(id).map(this::project);
+    public Profile getById(String id) {
+        ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.VIEW, id);
+        return project(entity);
     }
 
     @Override
-    public Collection<Profile> findProfiles(Collection<String> ids) {
-        return this.profileRepository.findAllById(ids)
-                .stream()
-                .map(this::project)
+    public Optional<Profile> findPreviewById(String id) {
+        return this.profileAccessor.accessByIdIfAny(AccessLevel.PREVIEW, id).map(this::project);
+    }
+
+    @Override
+    public Collection<Profile> findPreviews(Collection<String> ids) {
+        return this.profileRepository.findAllById(ids).stream()
+                .map(this.profileProjector::projectPreview)
                 .collect(Collectors.toList());
     }
 
     private Profile project(ProfileEntity entity) {
-        return this.profileProjector.intoProfile(entity);
+        return this.profileProjector.project(entity);
     }
 
-    private OperationException profileNotFound() {
-        return OperationException.builder()
-                .comment("Profile does not exist")
-                .textcode("x.logic.profile.not-found")
-                .category(ExceptionCategory.LOGIC)
-                .build();
+    private OperationException profileNotFoundByAccountName(String accountName) {
+        return notFoundByProperty("profile", "accountName", accountName);
     }
 }

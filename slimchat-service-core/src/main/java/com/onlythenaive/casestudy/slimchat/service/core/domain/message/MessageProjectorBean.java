@@ -34,11 +34,11 @@ public class MessageProjectorBean extends GenericDomainComponentBean implements 
     }
 
     private Profile getAuthor(String profileId) {
-        return this.profileProvider.getProfile(profileId);
+        return this.profileProvider.getById(profileId);
     }
 
     private Optional<Profile> findRecipient(String profileId) {
-        return this.profileProvider.findProfile(profileId);
+        return this.profileProvider.findPreviewById(profileId);
     }
 
     private Optional<Group> findGroup(String groupId) {
