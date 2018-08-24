@@ -1,13 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersister;
+
 /**
  * Chat group persister.
  *
- * @author Ili Gubarev
+ * @author Ilia Gubarev
  */
-public interface GroupPersister {
+public interface GroupPersister extends DomainPersister<GroupEntity> {
 
-    void insert(GroupEntity entity);
-
-    void update(GroupEntity entity);
 }

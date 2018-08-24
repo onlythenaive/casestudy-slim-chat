@@ -3,7 +3,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
 
 /**
  * Chat group persister implementation.
@@ -11,7 +11,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ili Gubarev
  */
 @Service
-public class GroupPersisterBean extends DomainComponentBean implements GroupPersister {
+public class GroupPersisterBean extends DomainPersisterBean<GroupEntity> implements GroupPersister {
 
     @Autowired
     private GroupRepository groupRepository;

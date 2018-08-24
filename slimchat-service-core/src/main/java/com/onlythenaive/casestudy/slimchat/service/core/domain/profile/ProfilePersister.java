@@ -1,8 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
-public interface ProfilePersister {
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersister;
 
-    void insert(ProfileEntity entity);
+/**
+ * User profile persister.
+ *
+ * @author Ilia Gubarev
+ */
+public interface ProfilePersister extends DomainPersister<ProfileEntity> {
 
-    void update(ProfileEntity entity);
 }
