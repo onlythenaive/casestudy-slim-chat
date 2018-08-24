@@ -1,6 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
@@ -13,22 +12,4 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPers
 @Service
 public class GroupPersisterBean extends DomainPersisterBean<GroupEntity> implements GroupPersister {
 
-    @Autowired
-    private GroupRepository groupRepository;
-
-    @Override
-    public void insert(GroupEntity entity) {
-        if (entity.getId() == null) {
-            entity.setId(uuid());
-        }
-        entity.setLastModifiedAt(now());
-        entity.setCreatedAt(now());
-        this.groupRepository.insert(entity);
-    }
-
-    @Override
-    public void update(GroupEntity entity) {
-        entity.setLastModifiedAt(now());
-        this.groupRepository.save(entity);
-    }
 }
