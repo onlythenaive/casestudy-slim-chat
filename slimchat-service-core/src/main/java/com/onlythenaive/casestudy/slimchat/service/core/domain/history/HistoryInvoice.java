@@ -1,18 +1,15 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
-import java.util.Collection;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 
 /**
- * Chat history.
+ * Chat history invoice.
  *
  * @author Ilia Gubarev
  */
@@ -20,11 +17,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class History {
+public class HistoryInvoice {
 
-    private String id;
-    private Profile owner;
     private Profile referencedUser;
     private Group referencedGroup;
-    private Collection<Message> messages;
 }

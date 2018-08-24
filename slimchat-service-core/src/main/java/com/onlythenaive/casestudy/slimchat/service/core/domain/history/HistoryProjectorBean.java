@@ -1,7 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
 import java.util.Collection;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,12 +8,16 @@ import org.springframework.stereotype.Service;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageProjector;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
+/**
+ * Chat history projector implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class HistoryProjectorBean extends DomainComponentBean implements HistoryProjector {
 
@@ -22,41 +25,41 @@ public class HistoryProjectorBean extends DomainComponentBean implements History
     private GroupProvider groupProvider;
 
     @Autowired
-    private MessageProjector messageProjector;
-
-    @Autowired
-    private MessageRepository messageRepository;
+    private MessageProvider messageProvider;
 
     @Autowired
     private ProfileProvider profileProvider;
 
     @Override
-    public History intoHistory(HistoryEntity entity) {
+    public History project(HistoryEntity entity) {
         return History.builder()
                 .id(entity.getId())
-                .owner(projectOwner(entity.getOwnerId()))
-                .personal(entity.isPersonal())
-                .referencedUser(projectReferencedUser(entity.getReferencedUserId()))
-                .referencedGroup(projectReferencedGroup(entity.getReferencedGroupId()))
-                .messages(projectMessages(entity.getMessageIds()))
+                .owner(profile(entity.getOwnerId()))
+                .referencedUser(profile(entity.getReferencedUserId()))
+                .referencedGroup(group(entity.getReferencedGroupId()))
+                .messages(messages(entity.getMessageIds()))
                 .build();
     }
 
-    private Group projectReferencedGroup(String groupId) {
+    @Override
+    public History projectPreview(HistoryEntity entity) {
+        return History.builder()
+                .id(entity.getId())
+                .owner(profile(entity.getOwnerId()))
+                .referencedUser(profile(entity.getReferencedUserId()))
+                .referencedGroup(group(entity.getReferencedGroupId()))
+                .build();
+    }
+
+    private Group group(String groupId) {
         return this.groupProvider.findPreviewById(groupId).orElse(null);
     }
 
-    private Profile projectOwner(String ownerId) {
-        return this.profileProvider.getById(ownerId);
+    private Profile profile(String profileId) {
+        return this.profileProvider.findPreviewById(profileId).orElse(null);
     }
 
-    private Profile projectReferencedUser(String userId) {
-        return this.profileProvider.findPreviewById(userId).orElse(null);
-    }
-
-    private Collection<Message> projectMessages(Collection<String> messageIds) {
-        return this.messageRepository.findAllById(messageIds).stream()
-                .map(this.messageProjector::project)
-                .collect(Collectors.toList());
+    private Collection<Message> messages(Collection<String> messageIds) {
+        return this.messageProvider.findByIds(messageIds);
     }
 }

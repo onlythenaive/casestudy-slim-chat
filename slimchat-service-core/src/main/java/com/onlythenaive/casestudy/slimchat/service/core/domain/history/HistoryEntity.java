@@ -15,6 +15,11 @@ import org.springframework.lang.Nullable;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
 
+/**
+ * Chat history entity.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -27,9 +32,6 @@ public class HistoryEntity implements DomainEntity {
 
     @Field
     private String ownerId;
-
-    @Field
-    private boolean personal;
 
     @Field
     @Nullable
