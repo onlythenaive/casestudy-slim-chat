@@ -7,13 +7,12 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupEntity
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 
 @Service
-public class MessageFacadeBean extends GenericDomainComponentBean implements MessageFacade {
+public class MessageFacadeBean extends DomainComponentBean implements MessageFacade {
 
     private GroupRepository groupRepository;
 

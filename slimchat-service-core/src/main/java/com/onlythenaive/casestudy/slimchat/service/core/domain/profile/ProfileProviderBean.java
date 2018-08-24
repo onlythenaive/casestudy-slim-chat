@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 
 /**
@@ -17,7 +17,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationExcep
  * @author Ilia Gubarev
  */
 @Service
-public class ProfileProviderBean extends GenericDomainComponentBean implements ProfileProvider {
+public class ProfileProviderBean extends DomainComponentBean implements ProfileProvider {
 
     @Autowired
     private ProfileAccessor profileAccessor;

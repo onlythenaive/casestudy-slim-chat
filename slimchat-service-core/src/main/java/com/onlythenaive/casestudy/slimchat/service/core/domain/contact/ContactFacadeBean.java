@@ -7,13 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 
 @Service
-public class ContactFacadeBean extends GenericDomainComponentBean implements ContactFacade {
+public class ContactFacadeBean extends DomainComponentBean implements ContactFacade {
 
     @Autowired
     private ContactProjector contactProjector;

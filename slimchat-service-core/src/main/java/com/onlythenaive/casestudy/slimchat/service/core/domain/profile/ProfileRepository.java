@@ -2,14 +2,14 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
 import java.util.Optional;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainRepository;
 
 /**
  * User profile repository.
  *
  * @author Ilia Gubarev
  */
-public interface ProfileRepository extends GenericDomainRepository<ProfileEntity> {
+public interface ProfileRepository extends DomainRepository<ProfileEntity> {
 
     /**
      * Finds a user profile by the name of its referenced account.

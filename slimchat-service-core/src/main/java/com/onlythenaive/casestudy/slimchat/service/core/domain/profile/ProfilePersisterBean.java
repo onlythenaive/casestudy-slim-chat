@@ -3,10 +3,10 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 @Service
-public class ProfilePersisterBean extends GenericDomainComponentBean implements ProfilePersister {
+public class ProfilePersisterBean extends DomainComponentBean implements ProfilePersister {
 
     @Autowired
     private ProfileRepository profileRepository;

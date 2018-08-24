@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 @Service
-public class ContactProjectorBean extends GenericDomainComponentBean implements ContactProjector {
+public class ContactProjectorBean extends DomainComponentBean implements ContactProjector {
 
     @Autowired
     private ProfileProvider profileProvider;

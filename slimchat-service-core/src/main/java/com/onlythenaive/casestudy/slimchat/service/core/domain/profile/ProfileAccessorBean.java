@@ -3,7 +3,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
 
 /**
  * User profile accessor implementation.
@@ -11,7 +11,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDom
  * @author Ilia Gubarev
  */
 @Service
-public class ProfileAccessorBean extends GenericDomainAccessorBean<ProfileEntity> implements ProfileAccessor {
+public class ProfileAccessorBean extends DomainAccessorBean<ProfileEntity> implements ProfileAccessor {
 
     @Override
     public ProfileEntity ensureAccess(AccessLevel level, ProfileEntity subject) {

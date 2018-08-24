@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 @Service
-public class HistoryFacadeBean extends GenericDomainComponentBean implements HistoryFacade {
+public class HistoryFacadeBean extends DomainComponentBean implements HistoryFacade {
 
     @Autowired
     private HistoryProjector historyProjector;

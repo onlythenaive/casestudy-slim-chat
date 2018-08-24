@@ -16,7 +16,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
  *
  * @author Ili Gubarev
  */
-public abstract class GenericDomainComponentBean extends GenericComponentBean {
+public abstract class DomainComponentBean extends GenericComponentBean {
 
     @Autowired
     private AuthenticationContext authenticationContext;

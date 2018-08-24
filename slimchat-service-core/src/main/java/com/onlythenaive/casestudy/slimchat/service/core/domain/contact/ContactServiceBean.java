@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountActionAware;
 
 @Service
-public class ContactServiceBean extends GenericDomainComponentBean implements AccountActionAware {
+public class ContactServiceBean extends DomainComponentBean implements AccountActionAware {
 
     @Autowired
     private ContactRepository contactRepository;

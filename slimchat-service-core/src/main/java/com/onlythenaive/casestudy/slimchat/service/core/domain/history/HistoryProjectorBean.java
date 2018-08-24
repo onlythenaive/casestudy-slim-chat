@@ -13,10 +13,10 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessagePr
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 @Service
-public class HistoryProjectorBean extends GenericDomainComponentBean implements HistoryProjector {
+public class HistoryProjectorBean extends DomainComponentBean implements HistoryProjector {
 
     @Autowired
     private GroupProvider groupProvider;

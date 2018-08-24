@@ -9,7 +9,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Chat group operations facade implementation.
@@ -17,7 +17,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDom
  * @author Ilia Gubarev
  */
 @Service
-public class GroupFacadeBean extends GenericDomainComponentBean implements GroupFacade {
+public class GroupFacadeBean extends DomainComponentBean implements GroupFacade {
 
     @Autowired
     private GroupProjector groupProjector;

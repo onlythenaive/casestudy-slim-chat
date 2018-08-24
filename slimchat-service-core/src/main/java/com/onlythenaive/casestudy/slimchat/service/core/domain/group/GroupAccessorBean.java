@@ -5,7 +5,7 @@ import java.util.Collection;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
 
 /**
  * Chat group accessor implementation.
@@ -13,7 +13,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDom
  * @author Ilia Gubarev
  */
 @Service
-public class GroupAccessorBean extends GenericDomainAccessorBean<GroupEntity> implements GroupAccessor {
+public class GroupAccessorBean extends DomainAccessorBean<GroupEntity> implements GroupAccessor {
 
     @Override
     public GroupEntity ensureAccess(AccessLevel level, GroupEntity subject) {

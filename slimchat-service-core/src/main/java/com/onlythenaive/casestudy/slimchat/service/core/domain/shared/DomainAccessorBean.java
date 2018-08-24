@@ -12,11 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Ilia Gubarev
  */
-public abstract class GenericDomainAccessorBean<E> extends GenericDomainComponentBean
-        implements GenericDomainAccessor<E> {
+public abstract class DomainAccessorBean<E> extends DomainComponentBean
+        implements DomainAccessor<E> {
 
     @Autowired
-    private GenericDomainRepository<E> repository;
+    private DomainRepository<E> repository;
 
     @Override
     public E accessById(AccessLevel level, String id) {

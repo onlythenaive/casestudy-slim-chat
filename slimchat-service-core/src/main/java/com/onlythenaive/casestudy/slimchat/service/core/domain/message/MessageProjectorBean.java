@@ -9,10 +9,10 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 @Service
-public class MessageProjectorBean extends GenericDomainComponentBean implements MessageProjector {
+public class MessageProjectorBean extends DomainComponentBean implements MessageProjector {
 
     @Autowired
     private GroupProvider groupProvider;

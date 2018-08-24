@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Profile operations facade implementation.
@@ -12,7 +12,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.GenericDom
  * @author Ilia Gubarev
  */
 @Service
-public class ProfileFacadeBean extends GenericDomainComponentBean implements ProfileFacade {
+public class ProfileFacadeBean extends DomainComponentBean implements ProfileFacade {
 
     @Autowired
     private ProfileAccessor profileAccessor;
