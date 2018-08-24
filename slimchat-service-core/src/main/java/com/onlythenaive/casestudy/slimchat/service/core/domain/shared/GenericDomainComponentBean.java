@@ -21,8 +21,27 @@ public abstract class GenericDomainComponentBean extends GenericComponentBean {
     @Autowired
     private AuthenticationContext authenticationContext;
 
+    @Deprecated
     protected Account authenticated() {
         return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
+    }
+
+    /**
+     * Retrieves the current principal.
+     *
+     * @return the current principal.
+     */
+    protected Account principal() {
+        return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
+    }
+
+    /**
+     * Retrieves the ID of the current principal.
+     *
+     * @return the ID of the current principal.
+     */
+    protected String principalId() {
+        return principal().getId();
     }
 
     /**
