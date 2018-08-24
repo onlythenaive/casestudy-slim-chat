@@ -56,7 +56,7 @@ public class HistoryProjectorBean extends DomainComponentBean implements History
 
     private Collection<Message> projectMessages(Collection<String> messageIds) {
         return this.messageRepository.findAllById(messageIds).stream()
-                .map(this.messageProjector::intoMessage)
+                .map(this.messageProjector::project)
                 .collect(Collectors.toList());
     }
 }

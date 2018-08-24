@@ -14,6 +14,11 @@ import org.springframework.lang.Nullable;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
 
+/**
+ * Chat message.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -29,9 +34,6 @@ public class MessageEntity implements DomainEntity {
 
     @Field
     private String authorId;
-
-    @Field
-    private boolean personal;
 
     @Field
     @Nullable

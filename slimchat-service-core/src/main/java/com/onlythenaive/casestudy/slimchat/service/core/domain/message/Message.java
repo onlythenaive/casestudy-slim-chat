@@ -10,6 +10,11 @@ import lombok.NoArgsConstructor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 
+/**
+ * Chat message.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -19,7 +24,6 @@ public class Message {
     private String id;
     private String text;
     private Profile author;
-    private boolean personal;
     private Profile recipient;
     private Group group;
     private Instant createdAt;

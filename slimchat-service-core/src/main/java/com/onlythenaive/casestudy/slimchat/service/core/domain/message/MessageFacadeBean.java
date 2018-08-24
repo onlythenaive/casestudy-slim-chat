@@ -3,57 +3,56 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupEntity;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupAccessor;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
 
+/**
+ * Chat message operations facade implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class MessageFacadeBean extends DomainComponentBean implements MessageFacade {
 
-    private GroupRepository groupRepository;
+    @Autowired
+    private GroupAccessor groupAccessor;
+
+    @Autowired
+    private MessagePersister messagePersister;
 
     @Autowired
     private MessageProjector messageProjector;
 
     @Autowired
-    private MessageRepository messageRepository;
-
-    @Autowired
-    private ProfileRepository profileRepository;
+    private ProfileAccessor profileAccessor;
 
     @Override
-    public Message createMessage(MessageInvoice invoice) {
-        if (invoice.getPersonal()) {
-            String recipientId = invoice.getRecipientId();
-            ProfileEntity profileEntity = this.profileRepository.findById(recipientId).orElseThrow(RuntimeException::new);
-            // TODO: check recipient in the contacts
-        } else {
-            String groupId = invoice.getGroupId();
-            GroupEntity groupEntity = this.groupRepository.findById(groupId).orElseThrow(RuntimeException::new);
-            // TODO: check participation in the group
+    public Message create(MessageInvoice invoice) {
+        ensurePermission(invoice);
+        MessageEntity entity = messageFromInvoice(invoice);
+        this.messagePersister.insert(entity);
+        return this.messageProjector.project(entity);
+    }
+
+    private void ensurePermission(MessageInvoice invoice) {
+        ProfileEntity recipient = this.profileAccessor.accessById(AccessLevel.PREVIEW, invoice.getRecipientId());
+        if (!recipient.getConnectedUserIds().contains(principalId())) {
+            throw insufficientPrivileges();
         }
-        MessageEntity entity = MessageEntity.builder()
+        this.groupAccessor.accessById(AccessLevel.CONTRIBUTE, invoice.getGroupId());
+    }
+
+    private MessageEntity messageFromInvoice(MessageInvoice invoice) {
+        return MessageEntity.builder()
                 .id(uuid())
                 .authorId(principalId())
                 .text(invoice.getText())
-                .personal(invoice.getPersonal())
                 .recipientId(invoice.getRecipientId())
                 .groupId(invoice.getGroupId())
                 .createdAt(now())
-                .build();
-        this.messageRepository.insert(entity);
-        return this.messageProjector.intoMessage(entity);
-    }
-
-    private OperationException chatNotFound() {
-        throw OperationException.builder()
-                .category(ExceptionCategory.LOGIC)
-                .comment("Chat does not exist")
-                .textcode("x.logic.chat.not-found")
                 .build();
     }
 }

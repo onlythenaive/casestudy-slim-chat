@@ -5,6 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Chat message invoice.
+ *
+ * @author Ilia Gubarev
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -12,7 +17,6 @@ import lombok.NoArgsConstructor;
 public class MessageInvoice {
 
     private String text;
-    private Boolean personal;
     private String recipientId;
     private String groupId;
 }
