@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptor;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptorService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**

@@ -36,7 +36,7 @@ public class WebConfiguration implements WebMvcConfigurer {
      */
     @Bean
     public ViewResolver viewResolver() {
-        TemplateLoader templateLoader = new ClassPathTemplateLoader("/templates/views/");
+        TemplateLoader templateLoader = new ClassPathTemplateLoader("/views/");
         Handlebars handlebars = new Handlebars(templateLoader);
         return new HandlebarsViewResolver(handlebars);
     }
