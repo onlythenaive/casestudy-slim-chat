@@ -1,60 +1,25 @@
-<h1>Contacts: {{data.groupName}}</h1>
-
-<ul>
-    <li><a href="/view/contacts">My contacts</a></li>
-    <li><a href="/view/contacts/pending">Pending requests</a></li>
-    <li><a href="/view/contacts/requested">Requests to me</a></li>
-</ul>
+<h1>My contacts</h1>
 
 <hr/>
 
 <div style="width: 400px;">
     {{#data.contacts}}
 
-        {{#if own}}
-            <div>
-                {{acceptor.accountName}}
-            </div>
-        {{else}}
-            <div>
-                {{initiator.accountName}}
-            </div>
-        {{/if}}
+        <div>
+            {{accountName}}
+        </div>
 
-        {{#unless accepted}}
-            <div>
-                <div>
-                    {{introduction}}
-                </div>
-                <div>
-                    {{#if own}}
-                        <form action="/view/contacts/pending" method="post">
-                            <input name="contactId" type="hidden" value="{{id}}">
-                            <button type="submit">Cancel request</button>
-                        </form>
-                    {{else}}
-                        <form action="/view/contacts/requested" method="post">
-                            <input name="contactId" type="hidden" value="{{id}}">
-                            <button type="submit">Accept contact</button>
-                        </form>
-                    {{/if}}
-                </div>
-            </div>
-        {{/unless}}
-
-        {{#if accepted}}
-            <div>
-                <form action="/view/message/new" method="post">
-                    <button type="submit">Write message</button>
-                </form>
-            </div>
-            <div>
-                <form action="/view/contacts" method="post">
-                    <input name="contactId" type="hidden" value="{{id}}">
-                    <button type="submit">Remove from contacts</button>
-                </form>
-            </div>
-        {{/if}}
+        <div>
+            <form action="/view/chat/{{accountName}}" method="get">
+                <button type="submit">Write message</button>
+            </form>
+        </div>
+        <div>
+            <form action="/view/contacts/delete" method="post">
+                <input name="accountId" type="hidden" value="{{id}}">
+                <button type="submit">Remove from contacts</button>
+            </form>
+        </div>
 
         <hr/>
     {{/data.contacts}}
