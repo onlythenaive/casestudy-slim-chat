@@ -3,6 +3,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.contact;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAccessor;
@@ -18,6 +19,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Acce
  *
  * @author Ilia Gubarev
  */
+@Service
 public class ContactFacadeBean extends GenericComponentBean implements ContactFacade {
 
     @Autowired(required = false)
