@@ -12,7 +12,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePe
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.Proposal;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.ProposalActionAware;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**

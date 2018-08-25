@@ -1,18 +1,18 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.persistence;
 
 import java.util.Optional;
 
 /**
- * Generic domain entity accessor.
+ * Persisted entity accessor.
  *
- * @param <E> the type of a domain entity.
+ * @param <E> the type of a persisted entity.
  *
  * @author Ilia Gubarev
  */
-public interface DomainAccessor<E extends DomainEntity> {
+public interface EntityAccessor<E extends PersistedEntity> {
 
     /**
-     * Ensures if principal has sufficient privileges for provided entity.
+     * Ensures if current operation has sufficient privileges for provided entity.
      *
      * @param level required access level.
      * @param subject the entity to be checked.

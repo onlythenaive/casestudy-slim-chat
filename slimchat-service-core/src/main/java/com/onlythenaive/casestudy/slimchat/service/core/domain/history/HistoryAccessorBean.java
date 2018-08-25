@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
 
 /**
@@ -22,7 +22,7 @@ public class HistoryAccessorBean extends DomainAccessorBean<HistoryEntity> imple
     }
 
     @Override
-    protected String entityName() {
+    protected String getEntityName() {
         return "history";
     }
 }

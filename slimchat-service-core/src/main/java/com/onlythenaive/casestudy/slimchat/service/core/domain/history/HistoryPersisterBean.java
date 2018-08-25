@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
 /**
  * Chat history persister implementation.
@@ -10,6 +10,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPers
  * @author Ilia Gubarev
  */
 @Service
-public class HistoryPersisterBean extends DomainPersisterBean<HistoryEntity> implements HistoryPersister {
+public class HistoryPersisterBean extends GenericPersisterBean<HistoryEntity> implements HistoryPersister {
 
 }

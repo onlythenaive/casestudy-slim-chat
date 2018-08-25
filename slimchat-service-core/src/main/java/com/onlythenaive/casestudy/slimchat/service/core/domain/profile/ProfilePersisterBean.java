@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
 /**
  * User profile persister implementation.
@@ -10,6 +10,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPers
  * @author Ilia Gubarev
  */
 @Service
-public class ProfilePersisterBean extends DomainPersisterBean<ProfileEntity> implements ProfilePersister {
+public class ProfilePersisterBean extends GenericPersisterBean<ProfileEntity> implements ProfilePersister {
 
 }

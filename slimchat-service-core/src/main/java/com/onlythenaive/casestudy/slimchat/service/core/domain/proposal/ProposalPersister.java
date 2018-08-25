@@ -1,12 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersister;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityPersister;
 
 /**
  * Connection proposal persister.
  *
  * @author Ilia Gubarev
  */
-public interface ProposalPersister extends DomainPersister<ProposalEntity> {
+public interface ProposalPersister extends EntityPersister<ProposalEntity> {
 
 }

@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
 
 /**
@@ -31,6 +31,11 @@ public class GroupAccessorBean extends DomainAccessorBean<GroupEntity> implement
         }
     }
 
+    @Override
+    protected String getEntityName() {
+        return "group";
+    }
+
     private GroupEntity ensureParticipation(GroupEntity entity) {
         ensureInclusion(entity.getParticipantIds());
         return entity;
@@ -45,10 +50,5 @@ public class GroupAccessorBean extends DomainAccessorBean<GroupEntity> implement
         if (!userIds.contains(principalId())) {
             throw insufficientPrivileges();
         }
-    }
-
-    @Override
-    protected String entityName() {
-        return "group";
     }
 }

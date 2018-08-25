@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
 /**
  * Chat group persister implementation.
@@ -10,6 +10,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPers
  * @author Ili Gubarev
  */
 @Service
-public class GroupPersisterBean extends DomainPersisterBean<GroupEntity> implements GroupPersister {
+public class GroupPersisterBean extends GenericPersisterBean<GroupEntity> implements GroupPersister {
 
 }

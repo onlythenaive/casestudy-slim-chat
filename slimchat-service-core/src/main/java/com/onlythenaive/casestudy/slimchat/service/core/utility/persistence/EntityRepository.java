@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.persistence;
 
 import java.util.Collection;
 
@@ -6,14 +6,14 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 /**
- * Generic domain entity repository.
+ * Generic entity repository.
  *
- * @param <E> the type of a domain entity.
+ * @param <E> the type of a persisted entity.
  *
  * @author Ilia Gubarev
  */
 @NoRepositoryBean
-public interface DomainRepository<E extends DomainEntity> extends MongoRepository<E, String> {
+public interface EntityRepository<E extends PersistedEntity> extends MongoRepository<E, String> {
 
     @Override
     Collection<E> findAllById(Iterable<String> ids);

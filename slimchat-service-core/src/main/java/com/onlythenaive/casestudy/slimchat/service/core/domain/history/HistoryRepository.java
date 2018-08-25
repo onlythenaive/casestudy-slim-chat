@@ -2,14 +2,14 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
 import java.util.Collection;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityRepository;
 
 /**
  * Chat history repository.
  *
  * @author Ilia Gubarev
  */
-public interface HistoryRepository extends DomainRepository<HistoryEntity> {
+public interface HistoryRepository extends EntityRepository<HistoryEntity> {
 
     /**
      * Finds chat histories by their owner ID.

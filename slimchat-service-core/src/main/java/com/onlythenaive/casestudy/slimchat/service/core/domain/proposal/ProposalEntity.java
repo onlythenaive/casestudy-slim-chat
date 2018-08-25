@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
  * Connection proposal entity.
@@ -24,7 +24,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEnti
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "proposals")
-public class ProposalEntity implements DomainEntity {
+public class ProposalEntity implements PersistedEntity {
 
     @Id
     private String id;

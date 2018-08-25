@@ -12,10 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
- * Chat message.
+ * Chat message entity.
  *
  * @author Ilia Gubarev
  */
@@ -24,7 +24,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEnti
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "messages")
-public class MessageEntity implements DomainEntity {
+public class MessageEntity implements PersistedEntity {
 
     @Id
     private String id;

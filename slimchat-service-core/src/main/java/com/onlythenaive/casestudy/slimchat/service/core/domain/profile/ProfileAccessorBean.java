@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
 
 /**
@@ -31,7 +31,7 @@ public class ProfileAccessorBean extends DomainAccessorBean<ProfileEntity> imple
     }
 
     @Override
-    protected String entityName() {
+    protected String getEntityName() {
         return "profile";
     }
 

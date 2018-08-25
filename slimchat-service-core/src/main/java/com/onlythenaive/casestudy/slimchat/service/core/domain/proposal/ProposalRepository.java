@@ -2,14 +2,14 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
 import java.util.Collection;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityRepository;
 
 /**
  * Connection proposal repository.
  *
  * @author Ilia Gubarev
  */
-public interface ProposalRepository extends DomainRepository<ProposalEntity> {
+public interface ProposalRepository extends EntityRepository<ProposalEntity> {
 
     /**
      * Checks if a proposal exists between specified users.

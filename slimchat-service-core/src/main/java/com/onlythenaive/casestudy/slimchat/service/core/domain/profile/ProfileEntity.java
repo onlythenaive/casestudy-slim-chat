@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
  * User profile entity.
@@ -26,7 +26,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEnti
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "profiles")
-public class ProfileEntity implements DomainEntity {
+public class ProfileEntity implements PersistedEntity {
 
     @Field
     @Id

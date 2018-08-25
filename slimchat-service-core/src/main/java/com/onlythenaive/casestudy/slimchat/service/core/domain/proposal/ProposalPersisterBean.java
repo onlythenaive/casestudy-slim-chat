@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
 /**
  * Connection proposal persister implementation.
@@ -10,6 +10,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPers
  * @author Ilia Gubarev
  */
 @Service
-public class ProposalPersisterBean extends DomainPersisterBean<ProposalEntity> implements ProposalPersister {
+public class ProposalPersisterBean extends GenericPersisterBean<ProposalEntity> implements ProposalPersister {
 
 }

@@ -1,9 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
 
-import java.util.Optional;
-import java.util.function.Supplier;
-
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityAccessor;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
  * Generic domain entity accessor implementation.
@@ -12,32 +15,27 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Ilia Gubarev
  */
-public abstract class DomainAccessorBean<E extends DomainEntity> extends DomainComponentBean
-        implements DomainAccessor<E> {
+public abstract class DomainAccessorBean<E extends PersistedEntity> extends GenericAccessorBean<E>
+        implements EntityAccessor<E> {
 
     @Autowired
-    private DomainRepository<E> repository;
+    private AuthenticationContext authenticationContext;
 
-    @Override
-    public E accessById(AccessLevel level, String id) {
-        return accessByIdIfAny(level, id).orElseThrow(() -> notFoundById(entityName(), id));
-    }
-
-    @Override
-    public Optional<E> accessByIdIfAny(AccessLevel level, String id) {
-        return accessIfAny(level, () -> this.repository.findById(id));
+    /**
+     * Retrieves the current principal.
+     *
+     * @return the current principal.
+     */
+    protected Account principal() {
+        return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
     }
 
     /**
-     * Gets the name of the domain entity.
+     * Retrieves the ID of the current principal.
      *
-     * @return the entity name.
+     * @return the ID of the current principal.
      */
-    protected abstract String entityName();
-
-    private Optional<E> accessIfAny(AccessLevel level, Supplier<Optional<E>> supplier) {
-        Optional<E> optionalSubject = supplier.get();
-        optionalSubject.ifPresent(subject -> ensureAccess(level, subject));
-        return optionalSubject;
+    protected String principalId() {
+        return principal().getId();
     }
 }

@@ -1,19 +1,21 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.persistence;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
+
 /**
- * Generic domain persister implementation.
+ * Generic entity persister implementation.
  *
- * @param <E> the type of a domain entity.
+ * @param <E> the type of an entity.
  *
  * @author Ilia Gubarev
  */
-public abstract class DomainPersisterBean<E extends DomainEntity> extends DomainComponentBean
-        implements DomainPersister<E> {
+public abstract class GenericPersisterBean<E extends PersistedEntity> extends GenericComponentBean
+        implements EntityPersister<E> {
 
     @Autowired
-    private DomainRepository<E> repository;
+    private EntityRepository<E> repository;
 
     @Override
     public void insert(E entity) {

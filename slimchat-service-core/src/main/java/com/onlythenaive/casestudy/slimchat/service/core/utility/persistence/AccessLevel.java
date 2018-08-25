@@ -1,14 +1,14 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.persistence;
 
 /**
- * Resource access level.
+ * Persisted entity access level.
  *
  * @author Ili Gubarev
  */
 public enum AccessLevel {
 
     /**
-     * Access level-based control is bypassed.
+     * Access control is bypassed.
      */
     BYPASS,
 

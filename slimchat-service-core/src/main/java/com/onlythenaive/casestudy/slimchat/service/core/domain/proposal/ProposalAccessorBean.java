@@ -2,8 +2,8 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.AccessLevel;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 
 /**
  * Connection proposal accessor implementation.
@@ -22,7 +22,7 @@ public class ProposalAccessorBean extends DomainAccessorBean<ProposalEntity> imp
     }
 
     @Override
-    protected String entityName() {
+    protected String getEntityName() {
         return "proposal";
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
  * Chat group entity.
@@ -25,7 +25,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainEnti
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "groups")
-public class GroupEntity implements DomainEntity {
+public class GroupEntity implements PersistedEntity {
 
     @Id
     private String id;

@@ -2,7 +2,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPersisterBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
 /**
  * Chat message persister implementation.
@@ -10,6 +10,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainPers
  * @author Ili Gubarev
  */
 @Service
-public class MessagePersisterBean extends DomainPersisterBean<MessageEntity> implements MessagePersister {
+public class MessagePersisterBean extends GenericPersisterBean<MessageEntity> implements MessagePersister {
 
 }
