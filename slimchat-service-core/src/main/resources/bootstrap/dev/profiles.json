@@ -1,0 +1,33 @@
+[
+  {
+    "id": "account-id-for-alice",
+    "accountName": "alice",
+    "email": "alice.anderson@mail.net",
+    "firstname": "Alice",
+    "lastname": "Anderson",
+    "status": "Ooh.. I'm now also here!"
+  },
+  {
+    "id": "account-id-for-john",
+    "accountName": "john",
+    "email": "john.smith@mail.net",
+    "firstname": "John",
+    "lastname": "Smith",
+    "status": "Who the hell has imagined my name?"
+  },
+  {
+    "id": "account-id-for-maria",
+    "accountName": "maria",
+    "email": "maria.tomassino@mail.net",
+    "firstname": "Maria",
+    "lastname": "Tomassino",
+    "status": "Viva Italia!"
+  },
+  {
+    "id": "account-id-for-stephan",
+    "accountName": "stephan",
+    "email": "stephan.wang@mail.net",
+    "firstname": "Stephan",
+    "lastname": "Wang"
+  }
+]

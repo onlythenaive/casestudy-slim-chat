@@ -1,11 +1,18 @@
 [
   {
-    "name": "user1"
+    "id": "account-id-for-alice",
+    "name": "alice"
   },
   {
-    "name": "user2"
+    "id": "account-id-for-john",
+    "name": "john"
   },
   {
-    "name": "user3"
+    "id": "account-id-for-maria",
+    "name": "maria"
+  },
+  {
+    "id": "account-id-for-stephan",
+    "name": "stephan"
   }
 ]
