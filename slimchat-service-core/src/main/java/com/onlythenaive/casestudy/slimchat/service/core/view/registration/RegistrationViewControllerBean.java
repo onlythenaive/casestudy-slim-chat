@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -17,7 +17,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewC
 public class RegistrationViewControllerBean extends GenericViewControllerBean {
 
     @Autowired
-    private SecurityFacade securityFacade;
+    private AccountFacade accountFacade;
 
     @GetMapping
     public ModelAndView get() {
@@ -27,7 +27,7 @@ public class RegistrationViewControllerBean extends GenericViewControllerBean {
     @PostMapping
     public ModelAndView post(RegistrationFormData data) {
         ensurePasswordDuplicate(data);
-        this.securityFacade.createAccount(data.getAccountName(), data.getAccountPassword());
+        this.accountFacade.create(data.getAccountName(), data.getAccountPassword());
         return view("registration-complete");
     }
 

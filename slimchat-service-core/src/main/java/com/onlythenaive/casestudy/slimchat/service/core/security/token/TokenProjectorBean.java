@@ -13,7 +13,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public class TokenProjectorBean extends GenericComponentBean implements TokenProjector {
 
     @Override
-    public Token intoToken(TokenEntity entity) {
+    public Token project(TokenEntity entity) {
         return Token.builder()
                 .id(entity.getId())
                 .accountId(entity.getAccountId())

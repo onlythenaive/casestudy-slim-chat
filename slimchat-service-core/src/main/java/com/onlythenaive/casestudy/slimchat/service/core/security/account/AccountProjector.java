@@ -13,5 +13,5 @@ public interface AccountProjector {
      * @param entity an entity to be projected.
      * @return the resulting projection.
      */
-    Account intoAccount(AccountEntity entity);
+    Account project(AccountEntity entity);
 }

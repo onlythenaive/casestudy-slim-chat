@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     private String id;
-
     private String name;
     private String passwordHash;
     private Instant createdAt;

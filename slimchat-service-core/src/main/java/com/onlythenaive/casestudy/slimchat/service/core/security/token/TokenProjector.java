@@ -13,5 +13,5 @@ public interface TokenProjector {
      * @param entity an entity to be projected.
      * @return the resulting projection.
      */
-    Token intoToken(TokenEntity entity);
+    Token project(TokenEntity entity);
 }

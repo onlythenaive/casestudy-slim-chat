@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
  * Security account entity.
@@ -21,13 +24,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "accounts")
-public class AccountEntity {
+public class AccountEntity implements PersistedEntity {
 
     @Id
     private String id;
 
+    @Field
     @Indexed
     private String name;
+
+    @Field
     private String passwordHash;
+
+    @Field
     private Instant createdAt;
+
+    @Field
+    private Instant lastModifiedAt;
 }

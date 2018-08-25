@@ -13,7 +13,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public class AccountProjectorBean extends GenericComponentBean implements AccountProjector {
 
     @Override
-    public Account intoAccount(AccountEntity entity) {
+    public Account project(AccountEntity entity) {
         return Account.builder()
                 .id(entity.getId())
                 .name(entity.getName())

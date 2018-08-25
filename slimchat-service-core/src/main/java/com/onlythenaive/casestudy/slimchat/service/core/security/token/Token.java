@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Security token for incoming request authentication.
+ * Security token for principal authentication.
  *
  * @author Ilia Gubarev
  */

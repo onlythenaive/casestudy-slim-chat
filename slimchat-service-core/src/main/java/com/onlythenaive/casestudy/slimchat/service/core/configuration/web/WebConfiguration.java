@@ -11,7 +11,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.springmvc.HandlebarsViewResolver;
-import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityInterceptor;
+import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationInterceptor;
 
 /**
  * Configuration of web components.
@@ -22,11 +22,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityInterce
 public class WebConfiguration implements WebMvcConfigurer {
 
     @Autowired
-    private SecurityInterceptor securityInterceptor;
+    private AuthenticationInterceptor authenticationInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(this.securityInterceptor);
+        registry.addInterceptor(this.authenticationInterceptor);
     }
 
     /**

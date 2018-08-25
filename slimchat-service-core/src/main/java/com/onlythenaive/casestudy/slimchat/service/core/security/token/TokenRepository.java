@@ -1,12 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityRepository;
 
 /**
  * Security token repository.
  *
  * @author Ilia Gubarev
  */
-public interface TokenRepository extends MongoRepository<TokenEntity, String> {
+public interface TokenRepository extends EntityRepository<TokenEntity> {
 
 }

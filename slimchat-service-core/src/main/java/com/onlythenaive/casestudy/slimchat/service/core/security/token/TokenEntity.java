@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.PersistedEntity;
 
 /**
  * Security token entity.
@@ -20,11 +23,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "tokens")
-public class TokenEntity {
+public class TokenEntity implements PersistedEntity {
 
     @Id
     private String id;
 
+    @Field
     private String accountId;
+
+    @Field
     private Instant createdAt;
+
+    @Field
+    private Instant lastModifiedAt;
 }
