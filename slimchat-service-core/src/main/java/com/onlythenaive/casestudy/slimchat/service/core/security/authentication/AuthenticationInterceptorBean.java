@@ -5,15 +5,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
+import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenContextConfigurator;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.http.HttpRequestWrapper;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.http.HttpResponseWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.principal.Principal;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.principal.PrincipalContextConfigurator;
 
@@ -32,6 +35,9 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
     private PrincipalContextConfigurator principalContextConfigurator;
 
     @Autowired
+    private TokenContextConfigurator tokenContextConfigurator;
+
+    @Autowired
     private TokenProvider tokenProvider;
 
     @Override
@@ -41,6 +47,11 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
                 .securityTokenId()
                 .ifPresent(this::authenticateByTokenIdIfPossible);
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mv) {
+        provideTokenIdWithResponse(response);
     }
 
     private void authenticateByTokenIdIfPossible(String tokenId) {
@@ -57,6 +68,7 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
         Account account = this.accountProvider.findById(accountId).orElseThrow(this::authenticationFailed);
         Principal principal = principalFromAccount(account);
         this.principalContextConfigurator.setPrincipal(principal);
+        this.tokenContextConfigurator.setProvided(token);
         logger().info("Authenticated with token " + tokenId);
     }
 
@@ -65,6 +77,18 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
                 .id(account.getId())
                 .name(account.getName())
                 .build();
+    }
+
+    private void provideTokenIdWithResponse(HttpServletResponse response) {
+        String tokenId = null;
+        Token generatedToken = this.tokenContextConfigurator.getGenerated().orElse(null);
+        Token providedToken = this.tokenContextConfigurator.getProvided().orElse(null);
+        if (providedToken != null) {
+            tokenId = providedToken.getId();
+        } else if (generatedToken != null) {
+            tokenId = generatedToken.getId();
+        }
+        HttpResponseWrapper.from(response).securityTokenId(tokenId);
     }
 
     private OperationException authenticationFailed() {

@@ -1,7 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +13,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 @Service
 public class TokenGeneratorBean extends GenericComponentBean implements TokenGenerator {
 
-    @Autowired(required = false)
-    private Collection<TokenActionAware> tokenActionHandlers;
+    @Autowired
+    private TokenContextConfigurator tokenContextConfigurator;
 
     @Autowired
     private TokenPersister tokenPersister;
@@ -29,8 +27,8 @@ public class TokenGeneratorBean extends GenericComponentBean implements TokenGen
         TokenEntity entity = generate(accountId);
         this.tokenPersister.insert(entity);
         Token token = this.tokenProjector.project(entity);
+        this.tokenContextConfigurator.setGenerated(token);
         logger().debug("Created a new security token with ID = {}", token.getId());
-        handleAction(this.tokenActionHandlers, handler -> handler.onTokenCreated(token));
         return token;
     }
 

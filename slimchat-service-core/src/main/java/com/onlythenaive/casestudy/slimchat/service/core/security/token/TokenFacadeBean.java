@@ -1,7 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +24,8 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
     @Autowired
     private PasswordHashService passwordHashService;
 
-    @Autowired(required = false)
-    private Collection<TokenActionAware> tokenActionHandlers;
+    @Autowired
+    private TokenContextConfigurator tokenContextConfigurator;
 
     @Autowired
     private TokenProvider tokenProvider;
@@ -52,8 +50,8 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
     public void deleteById(String id) {
         this.tokenProvider.findById(id).ifPresent(token -> {
             this.tokenRepository.deleteById(id);
+            this.tokenContextConfigurator.setProvided(null);
             logger().debug("Deleted a security token with ID = {}", token.getId());
-            handleAction(this.tokenActionHandlers, handler -> handler.onTokenDeleted(token));
         });
     }
 
