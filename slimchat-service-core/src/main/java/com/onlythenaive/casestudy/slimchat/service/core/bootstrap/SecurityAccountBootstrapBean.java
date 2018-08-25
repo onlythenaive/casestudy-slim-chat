@@ -11,7 +11,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountEntity;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountRepository;
-import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordHashService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.password.PasswordHashService;
 
 @BootstrapComponent
 @DependsOn("mongoDataStorageBootstrapBean")

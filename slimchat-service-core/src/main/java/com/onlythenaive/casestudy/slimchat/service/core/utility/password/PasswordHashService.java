@@ -1,24 +1,24 @@
-package com.onlythenaive.casestudy.slimchat.service.core.security.password;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.password;
 
 /**
- * Security account password service.
+ * Password hash service.
  *
  * @author Ilia Gubarev
  */
 public interface PasswordHashService {
 
     /**
-     * Generates a hash from specified account password.
+     * Generates a hash from specified password.
      *
-     * @param password account password.
+     * @param password a password to be processed.
      * @return password hash.
      */
     String hash(String password);
 
     /**
-     * Verifies specified account password against provided hash.
+     * Verifies specified password against provided hash.
      *
-     * @param password account password to be verified.
+     * @param password a password to be verified.
      * @param passwordHash password hash.
      * @return true if verification is successful.
      */

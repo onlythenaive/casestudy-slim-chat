@@ -11,7 +11,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationExcep
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationService;
-import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordHashService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.password.PasswordHashService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.Token;
 import com.onlythenaive.casestudy.slimchat.service.core.security.token.TokenService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;

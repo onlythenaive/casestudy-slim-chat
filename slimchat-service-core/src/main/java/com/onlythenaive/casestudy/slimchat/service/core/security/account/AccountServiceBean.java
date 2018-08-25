@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.security.password.PasswordHashService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.password.PasswordHashService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**

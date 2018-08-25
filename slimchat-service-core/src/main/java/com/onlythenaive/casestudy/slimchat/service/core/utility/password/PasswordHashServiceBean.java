@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.security.password;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.password;
 
 import org.springframework.stereotype.Service;
 
@@ -6,7 +6,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * Security account password service implementation.
+ * Password hash service implementation.
  *
  * @author Ilia Gubarev
  */
