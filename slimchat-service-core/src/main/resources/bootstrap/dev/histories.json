@@ -7,6 +7,13 @@
     ]
   },
   {
+    "ownerId": "account-id-for-john",
+    "referencedUserId": "account-id-for-alice",
+    "messageIds": [
+      "message-from-alice-to-john"
+    ]
+  },
+  {
     "id": "history-of-stephan-for-group",
     "ownerId": "account-id-for-stephan",
     "referencedGroupId": "group-between-alice-stephan-maria",
