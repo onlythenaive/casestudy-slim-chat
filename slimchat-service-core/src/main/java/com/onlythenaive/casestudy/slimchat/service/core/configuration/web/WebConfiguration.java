@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core;
+package com.onlythenaive.casestudy.slimchat.service.core.configuration.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
