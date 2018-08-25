@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptor;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptorService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.logging.LoggingService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
@@ -28,9 +27,6 @@ public abstract class GenericViewControllerBean extends GenericComponentBean {
 
     @Autowired
     private ExceptionDescriptorService exceptionDescriptorService;
-
-    @Autowired
-    private LoggingService loggingService;
 
     protected boolean isAuthenticated() {
         return this.authenticationContext.getAuthentication().isPresent();
@@ -104,6 +100,7 @@ public abstract class GenericViewControllerBean extends GenericComponentBean {
         switch (exception.getCategory()) {
             case VALIDATION:
             case CONFLICT:
+            case RESOURCE:
                 return badRequestError(exception);
             case SECURITY:
                 return securityError(exception);
@@ -120,6 +117,10 @@ public abstract class GenericViewControllerBean extends GenericComponentBean {
     protected ModelAndView handleException(Exception exception) {
         logError(exception);
         return unknownError(exception);
+    }
+
+    private void logError(Throwable throwable) {
+        logger().error("Error occurred", throwable);
     }
 
     private ModelAndView badRequestError(OperationException exception) {
@@ -146,9 +147,5 @@ public abstract class GenericViewControllerBean extends GenericComponentBean {
 
     private ExceptionDescriptor extractExceptionDescriptor(OperationException exception) {
         return this.exceptionDescriptorService.extract(exception);
-    }
-
-    private void logError(Exception exception) {
-        this.loggingService.error(exception);
     }
 }
