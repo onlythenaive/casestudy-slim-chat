@@ -59,7 +59,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
 
     @Override
     public void accept(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MODERATE, id);
+        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MANAGE, id);
         if (!entity.getAcceptorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
@@ -70,7 +70,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
 
     @Override
     public void cancel(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MODERATE, id);
+        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MANAGE, id);
         if (!entity.getInitiatorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
@@ -81,7 +81,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
 
     @Override
     public void reject(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MODERATE, id);
+        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MANAGE, id);
         if (!entity.getAcceptorId().equals(principalId())) {
             throw insufficientPrivileges();
         }

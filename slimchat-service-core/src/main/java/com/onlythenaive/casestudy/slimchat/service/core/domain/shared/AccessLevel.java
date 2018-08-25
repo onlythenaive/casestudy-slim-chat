@@ -8,6 +8,11 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
 public enum AccessLevel {
 
     /**
+     * Access level-based control is bypassed.
+     */
+    BYPASS,
+
+    /**
      * Brief information available only.
      */
     PREVIEW,
@@ -30,5 +35,5 @@ public enum AccessLevel {
     /**
      * High-privileged update access for crucial operations, f.e. deleting.
      */
-    MODERATE
+    MANAGE
 }

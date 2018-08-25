@@ -18,12 +18,13 @@ public class GroupAccessorBean extends DomainAccessorBean<GroupEntity> implement
     @Override
     public GroupEntity ensureAccess(AccessLevel level, GroupEntity subject) {
         switch (level) {
+            case BYPASS:
             case PREVIEW:
             case VIEW:
             case CONTRIBUTE:
                 return ensureParticipation(subject);
             case EDIT:
-            case MODERATE:
+            case MANAGE:
                 return ensureModeration(subject);
             default:
                 throw notSupported();

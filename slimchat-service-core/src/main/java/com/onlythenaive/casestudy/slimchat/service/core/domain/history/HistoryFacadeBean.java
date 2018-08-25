@@ -37,7 +37,7 @@ public class HistoryFacadeBean extends DomainComponentBean implements HistoryFac
 
     @Override
     public void remove(String id) {
-        this.historyAccessor.accessById(AccessLevel.MODERATE, id);
+        this.historyAccessor.accessById(AccessLevel.MANAGE, id);
         this.historyRepository.deleteById(id);
     }
 }

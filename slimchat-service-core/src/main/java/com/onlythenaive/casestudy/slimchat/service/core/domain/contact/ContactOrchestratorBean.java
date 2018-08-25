@@ -39,8 +39,8 @@ public class ContactOrchestratorBean extends DomainComponentBean implements Prop
     public void onProposalAccepted(Proposal proposal) {
         String acceptorId = proposal.getAcceptor().getId();
         String initiatorId = proposal.getAcceptor().getId();
-        ProfileEntity acceptorEntity = this.profileAccessor.accessById(AccessLevel.PREVIEW, acceptorId);
-        ProfileEntity initiatorEntity = this.profileAccessor.accessById(AccessLevel.PREVIEW, initiatorId);
+        ProfileEntity acceptorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, acceptorId);
+        ProfileEntity initiatorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, initiatorId);
         acceptorEntity.getConnectedUserIds().add(initiatorId);
         initiatorEntity.getConnectedUserIds().add(acceptorId);
         this.profilePersister.update(acceptorEntity);

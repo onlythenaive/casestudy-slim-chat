@@ -42,8 +42,8 @@ public class ContactFacadeBean extends DomainComponentBean implements ContactFac
 
     @Override
     public void remove(String profileId) {
-        ProfileEntity actorEntity = this.profileAccessor.accessById(AccessLevel.PREVIEW, principalId());
-        ProfileEntity objectEntity = this.profileAccessor.accessById(AccessLevel.PREVIEW, profileId);
+        ProfileEntity actorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, principalId());
+        ProfileEntity objectEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, profileId);
         actorEntity.getConnectedUserIds().remove(profileId);
         objectEntity.getConnectedUserIds().remove(principalId());
         this.profilePersister.update(actorEntity);

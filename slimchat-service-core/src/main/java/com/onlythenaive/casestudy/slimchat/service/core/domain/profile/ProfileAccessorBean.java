@@ -16,13 +16,15 @@ public class ProfileAccessorBean extends DomainAccessorBean<ProfileEntity> imple
     @Override
     public ProfileEntity ensureAccess(AccessLevel level, ProfileEntity subject) {
         switch (level) {
+            case BYPASS:
             case PREVIEW:
                 return subject;
             case VIEW:
                 return ensureAccessForView(subject);
+            case CONTRIBUTE:
             case EDIT:
                 return ensureAccessForUpdate(subject);
-            case MODERATE:
+            case MANAGE:
             default:
                 throw notSupported();
         }

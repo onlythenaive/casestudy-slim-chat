@@ -61,7 +61,7 @@ public class GroupFacadeBean extends DomainComponentBean implements GroupFacade 
 
     @Override
     public void inviteUser(String id, String userId) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MODERATE, id);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MANAGE, id);
         // TODO: check if user exists
         if (!entity.getParticipantIds().contains(userId)) {
             entity.getParticipantIds().add(id);
@@ -71,7 +71,7 @@ public class GroupFacadeBean extends DomainComponentBean implements GroupFacade 
 
     @Override
     public void promoteParticipant(String id, String participantId) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MODERATE, id);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MANAGE, id);
         if (entity.getParticipantIds().contains(participantId)) {
             entity.getModeratorIds().add(participantId);
         }
@@ -80,7 +80,7 @@ public class GroupFacadeBean extends DomainComponentBean implements GroupFacade 
 
     @Override
     public void kickParticipant(String id, String participantId) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MODERATE, id);
+        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MANAGE, id);
         entity.getParticipantIds().remove(participantId);
         entity.getModeratorIds().remove(participantId);
         // TODO: handle "last moderator" scenario
