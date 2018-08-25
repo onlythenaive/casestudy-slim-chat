@@ -12,8 +12,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePe
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.Proposal;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.ProposalActionAware;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Contact orchestrator implementation.
@@ -21,7 +21,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class ContactOrchestratorBean extends DomainComponentBean implements ProposalActionAware {
+public class ContactOrchestratorBean extends GenericComponentBean implements ProposalActionAware {
 
     @Autowired(required = false)
     private Collection<ContactActionAware> contactActionHandlers;

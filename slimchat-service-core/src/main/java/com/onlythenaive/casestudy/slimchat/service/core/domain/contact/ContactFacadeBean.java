@@ -10,15 +10,15 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEn
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePersister;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Contact operations facade implementation.
  *
  * @author Ilia Gubarev
  */
-public class ContactFacadeBean extends DomainComponentBean implements ContactFacade {
+public class ContactFacadeBean extends GenericComponentBean implements ContactFacade {
 
     @Autowired(required = false)
     private Collection<ContactActionAware> contactActionHandlers;

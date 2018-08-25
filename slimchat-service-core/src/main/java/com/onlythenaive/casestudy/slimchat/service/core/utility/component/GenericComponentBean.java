@@ -8,8 +8,12 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.principal.Principal;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.principal.PrincipalContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +23,9 @@ import org.slf4j.LoggerFactory;
  * @author Ilia Gubarev
  */
 public abstract class GenericComponentBean {
+
+    @Autowired
+    private PrincipalContext principalContext;
 
     private Logger logger;
 
@@ -132,6 +139,18 @@ public abstract class GenericComponentBean {
         if (actionHandlers != null) {
             actionHandlers.forEach(handlerProcessor);
         }
+    }
+
+    protected boolean isAuthenticated() {
+        return this.principalContext.getPrincipal().isPresent();
+    }
+
+    protected Principal principal() {
+        return this.principalContext.getPrincipal().orElseThrow(this::notAuthenticated);
+    }
+
+    protected String principalId() {
+        return principal().getId();
     }
 
     @PostConstruct

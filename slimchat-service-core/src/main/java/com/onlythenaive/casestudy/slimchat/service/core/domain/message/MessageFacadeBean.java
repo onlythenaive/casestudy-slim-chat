@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Chat message operations facade implementation.
@@ -17,7 +17,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class MessageFacadeBean extends DomainComponentBean implements MessageFacade {
+public class MessageFacadeBean extends GenericComponentBean implements MessageFacade {
 
     @Autowired
     private GroupAccessor groupAccessor;

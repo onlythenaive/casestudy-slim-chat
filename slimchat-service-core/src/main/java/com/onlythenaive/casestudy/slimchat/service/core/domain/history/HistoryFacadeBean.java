@@ -5,8 +5,8 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Chat history operation facade implementation.
@@ -14,7 +14,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class HistoryFacadeBean extends DomainComponentBean implements HistoryFacade {
+public class HistoryFacadeBean extends GenericComponentBean implements HistoryFacade {
 
     @Autowired
     private HistoryAccessor historyAccessor;

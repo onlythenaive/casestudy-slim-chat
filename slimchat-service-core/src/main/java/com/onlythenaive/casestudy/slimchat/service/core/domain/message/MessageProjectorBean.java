@@ -7,7 +7,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Chat message projector implementation.
@@ -15,7 +15,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class MessageProjectorBean extends DomainComponentBean implements MessageProjector {
+public class MessageProjectorBean extends GenericComponentBean implements MessageProjector {
 
     @Autowired
     private GroupProvider groupProvider;

@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileFacade;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
 @Controller
@@ -23,12 +22,9 @@ public class ProfileViewControllerBean extends GenericViewControllerBean {
     @Autowired
     private ProfileFacade profileFacade;
 
-    @Autowired
-    private AuthenticationContext authenticationContext;
-
     @GetMapping("/me")
     public ModelAndView getCurrent() {
-        String accountId = authenticated().getId();
+        String accountId = principalId();
         Profile profile = this.profileFacade.getById(accountId);
         return defaultView(data(profile, "profile/me"));
     }

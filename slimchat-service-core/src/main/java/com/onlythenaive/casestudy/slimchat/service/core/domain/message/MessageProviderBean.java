@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Chat message provider.
@@ -14,7 +14,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class MessageProviderBean extends DomainComponentBean implements MessageProvider {
+public class MessageProviderBean extends GenericComponentBean implements MessageProvider {
 
     @Autowired
     private MessageProjector messageProjector;

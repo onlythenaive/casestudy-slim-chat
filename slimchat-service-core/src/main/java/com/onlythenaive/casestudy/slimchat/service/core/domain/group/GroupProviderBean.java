@@ -5,8 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Chat group provider implementation.
@@ -14,7 +14,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class GroupProviderBean extends DomainComponentBean implements GroupProvider {
+public class GroupProviderBean extends GenericComponentBean implements GroupProvider {
 
     @Autowired
     private GroupAccessor groupAccessor;

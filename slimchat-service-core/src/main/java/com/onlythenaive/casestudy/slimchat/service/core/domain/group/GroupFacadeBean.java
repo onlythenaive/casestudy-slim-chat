@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 
 /**
  * Chat group operations facade implementation.
@@ -17,7 +17,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class GroupFacadeBean extends DomainComponentBean implements GroupFacade {
+public class GroupFacadeBean extends GenericComponentBean implements GroupFacade {
 
     @Autowired(required = false)
     private Collection<GroupActionAware> groupActionHandlers;

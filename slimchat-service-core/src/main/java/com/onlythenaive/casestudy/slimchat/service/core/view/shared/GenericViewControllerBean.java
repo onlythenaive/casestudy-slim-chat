@@ -12,7 +12,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.Except
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptorService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -23,18 +22,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public abstract class GenericViewControllerBean extends GenericComponentBean {
 
     @Autowired
-    private AuthenticationContext authenticationContext;
-
-    @Autowired
     private ExceptionDescriptorService exceptionDescriptorService;
-
-    protected boolean isAuthenticated() {
-        return this.authenticationContext.getAuthentication().isPresent();
-    }
-
-    protected Account authenticated() {
-        return this.authenticationContext.getAuthentication().orElseThrow(this::notAuthenticated).getAccount();
-    }
 
     protected ModelAndView defaultView() {
         return defaultView(null);

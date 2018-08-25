@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountActionAware;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * User profile orchestrator implementation.
@@ -15,7 +15,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
  * @author Ilia Gubarev
  */
 @Service
-public class ProfileOrchestratorBean extends DomainComponentBean implements AccountActionAware {
+public class ProfileOrchestratorBean extends GenericComponentBean implements AccountActionAware {
 
     @Autowired
     private ProfilePersister profilePersister;

@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * User profile projector implementation.
@@ -12,7 +12,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class ProfileProjectorBean extends DomainComponentBean implements ProfileProjector {
+public class ProfileProjectorBean extends GenericComponentBean implements ProfileProjector {
 
     @Override
     public Profile project(ProfileEntity entity) {

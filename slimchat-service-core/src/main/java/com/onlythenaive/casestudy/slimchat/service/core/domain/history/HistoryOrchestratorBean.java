@@ -7,7 +7,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupActionAware;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageActionAware;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Chat history orchestrator implementation.
@@ -15,7 +15,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class HistoryOrchestratorBean extends DomainComponentBean implements MessageActionAware, GroupActionAware {
+public class HistoryOrchestratorBean extends GenericComponentBean implements MessageActionAware, GroupActionAware {
 
     @Autowired
     private HistoryPersister historyPersister;

@@ -3,7 +3,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericAccessorBean;
 
 /**
  * Chat history accessor implementation.
@@ -11,7 +11,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainAcce
  * @author Ilia Gubarev
  */
 @Service
-public class HistoryAccessorBean extends DomainAccessorBean<HistoryEntity> implements HistoryAccessor {
+public class HistoryAccessorBean extends GenericAccessorBean<HistoryEntity> implements HistoryAccessor {
 
     @Override
     public HistoryEntity ensureAccess(AccessLevel level, HistoryEntity subject) {

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Connection proposal projector.
@@ -13,7 +13,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class ProposalProjectorBean extends DomainComponentBean implements ProposalProjector {
+public class ProposalProjectorBean extends GenericComponentBean implements ProposalProjector {
 
     @Autowired
     private ProfileProvider profileProvider;

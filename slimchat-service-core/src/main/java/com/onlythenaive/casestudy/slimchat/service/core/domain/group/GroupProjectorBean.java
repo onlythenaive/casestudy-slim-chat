@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Group chat projector service.
@@ -15,7 +15,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class GroupProjectorBean extends DomainComponentBean implements GroupProjector {
+public class GroupProjectorBean extends GenericComponentBean implements GroupProjector {
 
     @Autowired
     private ProfileProvider profileProvider;

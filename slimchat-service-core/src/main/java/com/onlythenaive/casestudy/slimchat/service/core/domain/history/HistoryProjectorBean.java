@@ -11,7 +11,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
  * Chat history projector implementation.
@@ -19,7 +19,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  * @author Ilia Gubarev
  */
 @Service
-public class HistoryProjectorBean extends DomainComponentBean implements HistoryProjector {
+public class HistoryProjectorBean extends GenericComponentBean implements HistoryProjector {
 
     @Autowired
     private GroupProvider groupProvider;
