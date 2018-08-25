@@ -1,19 +1,27 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.contact;
 
 import java.util.Collection;
-import java.util.Optional;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
+
+/**
+ * Contact operations facade.
+ *
+ * @author Ilia Gubarev
+ */
 public interface ContactFacade {
 
-    Contact acceptContactById(String id);
+    /**
+     * Retrieves all contacts of the current principal.
+     *
+     * @return the resulting contact collection.
+     */
+    Collection<Profile> find();
 
-    Optional<Contact> cancelContactById(String id);
-
-    Contact createContact(ContactInvoice invoice);
-
-    Collection<Contact> findAllAcceptedContacts();
-
-    Collection<Contact> findAllPendingContacts();
-
-    Collection<Contact> findAllRequestedContacts();
+    /**
+     * Removes a user from the contact list by its profile ID.
+     *
+     * @param profileId the ID of a user profile.
+     */
+    void remove(String profileId);
 }
