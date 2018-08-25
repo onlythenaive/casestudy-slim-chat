@@ -17,7 +17,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
 public class ProposalFacadeBean extends DomainComponentBean implements ProposalFacade {
 
     @Autowired(required = false)
-    private Collection<ProposalActionAware> proposalHandlers;
+    private Collection<ProposalActionAware> proposalActionHandlers;
 
     @Autowired
     private ProposalAccessor proposalAccessor;
@@ -43,7 +43,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
                 .build();
         this.proposalPersister.insert(entity);
         Proposal proposal = project(entity);
-        this.proposalHandlers.forEach(handler -> handler.onProposalCreated(proposal));
+        handleAction(this.proposalActionHandlers, handler -> handler.onProposalCreated(proposal));
         return proposal;
     }
 
@@ -65,7 +65,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
         }
         this.proposalRepository.deleteById(id);
         Proposal proposal = project(entity);
-        this.proposalHandlers.forEach(handler -> handler.onProposalAccepted(proposal));
+        handleAction(this.proposalActionHandlers, handler -> handler.onProposalAccepted(proposal));
     }
 
     @Override
@@ -76,7 +76,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
         }
         this.proposalRepository.deleteById(id);
         Proposal proposal = project(entity);
-        this.proposalHandlers.forEach(handler -> handler.onProposalCancelled(proposal));
+        handleAction(this.proposalActionHandlers, handler -> handler.onProposalCancelled(proposal));
     }
 
     @Override
@@ -87,7 +87,7 @@ public class ProposalFacadeBean extends DomainComponentBean implements ProposalF
         }
         this.proposalRepository.deleteById(id);
         Proposal proposal = project(entity);
-        this.proposalHandlers.forEach(handler -> handler.onProposalRejected(proposal));
+        handleAction(this.proposalActionHandlers, handler -> handler.onProposalRejected(proposal));
     }
 
     private Proposal project(ProposalEntity entity) {

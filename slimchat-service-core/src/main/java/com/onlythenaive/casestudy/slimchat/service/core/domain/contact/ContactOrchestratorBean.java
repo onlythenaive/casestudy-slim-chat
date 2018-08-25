@@ -2,8 +2,6 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.contact;
 
 import java.util.Collection;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +24,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
 public class ContactOrchestratorBean extends DomainComponentBean implements ProposalActionAware {
 
     @Autowired(required = false)
-    private Collection<ContactActionAware> contactHandlers;
+    private Collection<ContactActionAware> contactActionHandlers;
 
     @Autowired
     private ProfileAccessor profileAccessor;
@@ -36,11 +34,6 @@ public class ContactOrchestratorBean extends DomainComponentBean implements Prop
 
     @Autowired
     private ProfileProjector profileProjector;
-
-    @Override
-    public void onProposalCreated(Proposal proposal) {
-
-    }
 
     @Override
     public void onProposalAccepted(Proposal proposal) {
@@ -54,21 +47,6 @@ public class ContactOrchestratorBean extends DomainComponentBean implements Prop
         this.profilePersister.update(initiatorEntity);
         Profile acceptor = this.profileProjector.projectPreview(acceptorEntity);
         Profile initiator = this.profileProjector.projectPreview(initiatorEntity);
-        this.contactHandlers.forEach(handler -> handler.onContactCreated(acceptor, initiator));
-    }
-
-    @Override
-    public void onProposalCancelled(Proposal proposal) {
-
-    }
-
-    @Override
-    public void onProposalRejected(Proposal proposal) {
-
-    }
-
-    @PostConstruct
-    void init() {
-        logger().debug("Registered handlers: {}", this.contactHandlers.size());
+        handleAction(this.contactActionHandlers, handler -> handler.onContactCreated(acceptor, initiator));
     }
 }

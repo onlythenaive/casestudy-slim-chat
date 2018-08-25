@@ -22,8 +22,8 @@ public class MessageFacadeBean extends DomainComponentBean implements MessageFac
     @Autowired
     private GroupAccessor groupAccessor;
 
-    @Autowired
-    private Collection<MessageActionAware> messageHandlers;
+    @Autowired(required = false)
+    private Collection<MessageActionAware> messageActionHandlers;
 
     @Autowired
     private MessagePersister messagePersister;
@@ -40,7 +40,7 @@ public class MessageFacadeBean extends DomainComponentBean implements MessageFac
         MessageEntity entity = messageFromInvoice(invoice);
         this.messagePersister.insert(entity);
         Message message = this.messageProjector.project(entity);
-        messageHandlers.forEach(handler -> handler.onMessageCreated(message));
+        handleAction(this.messageActionHandlers, handler -> handler.onMessageCreated(message));
         return message;
     }
 

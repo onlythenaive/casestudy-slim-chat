@@ -12,5 +12,7 @@ public interface AccountActionAware {
      *
      * @param account a new created account.
      */
-    void onAccountCreated(Account account);
+    default void onAccountCreated(Account account) {
+
+    }
 }

@@ -15,7 +15,9 @@ public interface ContactActionAware {
      * @param actor the profile of an acting user.
      * @param object the profile of another user.
      */
-    void onContactCreated(Profile actor, Profile object);
+    default void onContactCreated(Profile actor, Profile object) {
+
+    }
 
     /**
      * Handles deletion of an existing contact.
@@ -23,5 +25,7 @@ public interface ContactActionAware {
      * @param actor the profile of an acting user.
      * @param object the profile of another user.
      */
-    void onContactDeleted(Profile actor, Profile object);
+    default void onContactDeleted(Profile actor, Profile object) {
+
+    }
 }

@@ -20,8 +20,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.shared.DomainComp
  */
 public class ContactFacadeBean extends DomainComponentBean implements ContactFacade {
 
-    @Autowired
-    private Collection<ContactActionAware> contactHandlers;
+    @Autowired(required = false)
+    private Collection<ContactActionAware> contactActionHandlers;
 
     @Autowired
     private ProfileAccessor profileAccessor;
@@ -50,6 +50,6 @@ public class ContactFacadeBean extends DomainComponentBean implements ContactFac
         this.profilePersister.update(objectEntity);
         Profile actor = this.profileProjector.projectPreview(actorEntity);
         Profile object = this.profileProjector.projectPreview(objectEntity);
-        this.contactHandlers.forEach(handler -> handler.onContactCreated(actor, object));
+        handleAction(this.contactActionHandlers, handler -> handler.onContactDeleted(actor, object));
     }
 }

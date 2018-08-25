@@ -12,26 +12,34 @@ public interface ProposalActionAware {
      *
      * @param proposal a new created proposal.
      */
-    void onProposalCreated(Proposal proposal);
+    default void onProposalCreated(Proposal proposal) {
+
+    }
 
     /**
      * Handles acceptation of a proposal.
      *
      * @param proposal an affected proposal.
      */
-    void onProposalAccepted(Proposal proposal);
+    default void onProposalAccepted(Proposal proposal) {
+
+    }
 
     /**
      * Handles cancellation of a proposal.
      *
      * @param proposal an affected proposal.
      */
-    void onProposalCancelled(Proposal proposal);
+    default void onProposalCancelled(Proposal proposal) {
+
+    }
 
     /**
      * Handles rejection of a proposal.
      *
      * @param proposal an affected proposal.
      */
-    void onProposalRejected(Proposal proposal);
+    default void onProposalRejected(Proposal proposal) {
+
+    }
 }

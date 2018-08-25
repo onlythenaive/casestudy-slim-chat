@@ -22,7 +22,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public class AccountServiceBean extends GenericComponentBean implements AccountService {
 
     @Autowired
-    private Collection<AccountActionAware> accountHandlers;
+    private Collection<AccountActionAware> accountActionHandlers;
 
     @Autowired
     private AccountProjector accountProjector;
@@ -38,7 +38,9 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
         ensureNameUniqueness(name);
         AccountEntity accountEntity = createNewAccountEntity(name, password);
         Account account = project(accountEntity);
-        this.accountHandlers.forEach(handler -> handler.onAccountCreated(account));
+        if (accountActionHandlers != null) {
+            this.accountActionHandlers.forEach(handler -> handler.onAccountCreated(account));
+        }
         return account;
     }
 

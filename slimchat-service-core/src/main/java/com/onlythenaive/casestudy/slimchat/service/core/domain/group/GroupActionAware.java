@@ -12,5 +12,7 @@ public interface GroupActionAware {
      *
      * @param group a new created group.
      */
-    void onGroupCreated(Group group);
+    default void onGroupCreated(Group group) {
+
+    }
 }

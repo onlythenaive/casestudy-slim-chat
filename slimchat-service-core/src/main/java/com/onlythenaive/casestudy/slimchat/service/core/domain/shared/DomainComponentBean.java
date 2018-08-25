@@ -1,7 +1,9 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.shared;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -106,5 +108,11 @@ public abstract class DomainComponentBean extends GenericComponentBean {
                 .textcode("x.logic." + entityName + ".not-found")
                 .data(data)
                 .build();
+    }
+
+    protected <H> void handleAction(Collection<H> actionHandlers, Consumer<H> handlerProcessor) {
+        if (actionHandlers != null) {
+            actionHandlers.forEach(handlerProcessor);
+        }
     }
 }

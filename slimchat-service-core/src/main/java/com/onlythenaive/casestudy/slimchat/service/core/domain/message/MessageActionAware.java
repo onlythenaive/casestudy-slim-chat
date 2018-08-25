@@ -12,5 +12,7 @@ public interface MessageActionAware {
      *
      * @param message a new created message.
      */
-    void onMessageCreated(Message message);
+    default void onMessageCreated(Message message) {
+
+    }
 }
