@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.exception;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

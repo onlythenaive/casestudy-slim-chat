@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.SecurityFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.view.shared.GenericViewControllerBean;
 
@@ -42,7 +42,7 @@ public class RegistrationViewControllerBean extends GenericViewControllerBean {
                     .accountName(formData.getAccountName())
                     .build();
             throw OperationException.builder()
-                    .category(ExceptionCategory.LOGIC)
+                    .category(ExceptionCategory.CONFLICT)
                     .comment("Password does not match with its duplicate")
                     .data(data)
                     .textcode("x.logic.account.creation.password-duplicate-mismatch")

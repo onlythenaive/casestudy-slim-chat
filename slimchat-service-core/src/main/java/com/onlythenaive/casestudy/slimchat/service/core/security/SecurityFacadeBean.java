@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationService;

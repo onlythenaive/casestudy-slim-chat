@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescriptor;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionDescriptorService;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptor;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptorService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.logging.LoggingService;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationContext;
@@ -103,7 +103,7 @@ public abstract class GenericViewControllerBean extends GenericComponentBean {
     protected ModelAndView handleOperationException(OperationException exception) {
         switch (exception.getCategory()) {
             case VALIDATION:
-            case LOGIC:
+            case CONFLICT:
                 return badRequestError(exception);
             case SECURITY:
                 return securityError(exception);

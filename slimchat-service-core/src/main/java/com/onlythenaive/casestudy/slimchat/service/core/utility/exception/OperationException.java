@@ -1,4 +1,7 @@
-package com.onlythenaive.casestudy.slimchat.service.core.exception;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.exception;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Operation exception.
@@ -16,6 +19,7 @@ public class OperationException extends RuntimeException {
         private String comment;
         private ExceptionCategory category;
         private Object data;
+        private Map<String, Object> dataAttributes;
         private String textcode;
 
         /**
@@ -63,6 +67,21 @@ public class OperationException extends RuntimeException {
         }
 
         /**
+         * Sets a data attribute.
+         *
+         * @param name the name of an attribute.
+         * @param value the value to be set.
+         * @return the builder instance.
+         */
+        public Builder dataAttribute(String name, Object value) {
+            if (this.dataAttributes == null) {
+                this.dataAttributes = new HashMap<>();
+            }
+            this.dataAttributes.put(name, value);
+            return this;
+        }
+
+        /**
          * Sets the textcode of an exception.
          *
          * @param textcode the textcode of an exception.
@@ -98,8 +117,8 @@ public class OperationException extends RuntimeException {
 
     private OperationException(Builder builder) {
         super(builder.comment, builder.cause);
-        this.category = builder.category != null ? builder.category : ExceptionCategory.UNKNOWN;
-        this.data = builder.data;
+        this.category = builder.category != null ? builder.category : ExceptionCategory.UNPREDICTED;
+        this.data = builder.data != null ? builder.data : builder.dataAttributes;
         this.textcode = builder.textcode != null ? builder.textcode : this.category.getDefaultTextcode();
     }
 

@@ -8,8 +8,8 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import javax.annotation.PostConstruct;
 
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -92,7 +92,7 @@ public abstract class GenericComponentBean {
      */
     protected OperationException notSupported() {
         return OperationException.builder()
-                .category(ExceptionCategory.UNKNOWN)
+                .category(ExceptionCategory.UNPREDICTED)
                 .comment("Not supported")
                 .textcode("x.not-supported")
                 .build();
@@ -122,7 +122,7 @@ public abstract class GenericComponentBean {
         data.put(property, value);
         return OperationException.builder()
                 .comment(String.format("%s with %s = %s not found", entityName, property, value))
-                .category(ExceptionCategory.LOGIC)
+                .category(ExceptionCategory.CONFLICT)
                 .textcode("x.logic." + entityName + ".not-found")
                 .data(data)
                 .build();

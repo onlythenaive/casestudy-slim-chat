@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.exception;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.exception;
 
 /**
  * Exception descriptor service.

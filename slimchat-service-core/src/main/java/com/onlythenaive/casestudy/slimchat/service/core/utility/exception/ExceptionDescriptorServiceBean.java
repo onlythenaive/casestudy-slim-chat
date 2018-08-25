@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.exception;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.exception;
 
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class ExceptionDescriptorServiceBean extends GenericComponentBean impleme
     @Override
     public ExceptionDescriptor defaultDescriptor() {
         ExceptionDescriptor descriptor = ExceptionDescriptor.builder()
-                .category(ExceptionCategory.UNKNOWN)
+                .category(ExceptionCategory.UNPREDICTED)
                 .build();
         return enrich(descriptor);
     }

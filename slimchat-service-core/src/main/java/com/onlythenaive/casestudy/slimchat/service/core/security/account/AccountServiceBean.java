@@ -8,8 +8,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.exception.ExceptionCategory;
-import com.onlythenaive.casestudy.slimchat.service.core.exception.OperationException;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.password.PasswordHashService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
@@ -91,7 +91,7 @@ public class AccountServiceBean extends GenericComponentBean implements AccountS
         Map<String, String> data = new HashMap<>();
         data.put("name", name);
         return OperationException.builder()
-                .category(ExceptionCategory.LOGIC)
+                .category(ExceptionCategory.CONFLICT)
                 .comment("Account already exists")
                 .data(data)
                 .textcode("x.logic.account.creation.account-already-exists")
