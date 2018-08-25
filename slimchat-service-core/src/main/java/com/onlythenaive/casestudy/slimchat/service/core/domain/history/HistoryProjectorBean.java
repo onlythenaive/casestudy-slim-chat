@@ -52,10 +52,16 @@ public class HistoryProjectorBean extends GenericComponentBean implements Histor
     }
 
     private Group group(String groupId) {
+        if (groupId == null) {
+            return null;
+        }
         return this.groupProvider.findPreviewById(groupId).orElse(null);
     }
 
     private Profile profile(String profileId) {
+        if (profileId == null) {
+            return null;
+        }
         return this.profileProvider.findPreviewById(profileId).orElse(null);
     }
 
