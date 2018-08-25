@@ -1,0 +1,8 @@
+[
+  {
+    "id": "message-from-alice-to-john",
+    "authorId": "account-id-for-alice",
+    "recipientId": "account-id-for-john",
+    "text": "Might we know each other?"
+  }
+]

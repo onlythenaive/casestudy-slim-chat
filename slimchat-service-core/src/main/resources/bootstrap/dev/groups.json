@@ -1,0 +1,14 @@
+[
+  {
+    "id": "group-between-alice-stephan-maria",
+    "caption": "Beach & beers",
+    "moderatorIds": [
+      "account-id-for-stephan"
+    ],
+    "participantIds": [
+      "account-id-for-stephan",
+      "account-id-for-alice",
+      "account-id-for-maria"
+    ]
+  }
+]

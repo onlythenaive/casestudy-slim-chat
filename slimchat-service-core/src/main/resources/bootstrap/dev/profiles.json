@@ -5,7 +5,10 @@
     "email": "alice.anderson@mail.net",
     "firstname": "Alice",
     "lastname": "Anderson",
-    "status": "Ooh.. I'm now also here!"
+    "status": "Ooh.. I'm now also here!",
+    "connectedUserIds": [
+      "account-id-for-john"
+    ]
   },
   {
     "id": "account-id-for-john",
@@ -13,7 +16,10 @@
     "email": "john.smith@mail.net",
     "firstname": "John",
     "lastname": "Smith",
-    "status": "Who the hell has imagined my name?"
+    "status": "Who the hell has imagined my name?",
+    "connectedUserIds": [
+      "account-id-for-alice"
+    ]
   },
   {
     "id": "account-id-for-maria",

@@ -1,0 +1,27 @@
+[
+  {
+    "ownerId": "account-id-for-alice",
+    "referencedUserId": "account-id-for-john",
+    "messageIds": [
+      "message-from-alice-to-john"
+    ]
+  },
+  {
+    "id": "history-of-stephan-for-group",
+    "ownerId": "account-id-for-stephan",
+    "referencedGroupId": "group-between-alice-stephan-maria",
+    "messageIds": []
+  },
+  {
+    "id": "history-of-alice-for-group",
+    "ownerId": "account-id-for-alice",
+    "referencedGroupId": "group-between-alice-stephan-maria",
+    "messageIds": []
+  },
+  {
+    "id": "history-of-maria-for-group",
+    "ownerId": "account-id-for-maria",
+    "referencedGroupId": "group-between-alice-stephan-maria",
+    "messageIds": []
+  }
+]
