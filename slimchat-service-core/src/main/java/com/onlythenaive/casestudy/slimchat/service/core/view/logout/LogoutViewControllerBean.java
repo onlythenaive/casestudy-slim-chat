@@ -18,7 +18,7 @@ public class LogoutViewControllerBean extends GenericViewControllerBean {
 
     @PostMapping
     public ModelAndView post() {
-        this.tokenFacade.deleteById(principalId());
+        this.tokenFacade.delete();
         return redirectToView("login");
     }
 

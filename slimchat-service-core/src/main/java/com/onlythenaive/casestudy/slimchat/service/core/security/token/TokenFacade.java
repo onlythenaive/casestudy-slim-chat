@@ -16,9 +16,7 @@ public interface TokenFacade {
     void createFromAccountCredentials(String name, String password);
 
     /**
-     * Deletes an existing token by iys ID
-     *
-     * @param id the ID of an existing token.
+     * Deletes teh current provided token.
      */
-    void deleteById(String id);
+    void delete();
 }

@@ -47,9 +47,9 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
     }
 
     @Override
-    public void deleteById(String id) {
-        this.tokenProvider.findById(id).ifPresent(token -> {
-            this.tokenRepository.deleteById(id);
+    public void delete() {
+        this.tokenContextConfigurator.getProvided().ifPresent(token -> {
+            this.tokenRepository.deleteById(token.getId());
             this.tokenContextConfigurator.setProvided(null);
             logger().debug("Deleted a security token with ID = {}", token.getId());
         });
