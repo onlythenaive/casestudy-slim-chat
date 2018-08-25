@@ -13,6 +13,11 @@ repositories {
     jcenter()
 }
 
+bootRun {
+
+    systemProperties = System.properties as Map<String, ?>
+}
+
 dependencies {
 
     compile 'org.springframework.boot:spring-boot-starter-web'
