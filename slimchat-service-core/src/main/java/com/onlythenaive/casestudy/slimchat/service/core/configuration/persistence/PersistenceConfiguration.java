@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 
 import com.mongodb.MongoClient;
 
@@ -36,6 +38,9 @@ public class PersistenceConfiguration {
      */
     @Bean(name = "mongoTemplate")
     public MongoTemplate mongoTemplateBean(MongoClient mongoClient) {
-        return new MongoTemplate(mongoClient, this.mongodb.getDatabase());
+        MongoTemplate mongoTemplate = new MongoTemplate(mongoClient, this.mongodb.getDatabase());
+        MappingMongoConverter converter = (MappingMongoConverter) mongoTemplate.getConverter();
+        converter.setTypeMapper(new DefaultMongoTypeMapper(null));
+        return mongoTemplate;
     }
 }
