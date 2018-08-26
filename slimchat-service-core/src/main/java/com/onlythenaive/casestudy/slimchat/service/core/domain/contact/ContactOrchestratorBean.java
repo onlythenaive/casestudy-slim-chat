@@ -38,7 +38,7 @@ public class ContactOrchestratorBean extends GenericComponentBean implements Pro
     @Override
     public void onProposalAccepted(Proposal proposal) {
         String acceptorId = proposal.getAcceptor().getId();
-        String initiatorId = proposal.getAcceptor().getId();
+        String initiatorId = proposal.getInitiator().getId();
         ProfileEntity acceptorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, acceptorId);
         ProfileEntity initiatorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, initiatorId);
         acceptorEntity.getConnectedUserIds().add(initiatorId);
