@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.jknack.handlebars.Handlebars;
@@ -39,5 +40,12 @@ public class WebConfiguration implements WebMvcConfigurer {
         TemplateLoader templateLoader = new ClassPathTemplateLoader("/frontend/");
         Handlebars handlebars = new Handlebars(templateLoader);
         return new HandlebarsViewResolver(handlebars);
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/ui/plain/**")
+                .addResourceLocations("classpath:/frontend/plain/assets/")
+                .addResourceLocations("classpath:/frontend/shared/assets/");
     }
 }
