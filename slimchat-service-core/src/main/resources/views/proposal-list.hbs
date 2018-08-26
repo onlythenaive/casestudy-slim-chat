@@ -1,17 +1,16 @@
 <h1>Contacts: {{data.groupName}}</h1>
 
 <ul>
-    <li><a href="/view/contacts">My contacts</a></li>
-    <li><a href="/view/contacts/pending">Pending requests</a></li>
-    <li><a href="/view/contacts/requested">Requests to me</a></li>
+    <li><a href="/view/proposals/incoming">Incoming proposals</a></li>
+    <li><a href="/view/proposals/outgoing">Outgoing proposals</a></li>
 </ul>
 
 <hr/>
 
 <div style="width: 400px;">
-    {{#data.contacts}}
+    {{#data.proposals}}
 
-        {{#if own}}
+        {{#if initiatedByPrincipal}}
             <div>
                 {{acceptor.accountName}}
             </div>
@@ -21,43 +20,34 @@
             </div>
         {{/if}}
 
-        {{#unless accepted}}
+        <div>
             <div>
-                <div>
-                    {{introduction}}
-                </div>
-                <div>
-                    {{#if own}}
-                        <form action="/view/contacts/pending" method="post">
-                            <input name="contactId" type="hidden" value="{{id}}">
-                            <button type="submit">Cancel request</button>
-                        </form>
-                    {{else}}
-                        <form action="/view/contacts/requested" method="post">
-                            <input name="contactId" type="hidden" value="{{id}}">
-                            <button type="submit">Accept contact</button>
-                        </form>
-                    {{/if}}
-                </div>
-            </div>
-        {{/unless}}
-
-        {{#if accepted}}
-            <div>
-                <form action="/view/message/new" method="post">
-                    <button type="submit">Write message</button>
-                </form>
+                {{text}}
             </div>
             <div>
-                <form action="/view/contacts" method="post">
-                    <input name="contactId" type="hidden" value="{{id}}">
-                    <button type="submit">Remove from contacts</button>
-                </form>
+                {{#if initiatedByPrincipal}}
+                    <form action="/view/proposals/cancel" method="post">
+                        <input name="proposalId" type="hidden" value="{{id}}">
+                        <input name="viewToRedirect" type="hidden" value="proposals/incoming">
+                        <button type="submit">Cancel request</button>
+                    </form>
+                {{else}}
+                    <form action="/view/proposals/accept" method="post">
+                        <input name="proposalId" type="hidden" value="{{id}}">
+                        <input name="viewToRedirect" type="hidden" value="profile/{{initiator.accountName}}">
+                        <button type="submit">Accept request</button>
+                    </form>
+                    <form action="/view/proposals/reject" method="post">
+                        <input name="proposalId" type="hidden" value="{{id}}">
+                        <input name="viewToRedirect" type="hidden" value="proposals/outgoing">
+                        <button type="submit">Reject request</button>
+                    </form>
+                {{/if}}
             </div>
-        {{/if}}
+        </div>
 
         <hr/>
-    {{/data.contacts}}
+    {{/data.proposals}}
 </div>
 
 <hr/>

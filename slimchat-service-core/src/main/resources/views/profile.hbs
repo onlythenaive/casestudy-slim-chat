@@ -38,6 +38,31 @@
             <button type="submit">Save</button>
         </div>
     </form>
+
+    {{#if connected}}
+        Connected!
+    {{else}}
+
+        {{#unless ownedByPrincipal}}
+
+            <form action="/view/proposals/create" method="post">
+                <div>
+                    <input name="acceptorId" type="hidden" value="{{id}}"/>
+                </div>
+                <div>
+                    <input name="viewToRedirect" type="hidden" value="profile/{{accountName}}"/>
+                </div>
+                <div>
+                    <label for="text">Text: </label>
+                    <input name="text" type="text" value=""/>
+                </div>
+                <div>
+                    <button type="submit">Add as contact</button>
+                </div>
+            </form>
+        {{/unless}}
+    {{/if}}
+
 {{/with}}
 
 <hr/>
