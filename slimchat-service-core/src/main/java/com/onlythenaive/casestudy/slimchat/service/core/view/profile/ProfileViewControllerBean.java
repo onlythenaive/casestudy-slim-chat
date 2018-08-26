@@ -31,14 +31,24 @@ public class ProfileViewControllerBean extends GenericViewControllerBean {
 
     @GetMapping("/{accountName}")
     public ModelAndView getByNickname(@PathVariable("accountName") String accountName) {
-        Profile profile = this.profileFacade.getByAccountName(accountName);
-        return defaultView(data(profile, "profile/" + accountName));
+        Profile profilePreview = this.profileFacade.getPreviewByAccountName(accountName);
+        if (profilePreview.isViewable()) {
+            Profile profile = this.profileFacade.getByAccountName(accountName);
+            return defaultView(data(profile, "profile/" + accountName));
+        } else {
+            return defaultView(data(profilePreview, "profile/" + accountName));
+        }
     }
 
     @GetMapping("/id-{id}")
     public ModelAndView getById(@PathVariable("id") String id) {
-        Profile profile = this.profileFacade.getById(id);
-        return defaultView(data(profile, "profile/id-" + id));
+        Profile profilePreview = this.profileFacade.getPreviewById(id);
+        if (profilePreview.isViewable()) {
+            Profile profile = this.profileFacade.getById(id);
+            return defaultView(data(profile, "profile/id-" + id));
+        } else {
+            return defaultView(data(profilePreview, "profile/id-" + id));
+        }
     }
 
     @PostMapping("/update")

@@ -58,6 +58,12 @@ public class ProfileProviderBean extends GenericComponentBean implements Profile
     }
 
     @Override
+    public Optional<Profile> findPreviewByAccountName(String accountName) {
+        return this.profileRepository.findByAccountName(accountName)
+                .map(this.profileProjector::projectPreview);
+    }
+
+    @Override
     public Optional<Profile> findPreviewById(String id) {
         return this.profileAccessor.accessByIdIfAny(AccessLevel.PREVIEW, id).map(this::project);
     }

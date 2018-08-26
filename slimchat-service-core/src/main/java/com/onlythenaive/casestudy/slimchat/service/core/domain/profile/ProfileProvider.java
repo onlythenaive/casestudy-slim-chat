@@ -42,6 +42,14 @@ public interface ProfileProvider {
     Profile getById(String id);
 
     /**
+     * Provides an existing user profile preview by its referenced account name.
+     *
+     * @param accountName the referenced account name.
+     * @return the requested profile.
+     */
+    Optional<Profile> findPreviewByAccountName(String accountName);
+
+    /**
      * Provides an existing user profile preview by its ID if any.
      *
      * @param id the ID of a user profile.
