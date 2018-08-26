@@ -1,0 +1,40 @@
+{{#partial "content"}}
+    <h1>User profiles</h1>
+
+    <hr/>
+
+    <div style="width: 400px;">
+        {{#data.profiles}}
+
+            <div>
+                {{accountName}}
+            </div>
+
+            <div>
+                {{firstname}} {{lastname}}
+            </div>
+
+            {{#if connected}}
+                <div>
+                    Connected
+                </div>
+            {{/if}}
+
+            {{#if ownedByPrincipal}}
+                <div>
+                    Me!
+                </div>
+            {{/if}}
+
+            <div>
+                <form action="profiles/{{accountName}}" method="get">
+                    <button type="submit">View the profile</button>
+                </form>
+            </div>
+
+            <hr/>
+        {{/data.profiles}}
+    </div>
+{{/partial}}
+
+{{> plain/templates/layout-authorized}}

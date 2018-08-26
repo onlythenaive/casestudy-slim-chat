@@ -1,0 +1,32 @@
+{{#partial "content"}}
+
+    <h1>My contacts</h1>
+
+    <hr/>
+
+    <div style="width: 400px;">
+        {{#data.contacts}}
+
+            <div>
+                {{accountName}}
+            </div>
+
+            <div>
+                <form action="chats/{{accountName}}" method="get">
+                    <button type="submit">Write message</button>
+                </form>
+            </div>
+            <div>
+                <form action="contacts/delete" method="post">
+                    <input name="accountId" type="hidden" value="{{id}}">
+                    <button type="submit">Remove from contacts</button>
+                </form>
+            </div>
+
+            <hr/>
+        {{/data.contacts}}
+    </div>
+
+{{/partial}}
+
+{{> plain/templates/layout-authorized}}

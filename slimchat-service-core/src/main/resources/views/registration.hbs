@@ -1,9 +1,0 @@
-<h1>Registration</h1>
-<form action="/view/registration" method="post">
-    <input type="text" name="accountName" value="{{data.accountName}}" placeholder="Your nickname, f.e. onlythenaive"/><br/>
-    <input type="password" name="accountPassword" value="" placeholder="Password"/><br/>
-    <input type="password" name="accountPasswordDuplicate" value="" placeholder="Password once again"/><br/>
-    <button type="submit">Register</button>
-</form>
-<span>{{error.messageLocalized}}</span><br/>
-<a href="/view/login">Already have an account?</a>

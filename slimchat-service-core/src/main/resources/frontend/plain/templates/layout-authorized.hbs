@@ -1,0 +1,30 @@
+{{#partial "layout"}}
+
+    <h1>Slim Shat</h1>
+
+    <div>
+        User: {{@root.context.user.accountName}}
+    </div>
+
+    <form action="{{@root.context.base}}/logout" method="post">
+        <button type="submit">Logout</button>
+    </form>
+
+    Here is the menu:
+    <ul>
+        <li><a href="profiles/me">My Profile</a></li>
+        <li><a href="chats">My Chats</a></li>
+        <li><a href="contacts">My Contacts</a></li>
+        <li><a href="groups">My Groups</a></li>
+        <li><a href="profiles">Search People</a></li>
+        <li><a href="proposals/incoming">Requests to connect</a></li>
+    </ul>
+
+    <hr/>
+
+    <div>
+        {{#block "content"}}{{/block}}
+    </div>
+{{/partial}}
+
+{{> plain/templates/page}}

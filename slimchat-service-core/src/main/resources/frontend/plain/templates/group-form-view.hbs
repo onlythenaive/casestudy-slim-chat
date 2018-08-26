@@ -1,0 +1,25 @@
+{{#partial "content"}}
+
+    <h1>New group</h1>
+
+    <form action="groups/create" method="post">
+        <div>
+            <label for="caption">Caption: </label>
+            <input name="caption" type="text" value="{{caption}}"/>
+        </div>
+        <div>
+            {{#data.contacts}}
+                <div>
+                    <input id="participantId-{{id}}" type="checkbox" name="participantIds" value="{{id}}">
+                    <label for="participantId-{{id}}">{{firstname}} {{lastname}} </label>
+                </div>
+            {{/data.contacts}}
+        </div>
+        <div>
+            <button type="submit">Create</button>
+        </div>
+    </form>
+
+{{/partial}}
+
+{{> plain/templates/layout-authorized}}

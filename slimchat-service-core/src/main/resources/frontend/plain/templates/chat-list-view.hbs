@@ -1,0 +1,38 @@
+{{#partial "content"}}
+
+    <h1>My chats</h1>
+
+    <hr/>
+
+    <div style="width: 400px;">
+        {{#data.chats}}
+
+            {{#if referencedGroup}}
+                <div>
+                    {{referencedGroup.caption}}
+                </div>
+                <form action="chats/group/{{referencedGroup.id}}" method="get">
+                    <button type="submit">Go</button>
+                </form>
+            {{else}}
+                <div>
+                    {{referencedUser.accountName}}
+                </div>
+                <form action="chats/{{referencedUser.accountName}}" method="get">
+                    <button type="submit">Go</button>
+                </form>
+            {{/if}}
+
+            <div>
+                <form action="history/delete" method="post">
+                    <input name="historyId" type="hidden" value="{{id}}">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+
+            <hr/>
+        {{/data.chats}}
+    </div>
+{{/partial}}
+
+{{> plain/templates/layout-authorized}}

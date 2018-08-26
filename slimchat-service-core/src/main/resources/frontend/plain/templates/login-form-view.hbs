@@ -1,0 +1,16 @@
+{{#partial "content"}}
+
+    <h1>Login</h1>
+    <form action="login" method="post">
+        <input type="text" name="accountName" value="{{data.accountName}}"
+               placeholder="Your nickname, f.e. onlythenaive"/><br/>
+        <input type="password" name="accountPassword" value="" placeholder="Password"/><br/>
+        <button type="submit">Login</button>
+    </form>
+    <span>{{error.messageLocalized}}</span><br/>
+
+    <a href="registration">No registered yet?</a>
+
+{{/partial}}
+
+{{> plain/templates/layout-unauthorized}}

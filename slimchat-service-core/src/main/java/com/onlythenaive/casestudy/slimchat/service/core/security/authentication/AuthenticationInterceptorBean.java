@@ -58,7 +58,7 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
         try {
             authenticateByTokenId(tokenId);
         } catch (Exception e) {
-            logger().debug("Authentication by token failed", e);
+            logger().trace("Authentication by token failed", e);
         }
     }
 
