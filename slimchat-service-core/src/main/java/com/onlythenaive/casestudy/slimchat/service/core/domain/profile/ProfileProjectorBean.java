@@ -39,6 +39,7 @@ public class ProfileProjectorBean extends GenericComponentBean implements Profil
                 .accountName(entity.getAccountName())
                 .firstname(entity.getFirstname())
                 .lastname(entity.getLastname())
+                .connected(connectedToPrincipal(entity))
                 .ownedByPrincipal(ownedByPrincipal(entity))
                 .build();
     }
