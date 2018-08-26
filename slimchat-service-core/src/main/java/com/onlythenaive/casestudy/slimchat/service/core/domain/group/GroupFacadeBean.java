@@ -1,5 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
@@ -52,6 +53,11 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
                 .stream()
                 .map(this.groupProjector::projectPreview)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Group> findByParticipation() {
+        return this.groupProvider.findPreviewsByParticipantId(principalId());
     }
 
     @Override
@@ -115,10 +121,14 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
     }
 
     private GroupEntity createGroupFromInvoice(GroupInvoice invoice) {
+        Collection<String> participantIds = invoice.getParticipantIds() != null ? invoice.getParticipantIds() : new ArrayList<>();
+        if (!participantIds.contains(principalId())) {
+            participantIds.add(principalId());
+        }
         return GroupEntity.builder()
                 .caption(invoice.getCaption())
                 .participantIds(invoice.getParticipantIds())
-                .moderatorIds(invoice.getParticipantIds())
+                .moderatorIds(Collections.singleton(principalId()))
                 .build();
     }
 

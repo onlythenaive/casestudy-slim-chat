@@ -1,5 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -24,4 +25,12 @@ public interface GroupProvider {
      * @return the requested group.
      */
     Optional<Group> findPreviewById(String id);
+
+    /**
+     * Finds an existing chat group by specified participant ID.
+     *
+     * @param participantId the ID of a participant.
+     * @return a list of found groups.
+     */
+    Collection<Group> findPreviewsByParticipantId(String participantId);
 }

@@ -26,6 +26,13 @@ public interface GroupFacade {
     Collection<Group> findByCaption(String captionTemplate);
 
     /**
+     * Finds existing chat groups participated by the current principal.
+     *
+     * @return a list of found existing groups.
+     */
+    Collection<Group> findByParticipation();
+
+    /**
      * Retrieves n existing group by its ID.
      *
      * @param id the ID of an existing group.
