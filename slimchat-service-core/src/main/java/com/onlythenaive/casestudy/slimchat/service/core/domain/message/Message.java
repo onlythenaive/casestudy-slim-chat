@@ -27,4 +27,8 @@ public class Message {
     private Profile recipient;
     private Group group;
     private Instant createdAt;
+
+    public boolean isAffiliatedToGroup() {
+        return this.group != null;
+    }
 }

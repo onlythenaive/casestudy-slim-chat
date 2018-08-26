@@ -45,8 +45,9 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
     }
 
     private void ensurePermission(MessageInvoice invoice) {
-        ProfileEntity recipient = this.profileAccessor.accessById(AccessLevel.PREVIEW, invoice.getRecipientId());
-        if (recipient != null) {
+        String recipientId = invoice.getRecipientId();
+        if (recipientId != null) {
+            ProfileEntity recipient = this.profileAccessor.accessById(AccessLevel.PREVIEW, recipientId);
             if (!recipient.getConnectedUserIds().contains(principalId())) {
                 throw insufficientPrivileges();
             }

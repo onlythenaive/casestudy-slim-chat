@@ -21,7 +21,11 @@ public class MessageFormViewControllerBean extends GenericViewControllerBean {
     @PostMapping
     public ModelAndView post(MessageInvoice invoice) {
         Message message = this.messageFacade.create(invoice);
-        return redirectToView("chat/" + message.getRecipient().getAccountName());
+        if (message.isAffiliatedToGroup()) {
+            return redirectToView("chat/group/" + message.getGroup().getId());
+        } else {
+            return redirectToView("chat/" + message.getRecipient().getAccountName());
+        }
     }
 
     @Override
