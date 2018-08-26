@@ -6,6 +6,7 @@
     "firstname": "Alice",
     "lastname": "Anderson",
     "status": "Ooh.. I'm now also here!",
+    "restricted": true,
     "connectedUserIds": [
       "account-id-for-john"
     ]
@@ -17,6 +18,7 @@
     "firstname": "John",
     "lastname": "Smith",
     "status": "Who the hell has imagined my name?",
+    "restricted": true,
     "connectedUserIds": [
       "account-id-for-alice"
     ]
@@ -27,13 +29,15 @@
     "email": "maria.tomassino@mail.net",
     "firstname": "Maria",
     "lastname": "Tomassino",
-    "status": "Viva Italia!"
+    "status": "Viva Italia!",
+    "restricted": true
   },
   {
     "id": "account-id-for-stephan",
     "accountName": "stephan",
     "email": "stephan.wang@mail.net",
     "firstname": "Stephan",
-    "lastname": "Wang"
+    "lastname": "Wang",
+    "restricted": true
   }
 ]
