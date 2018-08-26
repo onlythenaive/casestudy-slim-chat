@@ -25,6 +25,8 @@ public class ProposalProjectorBean extends GenericComponentBean implements Propo
                 .text(entity.getText())
                 .initiator(profilePreview(entity.getInitiatorId()))
                 .acceptor(profilePreview(entity.getAcceptorId()))
+                .acceptedByPrincipal(entity.getAcceptorId().equals(principalId()))
+                .initiatedByPrincipal(entity.getInitiatorId().equals(principalId()))
                 .createdAt(entity.getCreatedAt())
                 .lastModifiedAt(entity.getLastModifiedAt())
                 .build();

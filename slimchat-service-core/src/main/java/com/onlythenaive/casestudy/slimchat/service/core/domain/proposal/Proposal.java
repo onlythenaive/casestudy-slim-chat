@@ -24,6 +24,8 @@ public class Proposal {
     private String text;
     private Profile initiator;
     private Profile acceptor;
+    private Boolean initiatedByPrincipal;
+    private Boolean acceptedByPrincipal;
     private Instant createdAt;
     private Instant lastModifiedAt;
 }
