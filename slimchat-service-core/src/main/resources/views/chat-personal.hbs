@@ -8,17 +8,25 @@
         <div>
             {{#history.messages}}
                 <div>
-                    message with ID = {{id}}: {{text}}
+                    {{author.firstname}}: {{text}}
                 </div>
             {{/history.messages}}
         </div>
 
         <div>
-            <form action="/view/chat/message" method="post">
+            <form action="/view/message" method="post">
                 <input name="recipientId" type="hidden" value="{{recipient.id}}">
                 <textarea name="text" placeholder="Enter the message"></textarea>
                 <button type="submit">Send</button>
             </form>
+            {{#history}}
+                <form action="/view/history/delete" method="post">
+                    <input name="historyId" type="hidden" value="{{id}}">
+                    <input name="viewToRedirect" type="hidden" value="chat/{{@root.data.chat.recipient.accountName}}">
+                    <button type="submit">Clear history</button>
+                </form>
+            {{/history}}
+
         </div>
         <hr/>
     {{/data.chat}}
