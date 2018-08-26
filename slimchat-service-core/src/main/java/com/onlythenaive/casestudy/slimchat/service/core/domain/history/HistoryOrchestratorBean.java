@@ -1,5 +1,9 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,17 +41,51 @@ public class HistoryOrchestratorBean extends GenericComponentBean implements Mes
 
     @Override
     public void onMessageCreated(Message message) {
-        if (message.getRecipient() == null) {
-            return;
+        Collection<HistoryEntity> historyEntities = ensureHistories(message);
+        historyEntities.forEach(entity -> {
+            entity.getMessageIds().add(message.getId());
+            this.historyPersister.update(entity);
+        });
+    }
+
+    private Collection<HistoryEntity> ensureHistories(Message message) {
+        if (message.getRecipient() != null) {
+            return ensurePersonalHistories(message);
+        } else {
+            throw notSupported();
         }
+    }
+
+    private Collection<HistoryEntity> ensurePersonalHistories(Message message) {
+        Collection<HistoryEntity> historyEntities = new ArrayList<>();
         String recipientId = message.getRecipient().getId();
-        if (this.historyRepository.existsByOwnerIdAndReferencedUserId(principalId(), recipientId)) {
-            return;
+
+        Optional<HistoryEntity> ownHistoryEntityOptional = this.historyRepository.findByOwnerIdAndReferencedUserId(principalId(), recipientId);
+        if (ownHistoryEntityOptional.isPresent()) {
+            historyEntities.add(ownHistoryEntityOptional.get());
+        } else {
+            HistoryEntity ownHistoryEntity = HistoryEntity.builder()
+                    .ownerId(principalId())
+                    .messageIds(new ArrayList<>())
+                    .referencedUserId(recipientId)
+                    .build();
+            this.historyPersister.insert(ownHistoryEntity);
+            historyEntities.add(ownHistoryEntity);
         }
-        HistoryEntity entity = HistoryEntity.builder()
-                .ownerId(principalId())
-                .referencedUserId(recipientId)
-                .build();
-        this.historyPersister.insert(entity);
+
+        Optional<HistoryEntity> otherHistoryEntityOptional = this.historyRepository.findByOwnerIdAndReferencedUserId(recipientId, principalId());
+        if (otherHistoryEntityOptional.isPresent()) {
+            historyEntities.add(otherHistoryEntityOptional.get());
+        } else {
+            HistoryEntity otherHistoryEntity = HistoryEntity.builder()
+                    .ownerId(principalId())
+                    .messageIds(new ArrayList<>())
+                    .referencedUserId(recipientId)
+                    .build();
+            this.historyPersister.insert(otherHistoryEntity);
+            historyEntities.add(otherHistoryEntity);
+        }
+
+        return historyEntities;
     }
 }

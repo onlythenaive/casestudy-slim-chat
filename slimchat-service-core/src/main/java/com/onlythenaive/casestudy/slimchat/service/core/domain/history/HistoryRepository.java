@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityRepository;
 
@@ -27,6 +28,8 @@ public interface HistoryRepository extends EntityRepository<HistoryEntity> {
      * @return true if such history exists.
      */
     boolean existsByOwnerIdAndReferencedGroupId(String ownerId, String referencedGroupId);
+
+    Optional<HistoryEntity> findByOwnerIdAndReferencedUserId(String ownerId, String referencedUserId);
 
     /**
      * Checks if a chat history for specified user ID exists.
