@@ -11,6 +11,13 @@ import java.util.Optional;
 public interface ProfileProvider {
 
     /**
+     * Finds all existing profiles.
+     *
+     * @return a collection of existing profiles.
+     */
+    Collection<Profile> find();
+
+    /**
      * Finds all connected profiles for a specified profile by its ID.
      *
      * @param id the ID of specified profile.

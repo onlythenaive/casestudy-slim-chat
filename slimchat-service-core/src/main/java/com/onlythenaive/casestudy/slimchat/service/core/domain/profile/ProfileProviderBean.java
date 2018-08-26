@@ -29,6 +29,13 @@ public class ProfileProviderBean extends GenericComponentBean implements Profile
     private ProfileRepository profileRepository;
 
     @Override
+    public Collection<Profile> find() {
+        return this.profileRepository.findAll().stream()
+                .map(this.profileProjector::projectPreview)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Collection<Profile> findConnected(String id) {
         ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.VIEW, id);
         return this.profileRepository.findAllById(entity.getConnectedUserIds()).stream()

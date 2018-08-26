@@ -1,11 +1,20 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
+import java.util.Collection;
+
 /**
  * Profile operations facade.
  *
  * @author Ilia Gubarev
  */
 public interface ProfileFacade {
+
+    /**
+     * Finds all existing profiles.
+     *
+     * @return a collection of existing profiles.
+     */
+    Collection<Profile> find();
 
     /**
      * Retrieves an existing profile by the name of its referenced account.

@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,11 @@ public class ProfileFacadeBean extends GenericComponentBean implements ProfileFa
 
     @Autowired
     private ProfileProvider profileProvider;
+
+    @Override
+    public Collection<Profile> find() {
+        return this.profileProvider.find();
+    }
 
     @Override
     public Profile getByAccountName(String accountName) {
