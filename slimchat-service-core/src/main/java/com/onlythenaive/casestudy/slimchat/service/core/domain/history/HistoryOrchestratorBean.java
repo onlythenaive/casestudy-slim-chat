@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupActionAware;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageActionAware;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
@@ -27,16 +29,21 @@ public class HistoryOrchestratorBean extends GenericComponentBean implements Mes
     @Autowired
     private HistoryRepository historyRepository;
 
+    @Autowired
+    private GroupRepository groupRepository;
+
     @Override
     public void onGroupCreated(Group group) {
-        if (this.historyRepository.existsByOwnerIdAndReferencedGroupId(principalId(), group.getId())) {
-            return;
-        }
-        HistoryEntity entity = HistoryEntity.builder()
-                .ownerId(principalId())
-                .referencedGroupId(group.getId())
-                .build();
-        this.historyPersister.insert(entity);
+        String groupId = group.getId();
+        GroupEntity groupEntity = this.groupRepository.findById(groupId).orElseThrow(RuntimeException::new);
+        groupEntity.getParticipantIds().forEach(participantId -> {
+            HistoryEntity historyEntity = HistoryEntity.builder()
+                    .ownerId(participantId)
+                    .referencedGroupId(groupId)
+                    .messageIds(new ArrayList<>())
+                    .build();
+            this.historyPersister.insert(historyEntity);
+        });
     }
 
     @Override
@@ -52,7 +59,7 @@ public class HistoryOrchestratorBean extends GenericComponentBean implements Mes
         if (message.getRecipient() != null) {
             return ensurePersonalHistories(message);
         } else {
-            throw notSupported();
+            return ensureGroupHistories(message);
         }
     }
 
@@ -86,6 +93,27 @@ public class HistoryOrchestratorBean extends GenericComponentBean implements Mes
             historyEntities.add(otherHistoryEntity);
         }
 
+        return historyEntities;
+    }
+
+    private Collection<HistoryEntity> ensureGroupHistories(Message message) {
+        Collection<HistoryEntity> historyEntities = new ArrayList<>();
+        String groupId = message.getGroup().getId();
+        GroupEntity groupEntity = this.groupRepository.findById(groupId).orElseThrow(RuntimeException::new);
+        groupEntity.getParticipantIds().forEach(participantId -> {
+            Optional<HistoryEntity> participantHistoryEntityOptional = this.historyRepository.findByOwnerIdAndReferencedGroupId(participantId, groupId);
+            if (participantHistoryEntityOptional.isPresent()) {
+                historyEntities.add(participantHistoryEntityOptional.get());
+            } else {
+                HistoryEntity historyEntity = HistoryEntity.builder()
+                        .ownerId(participantId)
+                        .referencedGroupId(groupId)
+                        .messageIds(new ArrayList<>())
+                        .build();
+                this.historyPersister.insert(historyEntity);
+                historyEntities.add(historyEntity);
+            }
+        });
         return historyEntities;
     }
 }

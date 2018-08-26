@@ -21,22 +21,20 @@ public interface HistoryRepository extends EntityRepository<HistoryEntity> {
     Collection<HistoryEntity> findByOwnerId(String ownerId);
 
     /**
-     * Checks if a chat history for specified group ID exists.
+     * Finds an existing chat history by their owner's and referenced group's ID.
      *
      * @param ownerId the ID of the owner.
      * @param referencedGroupId the ID of a referenced group.
-     * @return true if such history exists.
+     * @return an existing chat history.
      */
-    boolean existsByOwnerIdAndReferencedGroupId(String ownerId, String referencedGroupId);
-
-    Optional<HistoryEntity> findByOwnerIdAndReferencedUserId(String ownerId, String referencedUserId);
+    Optional<HistoryEntity> findByOwnerIdAndReferencedGroupId(String ownerId, String referencedGroupId);
 
     /**
-     * Checks if a chat history for specified user ID exists.
+     * Finds an existing chat history by their owner's and referenced user's ID.
      *
      * @param ownerId the ID of the owner.
      * @param referencedUserId the ID of a referenced user.
-     * @return true if such history exists.
+     * @return an existing chat history.
      */
-    boolean existsByOwnerIdAndReferencedUserId(String ownerId, String referencedUserId);
+    Optional<HistoryEntity> findByOwnerIdAndReferencedUserId(String ownerId, String referencedUserId);
 }
