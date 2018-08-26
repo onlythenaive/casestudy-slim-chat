@@ -1,0 +1,39 @@
+<h1>My chats</h1>
+
+<hr/>
+
+<div style="width: 400px;">
+    {{#data.chats}}
+
+        {{#if group}}
+            <div>
+                {{group.caption}}
+            </div>
+            <form action="/view/chat/group/{{group.id}}" method="get">
+                <button type="submit">Go</button>
+            </form>
+        {{else}}
+            <div>
+                {{recipient.accountName}}
+            </div>
+            <form action="/view/chat/{{recipient.accountName}}" method="get">
+                <button type="submit">Go</button>
+            </form>
+        {{/if}}
+
+        <div>
+            <form action="/view/history/delete" method="post">
+                <input name="historyId" type="hidden" value="{{history.id}}">
+                <button type="submit">Delete</button>
+            </form>
+        </div>
+
+        <hr/>
+    {{/data.chats}}
+</div>
+
+<hr/>
+
+<ul>
+    <li><a href="/view/home">Back Home</a></li>
+</ul>
