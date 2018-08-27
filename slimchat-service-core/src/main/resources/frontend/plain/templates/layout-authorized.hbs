@@ -1,26 +1,21 @@
 {{#partial "layout"}}
 
-    <h1>Slim Chat</h1>
+    <div class="navbar">
 
-    <div>
-        User: {{@root.context.user.accountName}}
+        <span class="navbar-item brand">Slim Chat</span>
+
+        <a href="chats" class="navbar-item"><i class="fa fa-fw fa-envelope"></i>Chats</a>
+        <a href="contacts" class="navbar-item"><i class="fa fa-fw fa-users"></i>Contacts</a>
+        <a href="profiles" class="navbar-item"><i class="fa fa-fw fa-search"></i>People</a>
+
+        <span class="navbar-spacer"></span>
+
+        <a href="profiles/me" class="navbar-item"><i class="fa fa-fw fa-user"></i>{{@root.context.user.accountName}}</a>
+
+        <form class="navbar-item form-logout" action="logout" method="post">
+            <button type="submit"><i class="fa fa-fw fa-envelope"></i>Logout</button>
+        </form>
     </div>
-
-    <form action="{{@root.context.base}}/logout" method="post">
-        <button type="submit">Logout</button>
-    </form>
-
-    Here is the menu:
-    <ul>
-        <li><a href="profiles/me">My Profile</a></li>
-        <li><a href="chats">My Chats</a></li>
-        <li><a href="contacts">My Contacts</a></li>
-        <li><a href="groups">My Groups</a></li>
-        <li><a href="profiles">Search People</a></li>
-        <li><a href="proposals/incoming">Requests to connect</a></li>
-    </ul>
-
-    <hr/>
 
     <div>
         {{#block "content"}}{{/block}}
