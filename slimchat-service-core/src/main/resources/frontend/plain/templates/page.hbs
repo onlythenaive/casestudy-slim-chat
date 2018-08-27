@@ -1,13 +1,34 @@
+{{! NOTE: the docoment type - this stands for HTML v5 }}
+<!DOCTYPE html>
+
 <html>
-<head>
-    <title>Slim Chat</title>
-    <base href="{{@root.context.base}}">
-</head>
-<body>
-<div class="layout">
-    {{#block "layout"}}{{/block}}
-</div>
-<hr/>
-{{@root}}
-</body>
+
+    {{! NOTE: document's header - meta info & resource inclusions live here }}
+    <head>
+
+        {{! NOTE: set a caption to application's web page in the browser }}
+        <title>Slim Chat: Plain Old UI</title>
+
+        {{! NOTE: set the base URI for all requests from this page }}
+        <base href="{{@root.context.base}}">
+
+        {{! NOTE: set correct content encoding... this it really important }}
+        <meta charset="UTF-8">
+
+        {{! NOTE: set viewport settings to make the page responsive }}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {{! NOTE: include bootstrap stylesheets }}
+        <link href="styles/vendor/bootstrap/4.1.2/bootstrap.min.css" type="text/css">
+
+        {{! NOTE: include common frontend stylesheets }}
+        <link href="styles/common.css" type="text/css">
+    </head>
+
+    {{! NOTE: document's main part - all the content must be placed here }}
+    <body>
+
+        {{! NOTE: a placeholder for page layout }}
+        {{#block "layout"}}{{/block}}
+    </body>
 </html>
