@@ -15,6 +15,7 @@ repositories {
 
 bootRun {
 
+    sourceResources sourceSets.main
     systemProperties = System.properties as Map<String, ?>
 }
 

@@ -1,5 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.configuration.web;
 
+import java.nio.charset.Charset;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.github.jknack.handlebars.Handlebars;
+import com.github.jknack.handlebars.cache.NullTemplateCache;
+import com.github.jknack.handlebars.cache.TemplateCache;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.springmvc.HandlebarsViewResolver;
@@ -39,7 +43,10 @@ public class WebConfiguration implements WebMvcConfigurer {
     public ViewResolver viewResolver() {
         TemplateLoader templateLoader = new ClassPathTemplateLoader("/frontend/");
         Handlebars handlebars = new Handlebars(templateLoader);
-        return new HandlebarsViewResolver(handlebars);
+        HandlebarsViewResolver viewResolver = new HandlebarsViewResolver(handlebars);
+        viewResolver.setCache(false);
+        viewResolver.setCharset(Charset.forName("UTF-8"));
+        return viewResolver;
     }
 
     @Override
