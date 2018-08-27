@@ -1,16 +1,32 @@
 {{#partial "content"}}
 
-    <h1>Registration</h1>
-    <form action="registration" method="post">
-        <input type="text" name="accountName" value="{{data.accountName}}"
-               placeholder="Your nickname, f.e. onlythenaive"/><br/>
-        <input type="password" name="accountPassword" value="" placeholder="Password"/><br/>
-        <input type="password" name="accountPasswordDuplicate" value="" placeholder="Password once again"/><br/>
-        <button type="submit">Register</button>
-    </form>
-    <span>{{error.messageLocalized}}</span><br/>
-    <a href="login">Already have an account?</a>
+    <form class="security-form" action="registration" method="post">
 
+        <div class="form-heading">
+            <span>Sign Up</span>
+        </div>
+
+        <div class="form-control">
+            <i class="fas fa-user-shield"></i>
+            <input name="accountName" type="text" placeholder="Account name" required autofocus>
+        </div>
+
+        <div class="form-control">
+            <i class="fas fa-unlock"></i>
+            <input name="accountPassword" type="password" placeholder="Password" required>
+        </div>
+
+        <div class="form-control">
+            <i class="fas fa-unlock"></i>
+            <input name="accountPasswordDuplicate" type="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit">Go</button>
+
+        <div class="form-alternate-link">
+            <a href="login">Already have an account?</a>
+        </div>
+    </form>
 {{/partial}}
 
 {{> plain/templates/layout-unauthorized}}
