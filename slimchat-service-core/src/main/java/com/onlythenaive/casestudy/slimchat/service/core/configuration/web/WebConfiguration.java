@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -53,6 +54,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/ui/plain/**")
                 .addResourceLocations("classpath:/frontend/plain/assets/")
-                .addResourceLocations("classpath:/frontend/shared/assets/");
+                .addResourceLocations("classpath:/frontend/shared/assets/")
+                .setCacheControl(CacheControl.noCache());
     }
 }
