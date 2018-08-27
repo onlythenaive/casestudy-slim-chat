@@ -3,48 +3,66 @@
 
     {{#with data.profile}}
 
-        <h1>Profile: {{accountName}}</h1>
+        <div class="column">
+            <div class="card">
+                <img src="https://www.gravatar.com/avatar/{{gravatarHash}}?s=64&default=identicon">
+                <div class="container">
+                    <h2>{{displayName}}</h2>
+                    <p class="title">CEO &amp; Founder</p>
+                    <p>{{status}}</p>
+                    <p>{{email}}</p>
+                    <p><button class="button">Contact</button></p>
+                </div>
+            </div>
+        </div>
 
-        <form action="profiles/update" method="post">
-            <div>
-                <input name="id" type="hidden" value="{{id}}"/>
-            </div>
-            <div>
-                <label for="email">Email: </label>
-                <input name="email" type="text" value="{{email}}"/>
-            </div>
-            <div>
-                <label for="firstname">First name: </label>
-                <input name="firstname" type="text" value="{{firstname}}"/>
-            </div>
-            <div>
-                <label for="lastname">Last name: </label>
-                <input name="lastname" type="text" value="{{lastname}}"/>
-            </div>
-            <div>
-                <label for="status">Status: </label>
-                <input name="status" type="text" value="{{status}}"/>
-            </div>
-            <div>
-                <label for="lastSpottedAtPretty">Last spotted at: </label>
-                <input name="lastSpottedAtPretty" type="text" value="{{lastSpottedAtPretty}}"/>
-            </div>
-            <div>
-                <label for="restricted">Restricted: </label>
-                <input name="restricted" type="radio" value="true"/>
-                <input name="restricted" type="radio" value="false"/>
-            </div>
-            <div>
-                <button type="submit">Save</button>
-            </div>
-        </form>
 
-        {{#if connected}}
-            Connected!
+        {{#if viewable}}
+            <div>Viewable</div>
+        {{/if}}
+
+        {{#if ownedByPrincipal}}
+            <div>It's me</div>
+            <form action="profiles/update" method="post">
+                <div>
+                    <input name="id" type="hidden" value="{{id}}"/>
+                </div>
+                <div>
+                    <label for="email">Email: </label>
+                    <input name="email" type="text" value="{{email}}"/>
+                </div>
+                <div>
+                    <label for="firstname">First name: </label>
+                    <input name="firstname" type="text" value="{{firstname}}"/>
+                </div>
+                <div>
+                    <label for="lastname">Last name: </label>
+                    <input name="lastname" type="text" value="{{lastname}}"/>
+                </div>
+                <div>
+                    <label for="status">Status: </label>
+                    <input name="status" type="text" value="{{status}}"/>
+                </div>
+                <div>
+                    <label for="lastSpottedAtPretty">Last spotted at: </label>
+                    <input name="lastSpottedAtPretty" type="text" value="{{lastSpottedAtPretty}}"/>
+                </div>
+                <div>
+                    <label for="restricted">Restricted: </label>
+                    <input name="restricted" type="radio" value="true"/>
+                    <input name="restricted" type="radio" value="false"/>
+                </div>
+                <div>
+                    <button type="submit">Save</button>
+                </div>
+            </form>
         {{else}}
 
-            {{#unless ownedByPrincipal}}
-
+            {{#if connected}}
+                <div>Connected</div>
+            {{else}}
+                <div>Not yet connected</div>
+                <div>{{restricted}}</div>
                 <form action="proposals/create" method="post">
                     <div>
                         <input name="acceptorId" type="hidden" value="{{id}}"/>
@@ -60,9 +78,8 @@
                         <button type="submit">Add as contact</button>
                     </div>
                 </form>
-            {{/unless}}
+            {{/if}}
         {{/if}}
-
     {{/with}}
 {{/partial}}
 
