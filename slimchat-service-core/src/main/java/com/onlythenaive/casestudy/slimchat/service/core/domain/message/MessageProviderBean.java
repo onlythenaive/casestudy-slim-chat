@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class MessageProviderBean extends GenericComponentBean implements Message
     @Override
     public Collection<Message> findByIds(Collection<String> ids) {
         return this.messageRepository.findAllById(ids).stream()
+                .sorted(Comparator.comparing(MessageEntity::getCreatedAt).reversed())
                 .map(this.messageProjector::project)
                 .collect(Collectors.toList());
     }
