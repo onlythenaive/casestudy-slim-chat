@@ -29,6 +29,7 @@ public class MessageProjectorBean extends GenericComponentBean implements Messag
                 .id(entity.getId())
                 .text(entity.getText())
                 .author(profile(entity.getAuthorId()))
+                .writtenByPrincipal(entity.getAuthorId().equals(principalId()))
                 .recipient(profile(entity.getRecipientId()))
                 .group(group(entity.getGroupId()))
                 .createdAt(entity.getCreatedAt())

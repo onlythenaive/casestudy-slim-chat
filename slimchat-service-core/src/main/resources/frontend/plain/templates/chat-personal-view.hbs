@@ -1,39 +1,58 @@
 {{#partial "content"}}
 
-    <h1>Personal chat: {{data.chat.referencedUser.accountName}}</h1>
-
-    <hr/>
-
-    <div style="width: 400px;">
+    <div class="chat">
         {{#data.chat}}
 
-            <div>
+            <h1>Chat with {{data.chat.referencedUser.displayName}}</h1>
+
+            <form class="message-form" action="login" method="post">
+
+                <input name="recipientId" type="hidden" value="{{referencedUser.id}}">
+
+                <div class="form-control">
+                    <textarea name="text" placeholder="Enter the message"></textarea>
+                </div>
+
+                <button type="submit">Send</button>
+            </form>
+
+            {{#if messages}}
+
+                <form class="history-form" action="history/delete" method="post">
+
+                    <input name="historyId" type="hidden" value="{{id}}">
+                    <input name="redirectUri" type="hidden" value="chats/{{referencedUser.accountName}}">
+
+                    <button type="submit">Clear history</button>
+                </form>
+            {{/if}}
+
+            <div class="history">
                 {{#messages}}
-                    <div>
-                        {{author.firstname}}: {{text}}
+                    <div class="message {{#if writtenByPrincipal}}own{{/if}}">
+                        <div class="avatar-section">
+                            <img class="avatar" src="https://www.gravatar.com/avatar/{{author.gravatarHash}}?s=48&default=mp">
+                        </div>
+                        <div class="content-section">
+                            <div>
+                                <span class="author">
+                                    {{#if writtenByPrincipal}}
+                                        Me
+                                    {{else}}
+                                        <a href="profiles/{{author.accountName}}">{{author.shortDisplayName}}</a>
+                                    {{/if}}
+                                </span>
+                                <span class="timestamp">{{prettyTimestamp}}</span>
+                            </div>
+                            <div class="text">
+                                <span class="text">{{text}}</span>
+                            </div>
+                        </div>
                     </div>
                 {{/messages}}
             </div>
-
-            <div>
-                <form action="messages/create" method="post">
-                    <input name="recipientId" type="hidden" value="{{referencedUser.id}}">
-                    <textarea name="text" placeholder="Enter the message"></textarea>
-                    <button type="submit">Send</button>
-                </form>
-                {{#if messages}}
-                    <form action="history/delete" method="post">
-                        <input name="historyId" type="hidden" value="{{id}}">
-                        <input name="redirectUri" type="hidden" value="chats/{{referencedUser.accountName}}">
-                        <button type="submit">Clear history</button>
-                    </form>
-                {{/if}}
-
-            </div>
-            <hr/>
         {{/data.chat}}
     </div>
-
 {{/partial}}
 
 {{> plain/templates/layout-authorized}}
