@@ -5,7 +5,7 @@
 
             <h1>Chat with {{data.chat.referencedUser.displayName}}</h1>
 
-            <form class="message-form" action="login" method="post">
+            <form class="message-form" action="messages/create" method="post">
 
                 <input name="recipientId" type="hidden" value="{{referencedUser.id}}">
 
