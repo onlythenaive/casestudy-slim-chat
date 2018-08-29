@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.password.PasswordHashService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.hash.BcryptHashService;
 
 /**
  * Security account facade implementation.
@@ -31,7 +31,7 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
     private AccountRepository accountRepository;
 
     @Autowired
-    private PasswordHashService passwordHashService;
+    private BcryptHashService hashService;
 
     @Override
     public void create(String name, String password) {
@@ -58,7 +58,7 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
     }
 
     private String hashPassword(String password) {
-        return this.passwordHashService.hash(password);
+        return this.hashService.hash(password);
     }
 
     private OperationException accountAlreadyExists(String name) {

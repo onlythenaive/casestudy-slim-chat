@@ -8,7 +8,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionCategory;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.password.PasswordHashService;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.hash.BcryptHashService;
 
 /**
  * Security token operations facade implementation.
@@ -22,7 +22,7 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
     private AccountProvider accountProvider;
 
     @Autowired
-    private PasswordHashService passwordHashService;
+    private BcryptHashService hashService;
 
     @Autowired
     private TokenContextConfigurator tokenContextConfigurator;
@@ -39,7 +39,7 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
     @Override
     public void createFromAccountCredentials(String name, String password) {
         Account account = this.accountProvider.findByName(name).orElseThrow(() -> loginFailed(name));
-        boolean verified = this.passwordHashService.verify(password, account.getPasswordHash());
+        boolean verified = this.hashService.verify(password, account.getPasswordHash());
         if (!verified) {
             throw loginFailed(name);
         }

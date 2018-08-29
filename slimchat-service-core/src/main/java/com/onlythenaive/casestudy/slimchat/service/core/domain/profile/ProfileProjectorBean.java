@@ -2,9 +2,11 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.hash.Md5HashService;
 
 /**
  * User profile projector implementation.
@@ -13,6 +15,9 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
  */
 @Service
 public class ProfileProjectorBean extends GenericComponentBean implements ProfileProjector {
+
+    @Autowired
+    private Md5HashService hashService;
 
     @Override
     public Profile project(ProfileEntity entity) {
@@ -29,6 +34,7 @@ public class ProfileProjectorBean extends GenericComponentBean implements Profil
                 .connected(connectedToPrincipal(entity))
                 .status(entity.getStatus())
                 .ownedByPrincipal(ownedByPrincipal(entity))
+                .gravatarHash(gravatarHash(entity.getEmail()))
                 .build();
     }
 
@@ -42,7 +48,12 @@ public class ProfileProjectorBean extends GenericComponentBean implements Profil
                 .restricted(entity.getRestricted())
                 .connected(connectedToPrincipal(entity))
                 .ownedByPrincipal(ownedByPrincipal(entity))
+                .gravatarHash(gravatarHash(entity.getEmail()))
                 .build();
+    }
+
+    private String gravatarHash(String email) {
+        return email != null ? this.hashService.hash(email) : "no-hash";
     }
 
     private boolean connectedToPrincipal(ProfileEntity entity) {

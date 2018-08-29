@@ -1,13 +1,9 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-
-import javax.xml.bind.DatatypeConverter;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,6 +33,7 @@ public class Profile {
     private Boolean restricted;
     private Boolean connected;
     private Boolean ownedByPrincipal;
+    private String gravatarHash;
     private String status;
 
     public String getLastSpottedAtPretty() {
@@ -64,20 +61,5 @@ public class Profile {
 
     public String getShortDisplayName() {
         return this.firstname != null ? this.firstname : this.accountName;
-    }
-
-    public String getGravatarHash() {
-        return this.email != null ? md5(this.email) : null;
-    }
-
-    private String md5(String value) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(value.getBytes());
-            byte[] digest = md.digest();
-            return DatatypeConverter.printHexBinary(digest).toLowerCase();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
