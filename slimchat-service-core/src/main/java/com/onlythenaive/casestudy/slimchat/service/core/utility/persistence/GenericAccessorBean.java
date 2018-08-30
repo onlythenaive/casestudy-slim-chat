@@ -21,6 +21,22 @@ public abstract class GenericAccessorBean<E extends PersistedEntity> extends Gen
     private EntityRepository<E> repository;
 
     @Override
+    public E ensureAccess(AccessLevel level, E subject) {
+        if (getBypassThreshold().greaterOrEqual(level)) {
+            return subject;
+        }
+        if (level.greaterOrEqual(allowedAccessLevel(subject))) {
+            throw insufficientPrivileges();
+        }
+        return subject;
+    }
+
+    @Override
+    public E accessById(String id) {
+        return accessById(getBypassThreshold(), id);
+    }
+
+    @Override
     public E accessById(AccessLevel level, String id) {
         return accessByIdIfAny(level, id).orElseThrow(() -> notFoundById(getEntityName(), id));
     }
@@ -28,6 +44,10 @@ public abstract class GenericAccessorBean<E extends PersistedEntity> extends Gen
     @Override
     public Optional<E> accessByIdIfAny(AccessLevel level, String id) {
         return accessIfAny(level, () -> this.repository.findById(id));
+    }
+
+    protected AccessLevel getBypassThreshold() {
+        return AccessLevel.BYPASS;
     }
 
     /**

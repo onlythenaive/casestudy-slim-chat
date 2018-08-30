@@ -14,11 +14,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 public class HistoryAccessorBean extends GenericAccessorBean<HistoryEntity> implements HistoryAccessor {
 
     @Override
-    public HistoryEntity ensureAccess(AccessLevel level, HistoryEntity subject) {
-        if (!subject.getOwnerId().equals(principalId())) {
-            throw insufficientPrivileges();
+    public AccessLevel allowedAccessLevel(HistoryEntity subject) {
+        if (subject.getOwnerId().equals(principalId())) {
+            return AccessLevel.MANAGE;
         }
-        return subject;
+        return AccessLevel.BYPASS;
     }
 
     @Override

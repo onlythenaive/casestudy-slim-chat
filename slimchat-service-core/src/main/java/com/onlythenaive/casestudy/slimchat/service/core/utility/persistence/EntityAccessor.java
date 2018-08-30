@@ -11,6 +11,8 @@ import java.util.Optional;
  */
 public interface EntityAccessor<E extends PersistedEntity> {
 
+    AccessLevel allowedAccessLevel(E subject);
+
     /**
      * Ensures if current operation has sufficient privileges for provided entity.
      *
@@ -19,6 +21,14 @@ public interface EntityAccessor<E extends PersistedEntity> {
      * @return the provided entity.
      */
     E ensureAccess(AccessLevel level, E subject);
+
+    /**
+     * Find an existing entity by its ID.
+     *
+     * @param id the ID of an existing entity.
+     * @return the requested entity.
+     */
+    E accessById(String id);
 
     /**
      * Find an existing entity by its ID and ensures access privileges.

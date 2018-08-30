@@ -1,7 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
 import java.util.Collection;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.OperationException;
 
 /**
  * User profile provider implementation.
@@ -31,7 +29,7 @@ public class ProfileProviderBean extends GenericComponentBean implements Profile
     @Override
     public Collection<Profile> getAll() {
         return this.profileRepository.findAll().stream()
-                .map(this.profileProjector::projectPreview)
+                .map(this::projectPreview)
                 .collect(Collectors.toList());
     }
 
@@ -39,20 +37,21 @@ public class ProfileProviderBean extends GenericComponentBean implements Profile
     public Collection<Profile> getAllConnected(String id) {
         ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.VIEW, id);
         return this.profileRepository.findAllById(entity.getConnectedProfileIds()).stream()
-                .map(this.profileProjector::projectPreview)
+                .map(this::projectPreview)
                 .collect(Collectors.toList());
     }
 
     @Override
     public Profile getById(String id) {
-        ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.PREVIEW, id);
-        return project(entity);
+        ProfileEntity entity = this.profileAccessor.accessById(id);
+        boolean viewAllowed = this.profileAccessor.allowedAccessLevel(entity).greaterOrEqual(AccessLevel.VIEW);
+        return viewAllowed ? project(entity) : projectPreview(entity);
     }
 
     @Override
     public Collection<Profile> getByIds(Collection<String> ids) {
         return this.profileRepository.findAllById(ids).stream()
-                .map(this.profileProjector::projectPreview)
+                .map(this::projectPreview)
                 .collect(Collectors.toList());
     }
 
@@ -60,7 +59,7 @@ public class ProfileProviderBean extends GenericComponentBean implements Profile
         return this.profileProjector.project(entity);
     }
 
-    private OperationException profileNotFoundByAccountName(String accountName) {
-        return notFoundByProperty("profile", "accountName", accountName);
+    private Profile projectPreview(ProfileEntity entity) {
+        return this.profileProjector.projectPreview(entity);
     }
 }

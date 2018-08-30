@@ -14,11 +14,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 public class ProposalAccessorBean extends GenericAccessorBean<ProposalEntity> implements ProposalAccessor {
 
     @Override
-    public ProposalEntity ensureAccess(AccessLevel level, ProposalEntity subject) {
+    public AccessLevel allowedAccessLevel(ProposalEntity subject) {
         if (subject.getInitiatorId().equals(principalId()) || subject.getAcceptorId().equals(principalId())) {
-            return subject;
+            return AccessLevel.EDIT;
         }
-        throw insufficientPrivileges();
+        return AccessLevel.BYPASS;
     }
 
     @Override

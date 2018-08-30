@@ -1,7 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
-import java.util.Collection;
-
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
@@ -16,39 +14,18 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 public class GroupAccessorBean extends GenericAccessorBean<GroupEntity> implements GroupAccessor {
 
     @Override
-    public GroupEntity ensureAccess(AccessLevel level, GroupEntity subject) {
-        switch (level) {
-            case BYPASS:
-            case PREVIEW:
-            case VIEW:
-            case CONTRIBUTE:
-                return ensureParticipation(subject);
-            case EDIT:
-            case MANAGE:
-                return ensureModeration(subject);
-            default:
-                throw notSupported();
+    public AccessLevel allowedAccessLevel(GroupEntity subject) {
+        if (subject.getModeratorIds().contains(principalId())) {
+            return AccessLevel.MANAGE;
         }
+        if (subject.getParticipantIds().contains(principalId())) {
+            return AccessLevel.CONTRIBUTE;
+        }
+        return AccessLevel.BYPASS;
     }
 
     @Override
     protected String getEntityName() {
         return "group";
-    }
-
-    private GroupEntity ensureParticipation(GroupEntity entity) {
-        ensureInclusion(entity.getParticipantIds());
-        return entity;
-    }
-
-    private GroupEntity ensureModeration(GroupEntity entity) {
-        ensureInclusion(entity.getModeratorIds());
-        return entity;
-    }
-
-    private void ensureInclusion(Collection<String> userIds) {
-        if (!userIds.contains(principalId())) {
-            throw insufficientPrivileges();
-        }
     }
 }

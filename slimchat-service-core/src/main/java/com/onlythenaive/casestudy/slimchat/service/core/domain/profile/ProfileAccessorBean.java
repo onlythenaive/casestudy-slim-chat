@@ -14,42 +14,24 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 public class ProfileAccessorBean extends GenericAccessorBean<ProfileEntity> implements ProfileAccessor {
 
     @Override
-    public ProfileEntity ensureAccess(AccessLevel level, ProfileEntity subject) {
-        switch (level) {
-            case BYPASS:
-            case PREVIEW:
-                return subject;
-            case VIEW:
-                return ensureAccessForView(subject);
-            case CONTRIBUTE:
-            case EDIT:
-                return ensureAccessForUpdate(subject);
-            case MANAGE:
-            default:
-                throw notSupported();
+    public AccessLevel allowedAccessLevel(ProfileEntity subject) {
+        if (ownedByPrincipal(subject)) {
+            return AccessLevel.EDIT;
         }
+        if (!subject.getRestricted() || connectedWithPrincipal(subject)) {
+            return AccessLevel.VIEW;
+        }
+        return AccessLevel.PREVIEW;
+    }
+
+    @Override
+    protected AccessLevel getBypassThreshold() {
+        return AccessLevel.PREVIEW;
     }
 
     @Override
     protected String getEntityName() {
         return "profile";
-    }
-
-    private ProfileEntity ensureAccessForView(ProfileEntity entity) {
-        if (ownedByPrincipal(entity)) {
-            return entity;
-        }
-        if (entity.getRestricted() && !connectedWithPrincipal(entity)) {
-            throw insufficientPrivileges();
-        }
-        return entity;
-    }
-
-    private ProfileEntity ensureAccessForUpdate(ProfileEntity entity) {
-        if (!ownedByPrincipal(entity)) {
-            throw insufficientPrivileges();
-        }
-        return entity;
     }
 
     private boolean connectedWithPrincipal(ProfileEntity entity) {
