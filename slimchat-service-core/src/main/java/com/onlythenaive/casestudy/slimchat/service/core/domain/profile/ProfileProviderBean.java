@@ -29,47 +29,28 @@ public class ProfileProviderBean extends GenericComponentBean implements Profile
     private ProfileRepository profileRepository;
 
     @Override
-    public Collection<Profile> find() {
+    public Collection<Profile> getAll() {
         return this.profileRepository.findAll().stream()
                 .map(this.profileProjector::projectPreview)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<Profile> findConnected(String id) {
+    public Collection<Profile> getAllConnected(String id) {
         ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.VIEW, id);
-        return this.profileRepository.findAllById(entity.getConnectedUserIds()).stream()
+        return this.profileRepository.findAllById(entity.getConnectedProfileIds()).stream()
                 .map(this.profileProjector::projectPreview)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Profile getByAccountName(String accountName) {
-        ProfileEntity entity = this.profileRepository.findByAccountName(accountName)
-                .orElseThrow(() -> profileNotFoundByAccountName(accountName));
-        this.profileAccessor.ensureAccess(AccessLevel.VIEW, entity);
-        return project(entity);
-    }
-
-    @Override
     public Profile getById(String id) {
-        ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.VIEW, id);
+        ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.PREVIEW, id);
         return project(entity);
     }
 
     @Override
-    public Optional<Profile> findPreviewByAccountName(String accountName) {
-        return this.profileRepository.findByAccountName(accountName)
-                .map(this.profileProjector::projectPreview);
-    }
-
-    @Override
-    public Optional<Profile> findPreviewById(String id) {
-        return this.profileAccessor.accessByIdIfAny(AccessLevel.PREVIEW, id).map(this::project);
-    }
-
-    @Override
-    public Collection<Profile> findPreviews(Collection<String> ids) {
+    public Collection<Profile> getByIds(Collection<String> ids) {
         return this.profileRepository.findAllById(ids).stream()
                 .map(this.profileProjector::projectPreview)
                 .collect(Collectors.toList());

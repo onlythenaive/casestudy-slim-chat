@@ -5,9 +5,9 @@
 
         <div class="column">
             <div class="card">
-                <img src="https://www.gravatar.com/avatar/{{gravatarHash}}?s=64&default=identicon">
+                <img src="https://www.gravatar.com/avatar/{{emailHash}}?s=64&default=identicon">
                 <div class="container">
-                    <h2>{{displayName}}</h2>
+                    <h2>{{firstname}} {{lastname}}</h2>
                     <p class="title">CEO &amp; Founder</p>
                     <p>{{status}}</p>
                     <p>{{email}}</p>
@@ -17,11 +17,11 @@
         </div>
 
 
-        {{#if viewable}}
+        {{#unless preview}}
             <div>Viewable</div>
-        {{/if}}
+        {{/unless}}
 
-        {{#if ownedByPrincipal}}
+        {{#if own}}
             <div>It's me</div>
             <form action="profiles/update" method="post">
                 <div>
@@ -68,7 +68,7 @@
                         <input name="acceptorId" type="hidden" value="{{id}}"/>
                     </div>
                     <div>
-                        <input name="redirectUri" type="hidden" value="profile/{{accountName}}"/>
+                        <input name="redirectUri" type="hidden" value="profile/{{id}}"/>
                     </div>
                     <div>
                         <label for="text">Text: </label>

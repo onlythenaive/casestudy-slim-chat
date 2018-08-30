@@ -1,12 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountActionAware;
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountCreationEvent;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -21,15 +21,15 @@ public class ProfileOrchestratorBean extends GenericComponentBean implements Acc
     private ProfilePersister profilePersister;
 
     @Override
-    public void onAccountCreated(Account account) {
+    public void onAccountCreated(AccountCreationEvent event) {
         ProfileEntity entity = ProfileEntity.builder()
-                .id(account.getId())
-                .accountName(account.getName())
-                .lastSpottedAt(now())
-                .registeredAt(now())
+                .id(event.getAccount().getId())
+                .firstname(event.getFirstname())
+                .lastname(event.getLastname())
+                .connectedProfileIds(new HashSet<>())
                 .restricted(false)
-                .connectedUserIds(new ArrayList<>())
                 .status("Hey, I'm using Slim Chat now!")
+                .lastSpottedAt(now())
                 .build();
         this.profilePersister.insert(entity);
     }

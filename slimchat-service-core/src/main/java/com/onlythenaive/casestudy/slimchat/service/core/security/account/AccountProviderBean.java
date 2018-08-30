@@ -22,16 +22,7 @@ public class AccountProviderBean extends GenericComponentBean implements Account
     private AccountRepository accountRepository;
 
     @Override
-    public Optional<Account> findByName(String name) {
-        return this.accountRepository.findByName(name).map(this::project);
-    }
-
-    @Override
     public Optional<Account> findById(String id) {
-        return this.accountRepository.findById(id).map(this::project);
-    }
-
-    private Account project(AccountEntity entity) {
-        return this.accountProjector.project(entity);
+        return this.accountRepository.findById(id).map(this.accountProjector::project);
     }
 }

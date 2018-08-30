@@ -111,7 +111,7 @@ public abstract class GenericFrontendControllerBean extends GenericComponentBean
     }
 
     private ModelAndView handleException(Exception exception) {
-//        logger().error("An unknown occurred", exception);
+        logger().error("An unknown occurred", exception);
 //        String errorViewName = getViewNamePrefix() + "error";
         return redirect("error");
     }

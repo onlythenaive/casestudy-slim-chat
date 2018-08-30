@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,39 +35,48 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
     private BcryptHashService hashService;
 
     @Override
-    public void create(String name, String password) {
-        ensureNameUniqueness(name);
-        AccountEntity entity = accountEntity(name, password);
+    public void create(AccountInvoice invoice) {
+        ensureIdUniqueness(invoice.getId());
+        AccountEntity entity = accountEntityFromInvoice(invoice);
         this.accountPersister.insert(entity);
-        Account account = this.accountProjector.project(entity);
-        handleAction(this.accountActionHandlers, handler -> handler.onAccountCreated(account));
+        handleAccountCreation(entity, invoice);
    }
 
-    private void ensureNameUniqueness(String name) {
-        if (this.accountRepository.existsByName(name)) {
-            throw accountAlreadyExists(name);
+    private void ensureIdUniqueness(String id) {
+        if (this.accountRepository.existsById(id)) {
+            throw accountAlreadyExists(id);
         }
     }
 
-    private AccountEntity accountEntity(String name, String password) {
+    private AccountEntity accountEntityFromInvoice(AccountInvoice invoice) {
         return AccountEntity.builder()
-                .id(uuid())
-                .name(name)
-                .passwordHash(hashPassword(password))
-                .createdAt(now())
+                .id(invoice.getId())
+                .roles(new HashSet<>())
+                .secretHash(hashSecret(invoice.getSecret()))
                 .build();
     }
 
-    private String hashPassword(String password) {
+    private String hashSecret(String password) {
         return this.hashService.hash(password);
     }
 
-    private OperationException accountAlreadyExists(String name) {
+    private void handleAccountCreation(AccountEntity entity, AccountInvoice invoice) {
+        Account account = this.accountProjector.project(entity);
+        AccountCreationEvent event = AccountCreationEvent.builder()
+                .account(account)
+                .email(invoice.getEmail())
+                .firstname(invoice.getFirstname())
+                .lastname(invoice.getLastname())
+                .build();
+        handleAction(this.accountActionHandlers, handler -> handler.onAccountCreated(event));
+    }
+
+    private OperationException accountAlreadyExists(String id) {
         return OperationException.builder()
                 .comment("Account already exists")
                 .textcode("x.conflict.account.already-exists")
                 .category(ExceptionCategory.CONFLICT)
-                .dataAttribute("accountName", name)
+                .dataAttribute("accountId", id)
                 .build();
     }
 }

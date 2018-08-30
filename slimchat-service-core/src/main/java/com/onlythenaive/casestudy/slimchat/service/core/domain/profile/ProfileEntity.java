@@ -1,7 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
 import java.time.Instant;
-import java.util.Collection;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.lang.Nullable;
@@ -33,10 +32,6 @@ public class ProfileEntity implements PersistedEntity {
     private String id;
 
     @Field
-    @Indexed
-    private String accountName;
-
-    @Field
     private String email;
 
     @Field
@@ -48,10 +43,14 @@ public class ProfileEntity implements PersistedEntity {
     private String lastname;
 
     @Field
-    private Instant lastSpottedAt;
+    private Set<String> connectedProfileIds;
 
     @Field
-    private Instant registeredAt;
+    private Boolean restricted;
+
+    @Field
+    @Nullable
+    private String status;
 
     @Field
     private Instant createdAt;
@@ -60,20 +59,5 @@ public class ProfileEntity implements PersistedEntity {
     private Instant lastModifiedAt;
 
     @Field
-    private Boolean restricted;
-
-    @Field
-    private Collection<String> connectedUserIds;
-
-    @Field
-    @Nullable
-    private String status;
-
-    public boolean acceptsMessagesFrom(String anotherProfileId) {
-        return !restricted || connectedWith(anotherProfileId);
-    }
-
-    public boolean connectedWith(String anotherProfileId) {
-        return this.connectedUserIds.contains(anotherProfileId);
-    }
+    private Instant lastSpottedAt;
 }

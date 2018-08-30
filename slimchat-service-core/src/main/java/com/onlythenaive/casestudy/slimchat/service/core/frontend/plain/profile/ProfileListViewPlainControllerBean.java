@@ -23,7 +23,7 @@ public class ProfileListViewPlainControllerBean extends GenericPlainControllerBe
 
     @GetMapping
     public ModelAndView show() {
-        Collection<Profile> profiles = this.profileFacade.find();
+        Collection<Profile> profiles = this.profileFacade.findAll();
         return render("profile-list-view", data(profiles));
     }
 

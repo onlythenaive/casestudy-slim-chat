@@ -1,8 +1,8 @@
 [
   {
     "id": "message-from-alice-to-john",
-    "authorId": "account-id-for-alice",
-    "recipientId": "account-id-for-john",
+    "authorId": "alice",
+    "recipientId": "john",
     "text": "Might we know each other?"
   }
 ]

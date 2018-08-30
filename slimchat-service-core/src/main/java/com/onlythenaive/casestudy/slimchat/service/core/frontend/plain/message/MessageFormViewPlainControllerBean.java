@@ -24,7 +24,7 @@ public class MessageFormViewPlainControllerBean extends GenericPlainControllerBe
         if (message.isAffiliatedToGroup()) {
             return redirect("chat/group/" + message.getGroup().getId());
         } else {
-            return redirect("chats/" + message.getRecipient().getAccountName());
+            return redirect("chats/" + message.getRecipient().getId());
         }
     }
 }

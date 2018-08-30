@@ -10,8 +10,7 @@ public interface AccountFacade {
     /**
      * Creates a new security account.
      *
-     * @param name account name.
-     * @param password account password.
+     * @param invoice an invoice for account creation.
      */
-    void create(String name, String password);
+    void create(AccountInvoice invoice);
 }

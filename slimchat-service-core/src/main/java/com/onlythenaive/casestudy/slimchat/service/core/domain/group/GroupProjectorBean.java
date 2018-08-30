@@ -53,6 +53,6 @@ public class GroupProjectorBean extends GenericComponentBean implements GroupPro
     }
 
     private Collection<Profile> profilePreviews(Collection<String> profileIds) {
-        return this.profileProvider.findPreviews(profileIds);
+        return this.profileProvider.getByIds(profileIds);
     }
 }

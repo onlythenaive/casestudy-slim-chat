@@ -20,6 +20,6 @@ public class ProfileActionPlainControllerBean extends GenericPlainControllerBean
     @PostMapping("/update")
     public ModelAndView update(ProfileFormInput form) {
         Profile profile = this.profileFacade.update(form.getId(), form.toUpdateInvoice());
-        return redirect("profiles/" + profile.getAccountName());
+        return redirect("profiles/" + profile.getId());
     }
 }

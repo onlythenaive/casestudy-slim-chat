@@ -19,6 +19,5 @@ import lombok.NoArgsConstructor;
 public class Principal {
 
     private String id;
-    private String name;
     private Collection<String> roles;
 }

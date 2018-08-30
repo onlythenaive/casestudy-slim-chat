@@ -16,9 +16,9 @@
                 </form>
             {{else}}
                 <div>
-                    {{referencedUser.accountName}}
+                    {{referencedUser.id}}
                 </div>
-                <form action="chats/{{referencedUser.accountName}}" method="get">
+                <form action="chats/{{referencedUser.id}}" method="get">
                     <button type="submit">Go</button>
                 </form>
             {{/if}}

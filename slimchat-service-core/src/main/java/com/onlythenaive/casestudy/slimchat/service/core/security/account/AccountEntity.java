@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
 import java.time.Instant;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -30,11 +30,10 @@ public class AccountEntity implements PersistedEntity {
     private String id;
 
     @Field
-    @Indexed
-    private String name;
+    private Set<String> roles;
 
     @Field
-    private String passwordHash;
+    private String secretHash;
 
     @Field
     private Instant createdAt;

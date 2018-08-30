@@ -21,14 +21,14 @@ public class RegistrationActionPlainControllerBean extends GenericPlainControlle
     @PostMapping
     public ModelAndView register(RegistrationFormInput form) {
         ensurePasswordDuplicate(form);
-        this.accountFacade.create(form.getAccountName(), form.getAccountPassword());
+        this.accountFacade.create(form.toInvoice());
         return redirect("profiles/me");
     }
 
     private void ensurePasswordDuplicate(RegistrationFormInput form) {
-        if (!form.getAccountPassword().equals(form.getAccountPasswordDuplicate())) {
+        if (!form.isSecretDuplicated()) {
             RegistrationFormInput data = RegistrationFormInput.builder()
-                    .accountName(form.getAccountName())
+                    .id(form.getId())
                     .build();
             throw OperationException.builder()
                     .category(ExceptionCategory.CONFLICT)

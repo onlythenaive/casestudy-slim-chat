@@ -29,28 +29,13 @@ public class ProfileFacadeBean extends GenericComponentBean implements ProfileFa
     private ProfileProvider profileProvider;
 
     @Override
-    public Collection<Profile> find() {
-        return this.profileProvider.find();
-    }
-
-    @Override
-    public Profile getByAccountName(String accountName) {
-        return this.profileProvider.getByAccountName(accountName);
-    }
-
-    @Override
-    public Profile getPreviewByAccountName(String accountName) {
-        return this.profileProvider.findPreviewByAccountName(accountName).orElseThrow(() -> notFoundByProperty("profile", "accountName", accountName));
+    public Collection<Profile> findAll() {
+        return this.profileProvider.getAll();
     }
 
     @Override
     public Profile getById(String id) {
         return this.profileProvider.getById(id);
-    }
-
-    @Override
-    public Profile getPreviewById(String id) {
-        return this.profileProvider.findPreviewById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 
     @Override

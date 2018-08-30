@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.bootstrap;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
@@ -24,7 +25,8 @@ public class SecurityAccountBootstrapBean extends GenericEntityBootstrapBean<Acc
     protected void executeBootstrap() {
         Collection<AccountEntity> entities = parseList("/bootstrap/dev/accounts.json", AccountEntity.class);
         entities.forEach(entity -> {
-            entity.setPasswordHash(this.hashService.hash("*"));
+            entity.setSecretHash(this.hashService.hash("*"));
+            entity.setRoles(new HashSet<>());
             insertBootstrappedEntity(entity);
         });
     }

@@ -3,8 +3,8 @@ package com.onlythenaive.casestudy.slimchat.service.core.security.token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account;
 import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountActionAware;
+import com.onlythenaive.casestudy.slimchat.service.core.security.account.AccountCreationEvent;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -19,7 +19,7 @@ public class TokenOrchestratorBean extends GenericComponentBean implements Accou
     private TokenGenerator tokenGenerator;
 
     @Override
-    public void onAccountCreated(Account account) {
-        this.tokenGenerator.generateForAccountId(account.getId());
+    public void onAccountCreated(AccountCreationEvent event) {
+        this.tokenGenerator.generateForAccountId(event.getAccount().getId());
     }
 }

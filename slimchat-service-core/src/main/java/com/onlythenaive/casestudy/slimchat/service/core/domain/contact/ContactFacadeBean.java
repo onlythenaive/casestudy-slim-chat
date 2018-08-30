@@ -39,15 +39,15 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
 
     @Override
     public Collection<Profile> find() {
-        return this.profileProvider.findConnected(principalId());
+        return this.profileProvider.getAllConnected(principalId());
     }
 
     @Override
     public void remove(String profileId) {
         ProfileEntity actorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, principalId());
         ProfileEntity objectEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, profileId);
-        actorEntity.getConnectedUserIds().remove(profileId);
-        objectEntity.getConnectedUserIds().remove(principalId());
+        actorEntity.getConnectedProfileIds().remove(profileId);
+        objectEntity.getConnectedProfileIds().remove(principalId());
         this.profilePersister.update(actorEntity);
         this.profilePersister.update(objectEntity);
         Profile actor = this.profileProjector.projectPreview(actorEntity);

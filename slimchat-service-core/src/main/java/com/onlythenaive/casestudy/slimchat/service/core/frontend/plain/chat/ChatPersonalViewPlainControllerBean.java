@@ -28,14 +28,14 @@ public class ChatPersonalViewPlainControllerBean extends GenericPlainControllerB
     @Autowired
     private ProfileFacade profileFacade;
 
-    @GetMapping("/{accountName}")
-    public ModelAndView show(@PathVariable("accountName") String accountName) {
-        Profile recipient = this.profileFacade.getByAccountName(accountName);
+    @GetMapping("/{username}")
+    public ModelAndView show(@PathVariable("username") String username) {
+        Profile recipient = this.profileFacade.getById(username);
         Collection<History> histories = this.historyFacade.find();
         History existingHistory = null;
         for (History history : histories) {
             Profile referencedUser = history.getReferencedUser();
-            if (referencedUser != null && referencedUser.getAccountName().equals(accountName)) {
+            if (referencedUser != null && referencedUser.getId().equals(principalId())) {
                 existingHistory = this.historyFacade.get(history.getId());
                 break;
             }

@@ -1,31 +1,28 @@
 [
   {
-    "id": "account-id-for-alice",
-    "accountName": "alice",
+    "id": "alice",
     "email": "alice.anderson@mail.net",
     "firstname": "Alice",
     "lastname": "Anderson",
     "status": "Ooh.. I'm now also here!",
     "restricted": true,
-    "connectedUserIds": [
-      "account-id-for-john"
+    "connectedProfileIds": [
+      "john"
     ]
   },
   {
-    "id": "account-id-for-john",
-    "accountName": "john",
+    "id": "john",
     "email": "john.smith@mail.net",
     "firstname": "John",
     "lastname": "Smith",
     "status": "Who the hell has imagined my name?",
     "restricted": true,
-    "connectedUserIds": [
-      "account-id-for-alice"
+    "connectedProfileIds": [
+      "alice"
     ]
   },
   {
-    "id": "account-id-for-maria",
-    "accountName": "maria",
+    "id": "maria",
     "email": "maria.tomassino@mail.net",
     "firstname": "Maria",
     "lastname": "Tomassino",
@@ -33,8 +30,7 @@
     "restricted": true
   },
   {
-    "id": "account-id-for-stephan",
-    "accountName": "stephan",
+    "id": "stephan",
     "email": "stephan.wang@mail.net",
     "firstname": "Stephan",
     "lastname": "Wang",

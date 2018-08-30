@@ -15,7 +15,7 @@ public interface ProfileProvider {
      *
      * @return a collection of existing profiles.
      */
-    Collection<Profile> find();
+    Collection<Profile> getAll();
 
     /**
      * Finds all connected profiles for a specified profile by its ID.
@@ -23,15 +23,7 @@ public interface ProfileProvider {
      * @param id the ID of specified profile.
      * @return the resulting collection of profiles.
      */
-    Collection<Profile> findConnected(String id);
-
-    /**
-     * Provides an existing user profile by its referenced account name.
-     *
-     * @param accountName the referenced account name.
-     * @return the requested profile.
-     */
-    Profile getByAccountName(String accountName);
+    Collection<Profile> getAllConnected(String id);
 
     /**
      * Provides an existing user profile by its ID.
@@ -42,26 +34,10 @@ public interface ProfileProvider {
     Profile getById(String id);
 
     /**
-     * Provides an existing user profile preview by its referenced account name.
-     *
-     * @param accountName the referenced account name.
-     * @return the requested profile.
-     */
-    Optional<Profile> findPreviewByAccountName(String accountName);
-
-    /**
-     * Provides an existing user profile preview by its ID if any.
-     *
-     * @param id the ID of a user profile.
-     * @return the requested profile.
-     */
-    Optional<Profile> findPreviewById(String id);
-
-    /**
      * Provides a collections of existing user profile previews by their IDs.
      *
      * @param ids the IDs of profiles.
      * @return a collection of requested profiles.
      */
-    Collection<Profile> findPreviews(Collection<String> ids);
+    Collection<Profile> getByIds(Collection<String> ids);
 }

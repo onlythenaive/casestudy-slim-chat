@@ -18,7 +18,7 @@ public class LoginActionPlainControllerBean extends GenericPlainControllerBean {
 
     @PostMapping
     public ModelAndView login(LoginFormInput form) {
-        this.tokenFacade.createFromAccountCredentials(form.getAccountName(), form.getAccountPassword());
+        this.tokenFacade.createFromAccountCredentials(form.getId(), form.getSecret());
         return redirect("profiles/me");
     }
 }

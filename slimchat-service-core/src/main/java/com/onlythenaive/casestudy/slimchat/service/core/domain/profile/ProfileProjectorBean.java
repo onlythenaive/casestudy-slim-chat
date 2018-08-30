@@ -1,7 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,18 +21,19 @@ public class ProfileProjectorBean extends GenericComponentBean implements Profil
     public Profile project(ProfileEntity entity) {
         return Profile.builder()
                 .id(entity.getId())
-                .accountName(entity.getAccountName())
                 .email(entity.getEmail())
+                .emailHash(emailHash(entity))
                 .firstname(entity.getFirstname())
                 .lastname(entity.getLastname())
-                .lastSpottedAt(entity.getLastSpottedAt())
-                .lastUpdatedAt(entity.getLastModifiedAt())
-                .registeredAt(entity.getRegisteredAt())
-                .restricted(entity.getRestricted())
-                .connected(connectedToPrincipal(entity))
                 .status(entity.getStatus())
-                .ownedByPrincipal(ownedByPrincipal(entity))
-                .gravatarHash(gravatarHash(entity.getEmail()))
+                .connected(connected(entity))
+                .restricted(entity.getRestricted())
+                .online(online(entity))
+                .own(own(entity))
+                .createdAt(entity.getCreatedAt())
+                .lastModifiedAt(entity.getLastModifiedAt())
+                .lastSpottedAt(entity.getLastSpottedAt())
+                .preview(false)
                 .build();
     }
 
@@ -42,26 +41,32 @@ public class ProfileProjectorBean extends GenericComponentBean implements Profil
     public Profile projectPreview(ProfileEntity entity) {
         return Profile.builder()
                 .id(entity.getId())
-                .accountName(entity.getAccountName())
+                .emailHash(emailHash(entity))
                 .firstname(entity.getFirstname())
                 .lastname(entity.getLastname())
+                .connected(connected(entity))
                 .restricted(entity.getRestricted())
-                .connected(connectedToPrincipal(entity))
-                .ownedByPrincipal(ownedByPrincipal(entity))
-                .gravatarHash(gravatarHash(entity.getEmail()))
+                .own(own(entity))
+                .preview(true)
                 .build();
     }
 
-    private String gravatarHash(String email) {
-        return email != null ? this.hashService.hash(email) : "no-hash";
+    private String emailHash(ProfileEntity entity) {
+        if (entity.getEmail() == null) {
+            return null;
+        }
+        return this.hashService.hash(entity.getEmail());
     }
 
-    private boolean connectedToPrincipal(ProfileEntity entity) {
-        Collection<String> connections = entity.getConnectedUserIds();
-        return connections != null && connections.contains(principalId());
+    private boolean connected(ProfileEntity entity) {
+        return entity.getConnectedProfileIds().contains(principalId());
     }
 
-    private boolean ownedByPrincipal(ProfileEntity entity) {
+    private boolean online(ProfileEntity entity) {
+        return entity.getLastSpottedAt() != null && entity.getLastSpottedAt().plusSeconds(120).isAfter(now());
+    }
+
+    private boolean own(ProfileEntity entity) {
         return entity.getId().equals(principalId());
     }
 }

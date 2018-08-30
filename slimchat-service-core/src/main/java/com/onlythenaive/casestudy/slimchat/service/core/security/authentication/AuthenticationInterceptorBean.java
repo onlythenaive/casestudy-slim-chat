@@ -42,6 +42,7 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        logger().debug("Request received: {} {}", request.getMethod(), request.getRequestURI());
         HttpRequestWrapper.from(request)
                 .log()
                 .securityTokenId()
@@ -75,7 +76,7 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
     private Principal principalFromAccount(Account account) {
         return Principal.builder()
                 .id(account.getId())
-                .name(account.getName())
+                .roles(account.getRoles())
                 .build();
     }
 

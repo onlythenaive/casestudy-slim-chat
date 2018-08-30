@@ -33,6 +33,6 @@ public class ProposalProjectorBean extends GenericComponentBean implements Propo
     }
 
     private Profile profilePreview(String profileId) {
-        return this.profileProvider.findPreviewById(profileId).orElse(null);
+        return this.profileProvider.getById(profileId);
     }
 }

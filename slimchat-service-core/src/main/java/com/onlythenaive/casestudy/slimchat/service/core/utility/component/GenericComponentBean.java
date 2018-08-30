@@ -157,6 +157,10 @@ public abstract class GenericComponentBean {
         return principal().getId();
     }
 
+    protected boolean principalGrantedWith(String role) {
+        return principal().getRoles().contains(role);
+    }
+
     @PostConstruct
     private void init() {
         this.logger = LoggerFactory.getLogger(this.getClass());

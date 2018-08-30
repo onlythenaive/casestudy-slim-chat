@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
 import java.time.Instant;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,8 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     private String id;
-    private String name;
-    private String passwordHash;
+    private Set<String> roles;
+    private String secretHash;
     private Instant createdAt;
+    private Instant lastModifiedAt;
 }

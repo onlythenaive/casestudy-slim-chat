@@ -62,7 +62,7 @@ public class HistoryProjectorBean extends GenericComponentBean implements Histor
         if (profileId == null) {
             return null;
         }
-        return this.profileProvider.findPreviewById(profileId).orElse(null);
+        return this.profileProvider.getById(profileId);
     }
 
     private Collection<Message> messages(Collection<String> messageIds) {

@@ -1,7 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.bootstrap;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.context.annotation.DependsOn;
 
@@ -20,17 +20,14 @@ public class ProfileBootstrapBean extends GenericEntityBootstrapBean<ProfileEnti
     protected void executeBootstrap() {
         Collection<ProfileEntity> entities = parseList("/bootstrap/dev/profiles.json", ProfileEntity.class);
         entities.forEach(entity -> {
-            if (entity.getConnectedUserIds() == null) {
-                entity.setConnectedUserIds(new ArrayList<>());
+            if (entity.getConnectedProfileIds() == null) {
+                entity.setConnectedProfileIds(new HashSet<>());
             }
             if (entity.getRestricted() == null) {
                 entity.setRestricted(false);
             }
             if (entity.getLastSpottedAt() == null) {
                 entity.setLastSpottedAt(now());
-            }
-            if (entity.getRegisteredAt() == null) {
-                entity.setRegisteredAt(now());
             }
             insertBootstrappedEntity(entity);
         });

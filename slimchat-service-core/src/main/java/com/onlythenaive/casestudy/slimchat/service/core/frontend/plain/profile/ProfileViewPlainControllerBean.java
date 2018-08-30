@@ -23,18 +23,21 @@ public class ProfileViewPlainControllerBean extends GenericPlainControllerBean {
 
     @GetMapping("/me")
     public ModelAndView showMyProfile() {
-        return redirect("profiles/" + principal().getName());
+        return redirect("profiles/" + principalId());
     }
 
-    @GetMapping("/{accountName}")
-    public ModelAndView showProfileByAccountName(@PathVariable("accountName") String accountName) {
+    @GetMapping("/{profileId}")
+    public ModelAndView showProfileById(@PathVariable("profileId") String profileId) {
         Profile profile;
-        Profile profilePreview = this.profileFacade.getPreviewByAccountName(accountName);
+        Profile profilePreview = this.profileFacade.getById(profileId);
+        /*
         if (profilePreview.isViewable()) {
-            profile = this.profileFacade.getByAccountName(accountName);
+            profile = this.profileFacade.getById(profileId);
         } else {
             profile = profilePreview;
         }
+         */
+        profile = profilePreview;
         return render("profile-view", data(profile));
     }
 

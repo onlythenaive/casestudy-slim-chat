@@ -1,7 +1,5 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
-import java.util.Optional;
-
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityRepository;
 
 /**
@@ -11,11 +9,4 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Enti
  */
 public interface ProfileRepository extends EntityRepository<ProfileEntity> {
 
-    /**
-     * Finds a user profile by the name of its referenced account.
-     *
-     * @param accountName the name of a referenced account.
-     * @return user profile entity if any.
-     */
-    Optional<ProfileEntity> findByAccountName(String accountName);
 }

@@ -1,18 +1,14 @@
 [
   {
-    "id": "account-id-for-alice",
-    "name": "alice"
+    "id": "alice"
   },
   {
-    "id": "account-id-for-john",
-    "name": "john"
+    "id": "john"
   },
   {
-    "id": "account-id-for-maria",
-    "name": "maria"
+    "id": "maria"
   },
   {
-    "id": "account-id-for-stephan",
-    "name": "stephan"
+    "id": "stephan"
   }
 ]

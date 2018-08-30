@@ -1,33 +1,33 @@
 [
   {
-    "ownerId": "account-id-for-alice",
-    "referencedUserId": "account-id-for-john",
+    "ownerId": "alice",
+    "referencedUserId": "john",
     "messageIds": [
       "message-from-alice-to-john"
     ]
   },
   {
-    "ownerId": "account-id-for-john",
-    "referencedUserId": "account-id-for-alice",
+    "ownerId": "john",
+    "referencedUserId": "alice",
     "messageIds": [
       "message-from-alice-to-john"
     ]
   },
   {
     "id": "history-of-stephan-for-group",
-    "ownerId": "account-id-for-stephan",
+    "ownerId": "stephan",
     "referencedGroupId": "group-between-alice-stephan-maria",
     "messageIds": []
   },
   {
     "id": "history-of-alice-for-group",
-    "ownerId": "account-id-for-alice",
+    "ownerId": "alice",
     "referencedGroupId": "group-between-alice-stephan-maria",
     "messageIds": []
   },
   {
     "id": "history-of-maria-for-group",
-    "ownerId": "account-id-for-maria",
+    "ownerId": "maria",
     "referencedGroupId": "group-between-alice-stephan-maria",
     "messageIds": []
   }

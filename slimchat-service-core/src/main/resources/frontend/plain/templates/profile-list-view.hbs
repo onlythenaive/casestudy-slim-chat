@@ -7,7 +7,7 @@
         {{#data.profiles}}
 
             <div>
-                {{accountName}}
+                {{id}}
             </div>
 
             <div>
@@ -27,7 +27,7 @@
             {{/if}}
 
             <div>
-                <form action="profiles/{{accountName}}" method="get">
+                <form action="profiles/{{id}}" method="get">
                     <button type="submit">View the profile</button>
                 </form>
             </div>

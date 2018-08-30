@@ -28,20 +28,17 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
     private TokenContextConfigurator tokenContextConfigurator;
 
     @Autowired
-    private TokenProvider tokenProvider;
-
-    @Autowired
     private TokenRepository tokenRepository;
 
     @Autowired
     private TokenGenerator tokenGenerator;
 
     @Override
-    public void createFromAccountCredentials(String name, String password) {
-        Account account = this.accountProvider.findByName(name).orElseThrow(() -> loginFailed(name));
-        boolean verified = this.hashService.verify(password, account.getPasswordHash());
+    public void createFromAccountCredentials(String accountId, String accountSecret) {
+        Account account = this.accountProvider.findById(accountId).orElseThrow(() -> loginFailed(accountId));
+        boolean verified = this.hashService.verify(accountSecret, account.getSecretHash());
         if (!verified) {
-            throw loginFailed(name);
+            throw loginFailed(accountId);
         }
         this.tokenGenerator.generateForAccountId(account.getId());
     }
@@ -55,12 +52,12 @@ public class TokenFacadeBean extends GenericComponentBean implements TokenFacade
         });
     }
 
-    private OperationException loginFailed(String accountName) {
+    private OperationException loginFailed(String accountId) {
         return OperationException.builder()
                 .comment("Login attempt failed")
                 .textcode("x.security.authentication.login-failed")
                 .category(ExceptionCategory.SECURITY)
-                .dataAttribute("accountName", accountName)
+                .dataAttribute("accountId", accountId)
                 .build();
     }
 }

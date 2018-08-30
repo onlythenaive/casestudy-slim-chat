@@ -14,11 +14,11 @@
 
             {{#if initiatedByPrincipal}}
                 <div>
-                    {{acceptor.accountName}}
+                    {{acceptor.id}}
                 </div>
             {{else}}
                 <div>
-                    {{initiator.accountName}}
+                    {{initiator.id}}
                 </div>
             {{/if}}
 
@@ -36,7 +36,7 @@
                     {{else}}
                         <form action="proposals/accept" method="post">
                             <input name="proposalId" type="hidden" value="{{id}}">
-                            <input name="redirectUri" type="hidden" value="profiles/{{initiator.accountName}}">
+                            <input name="redirectUri" type="hidden" value="profiles/{{initiator.id}}">
                             <button type="submit">Accept request</button>
                         </form>
                         <form action="proposals/reject" method="post">

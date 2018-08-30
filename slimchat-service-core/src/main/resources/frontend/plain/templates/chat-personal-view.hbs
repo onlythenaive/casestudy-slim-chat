@@ -21,7 +21,7 @@
                 <form class="history-form" action="history/delete" method="post">
 
                     <input name="historyId" type="hidden" value="{{id}}">
-                    <input name="redirectUri" type="hidden" value="chats/{{referencedUser.accountName}}">
+                    <input name="redirectUri" type="hidden" value="chats/{{referencedUser.id}}">
 
                     <button type="submit">Clear history</button>
                 </form>
@@ -39,7 +39,7 @@
                                     {{#if writtenByPrincipal}}
                                         Me
                                     {{else}}
-                                        <a href="profiles/{{author.accountName}}">{{author.shortDisplayName}}</a>
+                                        <a href="profiles/{{author.id}}">{{author.shortDisplayName}}</a>
                                     {{/if}}
                                 </span>
                                 <span class="timestamp">{{prettyTimestamp}}</span>

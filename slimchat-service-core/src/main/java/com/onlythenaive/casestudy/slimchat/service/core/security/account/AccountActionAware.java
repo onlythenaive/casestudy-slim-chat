@@ -10,9 +10,9 @@ public interface AccountActionAware {
     /**
      * Handles account creation.
      *
-     * @param account a new created account.
+     * @param event an event of account creation.
      */
-    default void onAccountCreated(Account account) {
+    default void onAccountCreated(AccountCreationEvent event) {
 
     }
 }

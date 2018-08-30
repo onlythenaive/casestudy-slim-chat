@@ -47,6 +47,6 @@ public class MessageProjectorBean extends GenericComponentBean implements Messag
         if (profileId == null) {
             return null;
         }
-        return this.profileProvider.findPreviewById(profileId).orElse(null);
+        return this.profileProvider.getById(profileId);
     }
 }

@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
+package com.onlythenaive.casestudy.slimchat.service.core.security.account;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Profile properties update invoice.
+ * Event of account creation.
  *
  * @author Ilia Gubarev
  */
@@ -14,11 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfileUpdateInvoice {
+public class AccountCreationEvent {
 
+    private Account account;
     private String email;
     private String firstname;
     private String lastname;
-    private Boolean restricted;
-    private String status;
 }
