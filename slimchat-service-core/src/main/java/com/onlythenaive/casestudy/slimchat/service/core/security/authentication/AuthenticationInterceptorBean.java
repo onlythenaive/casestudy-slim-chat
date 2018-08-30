@@ -56,6 +56,9 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView mv) {
+        if (shouldSkip(request)) {
+            return;
+        }
         provideTokenIdWithResponse(response);
     }
 
