@@ -29,6 +29,10 @@ public abstract class GenericComponentBean {
 
     private Logger logger;
 
+    protected OperationException.Builder exceptionBuilder() {
+        return OperationException.builder();
+    }
+
     /**
      * Provides a current logger.
      *
@@ -72,7 +76,7 @@ public abstract class GenericComponentBean {
      * @return the created operation exception.
      */
     protected RuntimeException insufficientPrivileges() {
-        return OperationException.builder()
+        return exceptionBuilder()
                 .category(ExceptionCategory.SECURITY)
                 .textcode("x.security.insufficient-privileges")
                 .comment("Not enough privileges for the requested operation")
@@ -85,7 +89,7 @@ public abstract class GenericComponentBean {
      * @return the created operation exception.
      */
     protected OperationException notAuthenticated() {
-        return OperationException.builder()
+        return exceptionBuilder()
                 .category(ExceptionCategory.SECURITY)
                 .comment("Not authenticated")
                 .textcode("x.security.not-authenticated")
@@ -98,7 +102,7 @@ public abstract class GenericComponentBean {
      * @return the created operation exception.
      */
     protected OperationException notSupported() {
-        return OperationException.builder()
+        return exceptionBuilder()
                 .category(ExceptionCategory.UNPREDICTED)
                 .comment("Not supported")
                 .textcode("x.not-supported")
@@ -127,7 +131,7 @@ public abstract class GenericComponentBean {
     protected OperationException notFoundByProperty(String entityName, String property, String value) {
         Map<String, Object> data = new HashMap<>();
         data.put(property, value);
-        return OperationException.builder()
+        return exceptionBuilder()
                 .comment(String.format("%s with %s = %s not found", entityName, property, value))
                 .category(ExceptionCategory.CONFLICT)
                 .textcode("x.logic." + entityName + ".not-found")
