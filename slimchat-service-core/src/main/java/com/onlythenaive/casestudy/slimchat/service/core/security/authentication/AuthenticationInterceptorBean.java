@@ -43,6 +43,10 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         logger().debug("Request received: {} {}", request.getMethod(), request.getRequestURI());
+        if (shouldSkip(request)) {
+            logger().debug("Authentication skipped");
+            return true;
+        }
         HttpRequestWrapper.from(request)
                 .log()
                 .securityTokenId()
@@ -98,5 +102,13 @@ public class AuthenticationInterceptorBean extends GenericComponentBean implemen
                 .textcode("x.security.authentication.invalid-token")
                 .category(ExceptionCategory.SECURITY)
                 .build();
+    }
+
+    private boolean shouldSkip(HttpServletRequest request) {
+        if (!request.getMethod().equals("GET")) {
+            return false;
+        }
+        String uri = request.getRequestURI();
+        return uri.endsWith(".js") || uri.endsWith(".css") || uri.endsWith(".png");
     }
 }
