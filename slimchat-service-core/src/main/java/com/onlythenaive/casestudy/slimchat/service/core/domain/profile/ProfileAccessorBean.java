@@ -15,10 +15,10 @@ public class ProfileAccessorBean extends GenericAccessorBean<ProfileEntity> impl
 
     @Override
     public AccessLevel allowedAccessLevel(ProfileEntity subject) {
-        if (ownedByPrincipal(subject)) {
+        if (subject.getId().equals(principalId())) {
             return AccessLevel.EDIT;
         }
-        if (!subject.getRestricted() || connectedWithPrincipal(subject)) {
+        if (!subject.getRestricted() || subject.getConnectedProfileIds().contains(principalId())) {
             return AccessLevel.VIEW;
         }
         return AccessLevel.PREVIEW;
@@ -32,13 +32,5 @@ public class ProfileAccessorBean extends GenericAccessorBean<ProfileEntity> impl
     @Override
     protected String getEntityName() {
         return "profile";
-    }
-
-    private boolean connectedWithPrincipal(ProfileEntity entity) {
-        return entity.getConnectedProfileIds().contains(principalId());
-    }
-
-    private boolean ownedByPrincipal(ProfileEntity entity) {
-        return entity.getId().equals(principalId());
     }
 }
