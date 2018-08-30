@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.datetime.PrettyTimestamps;
+
 /**
  * User profile.
  *
@@ -38,5 +40,9 @@ public class Profile {
             return id;
         }
         return this.lastname != null ? this.firstname + " " + this.lastname : this.firstname;
+    }
+
+    public String getPrettyLastSpottedAt() {
+        return PrettyTimestamps.pretty(this.lastSpottedAt);
     }
 }
