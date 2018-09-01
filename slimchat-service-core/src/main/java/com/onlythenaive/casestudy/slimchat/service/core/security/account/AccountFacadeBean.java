@@ -38,7 +38,7 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
     public void create(AccountInvoice invoice) {
         ensureIdUniqueness(invoice.getId());
         AccountEntity entity = accountEntityFromInvoice(invoice);
-        this.accountPersister.insert(entity);
+        entity = this.accountPersister.insert(entity);
         handleAccountCreation(entity, invoice);
    }
 

@@ -12,4 +12,13 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 @Service
 public class ProfilePersisterBean extends GenericPersisterBean<ProfileEntity> implements ProfilePersister {
 
+    @Override
+    public String getEntityName() {
+        return "Profile";
+    }
+
+    @Override
+    public Class<ProfileEntity> getEntityType() {
+        return ProfileEntity.class;
+    }
 }

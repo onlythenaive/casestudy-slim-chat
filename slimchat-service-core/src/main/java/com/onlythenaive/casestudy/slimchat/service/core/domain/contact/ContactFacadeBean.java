@@ -48,8 +48,8 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
         ProfileEntity objectEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, profileId);
         actorEntity.getConnectedProfileIds().remove(profileId);
         objectEntity.getConnectedProfileIds().remove(principalId());
-        this.profilePersister.update(actorEntity);
-        this.profilePersister.update(objectEntity);
+        actorEntity = this.profilePersister.update(actorEntity);
+        objectEntity = this.profilePersister.update(objectEntity);
         Profile actor = this.profileProjector.projectPreview(actorEntity);
         Profile object = this.profileProjector.projectPreview(objectEntity);
         handleAction(this.contactActionHandlers, handler -> handler.onContactDeleted(actor, object));

@@ -59,7 +59,7 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
     public Message create(MessageInvoice invoice) {
         ensurePermission(invoice);
         MessageEntity entity = messageFromInvoice(invoice);
-        this.messagePersister.insert(entity);
+        entity = this.messagePersister.insert(entity);
         Message message = this.messageProjector.project(entity);
         handleAction(this.messageActionHandlers, handler -> handler.onMessageCreated(message));
         return message;

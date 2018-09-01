@@ -42,7 +42,7 @@ public class ProfileFacadeBean extends GenericComponentBean implements ProfileFa
     public Profile update(String id, ProfileUpdateInvoice invoice) {
         ProfileEntity entity = this.profileAccessor.accessById(AccessLevel.EDIT, id);
         updateEntityFromInvoice(entity, invoice);
-        this.profilePersister.update(entity);
+        entity = this.profilePersister.update(entity);
         return this.profileProjector.project(entity);
     }
 

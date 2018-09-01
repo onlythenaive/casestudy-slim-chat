@@ -12,4 +12,13 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 @Service
 public class TokenPersisterBean extends GenericPersisterBean<TokenEntity> implements TokenPersister {
 
+    @Override
+    public String getEntityName() {
+        return "Token";
+    }
+
+    @Override
+    public Class<TokenEntity> getEntityType() {
+        return TokenEntity.class;
+    }
 }

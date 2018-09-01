@@ -13,8 +13,18 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 public class MessagePersisterBean extends GenericPersisterBean<MessageEntity> implements MessagePersister {
 
     @Override
-    public void insert(MessageEntity entity) {
+    public String getEntityName() {
+        return "Message";
+    }
+
+    @Override
+    public Class<MessageEntity> getEntityType() {
+        return MessageEntity.class;
+    }
+
+    @Override
+    protected void beforeInsert(MessageEntity entity) {
+        super.beforeInsert(entity);
         entity.setChatDescriptor(MessageChatDescriptorBuilder.of(entity).build());
-        super.insert(entity);
     }
 }

@@ -41,7 +41,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
     @Override
     public Group create(GroupInvoice invoice) {
         GroupEntity entity = createGroupFromInvoice(invoice);
-        this.groupPersister.insert(entity);
+        entity = this.groupPersister.insert(entity);
         Group group = project(entity);
         handleAction(this.groupActionHandlers, handler -> handler.onGroupCreated(group));
         return group;
@@ -108,7 +108,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
     public Group updateCaption(String id, String caption) {
         GroupEntity entity = this.groupAccessor.accessById(AccessLevel.EDIT, id);
         entity.setCaption(caption);
-        this.groupPersister.update(entity);
+        entity = this.groupPersister.update(entity);
         return project(entity);
     }
 

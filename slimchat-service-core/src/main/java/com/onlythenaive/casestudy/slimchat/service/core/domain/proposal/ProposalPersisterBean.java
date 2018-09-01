@@ -12,4 +12,13 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 @Service
 public class ProposalPersisterBean extends GenericPersisterBean<ProposalEntity> implements ProposalPersister {
 
+    @Override
+    public String getEntityName() {
+        return "Proposal";
+    }
+
+    @Override
+    public Class<ProposalEntity> getEntityType() {
+        return ProposalEntity.class;
+    }
 }

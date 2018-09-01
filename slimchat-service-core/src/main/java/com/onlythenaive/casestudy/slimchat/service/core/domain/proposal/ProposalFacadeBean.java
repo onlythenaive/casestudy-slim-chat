@@ -41,7 +41,7 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
                 .initiatorId(principalId())
                 .acceptorId(invoice.getAcceptorId())
                 .build();
-        this.proposalPersister.insert(entity);
+        entity = this.proposalPersister.insert(entity);
         Proposal proposal = project(entity);
         handleAction(this.proposalActionHandlers, handler -> handler.onProposalCreated(proposal));
         return proposal;

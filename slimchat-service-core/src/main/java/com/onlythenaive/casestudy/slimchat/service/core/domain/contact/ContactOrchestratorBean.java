@@ -43,8 +43,8 @@ public class ContactOrchestratorBean extends GenericComponentBean implements Pro
         ProfileEntity initiatorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, initiatorId);
         acceptorEntity.getConnectedProfileIds().add(initiatorId);
         initiatorEntity.getConnectedProfileIds().add(acceptorId);
-        this.profilePersister.update(acceptorEntity);
-        this.profilePersister.update(initiatorEntity);
+        acceptorEntity = this.profilePersister.update(acceptorEntity);
+        initiatorEntity = this.profilePersister.update(initiatorEntity);
         Profile acceptor = this.profileProjector.projectPreview(acceptorEntity);
         Profile initiator = this.profileProjector.projectPreview(initiatorEntity);
         handleAction(this.contactActionHandlers, handler -> handler.onContactCreated(acceptor, initiator));

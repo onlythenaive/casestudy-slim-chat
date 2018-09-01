@@ -15,6 +15,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface EntityRepository<E extends PersistedEntity> extends MongoRepository<E, String> {
 
+    void deleteById(Iterable<String> ids);
+
     @Override
     Collection<E> findAllById(Iterable<String> ids);
 }

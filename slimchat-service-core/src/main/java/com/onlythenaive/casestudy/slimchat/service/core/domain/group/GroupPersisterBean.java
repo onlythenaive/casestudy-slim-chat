@@ -12,4 +12,13 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 @Service
 public class GroupPersisterBean extends GenericPersisterBean<GroupEntity> implements GroupPersister {
 
+    @Override
+    public String getEntityName() {
+        return "Group";
+    }
+
+    @Override
+    public Class<GroupEntity> getEntityType() {
+        return GroupEntity.class;
+    }
 }
