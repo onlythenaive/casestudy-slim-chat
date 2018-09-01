@@ -21,10 +21,10 @@ public class MessageFormViewPlainControllerBean extends GenericPlainControllerBe
     @PostMapping("/create")
     public ModelAndView create(MessageInvoice invoice) {
         Message message = this.messageFacade.create(invoice);
-        if (message.isAffiliatedToGroup()) {
-            return redirect("chat/group/" + message.getGroup().getId());
+        if (invoice.getGroupId() != null) {
+            return redirect("chats/group/" + invoice.getGroupId());
         } else {
-            return redirect("chats/" + message.getRecipient().getId());
+            return redirect("chats/" + invoice.getRecipientId());
         }
     }
 }

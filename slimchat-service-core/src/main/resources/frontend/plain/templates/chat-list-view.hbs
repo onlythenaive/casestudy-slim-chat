@@ -2,36 +2,36 @@
 
     <h1>My chats</h1>
 
-    <hr/>
+    <div class="chat-list">
 
-    <div style="width: 400px;">
-        {{#data.chats}}
+        {{#data.messages}}
 
-            {{#if referencedGroup}}
+            {{#if group}}
                 <div>
-                    {{referencedGroup.caption}}
+                    {{group.caption}}
                 </div>
-                <form action="chats/group/{{referencedGroup.id}}" method="get">
+                <form action="chats/group/{{group.id}}" method="get">
                     <button type="submit">Go</button>
                 </form>
             {{else}}
                 <div>
-                    {{referencedUser.id}}
+                    {{recipient.id}}
                 </div>
-                <form action="chats/{{referencedUser.id}}" method="get">
+                <form action="chats/{{recipient.id}}" method="get">
                     <button type="submit">Go</button>
                 </form>
             {{/if}}
 
             <div>
                 <form action="history/delete" method="post">
-                    <input name="historyId" type="hidden" value="{{id}}">
+                    <input name="groupId" type="hidden" value="{{group.id}}">
+                    <input name="recipientId" type="hidden" value="{{profile.id}}">
                     <button type="submit">Delete</button>
                 </form>
             </div>
 
             <hr/>
-        {{/data.chats}}
+        {{/data.messages}}
     </div>
 {{/partial}}
 

@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupFacade;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.history.History;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistoryFacade;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericPlainControllerBean;
 
 @Controller
@@ -20,20 +19,17 @@ import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericP
 public class ChatListViewPlainControllerBean extends GenericPlainControllerBean {
 
     @Autowired
-    private HistoryFacade historyFacade;
-
-    @Autowired
-    private GroupFacade groupFacade;
+    private MessageFacade messageFacade;
 
     @GetMapping
     public ModelAndView show() {
-        Collection<History> histories = this.historyFacade.find();
-        return render("chat-list-view", data(histories));
+        Collection<Message> messages = this.messageFacade.getLatestFromEachChat();
+        return renderChatListView(messages);
     }
 
-    private Object data(Collection<History> histories) {
+    private ModelAndView renderChatListView(Collection<Message> messages) {
         Map<String, Object> data = new HashMap<>();
-        data.put("chats", histories);
-        return data;
+        data.put("messages", messages);
+        return render("chat-list-view", data);
     }
 }

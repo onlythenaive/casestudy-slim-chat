@@ -1,43 +1,45 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageChatDescriptorBuilder;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 
-/**
- * Chat history operation facade implementation.
- *
- * @author Ilia Gubarev
- */
 @Service
 public class HistoryFacadeBean extends GenericComponentBean implements HistoryFacade {
 
     @Autowired
-    private HistoryAccessor historyAccessor;
+    private MongoTemplate mongoTemplate;
 
     @Autowired
-    private HistoryProvider historyProvider;
-
-    @Autowired
-    private HistoryRepository historyRepository;
+    private MessageRepository messageRepository;
 
     @Override
-    public History get(String id) {
-        return this.historyProvider.getById(id);
+    public void deleteByGroupId(String groupId) {
+        String observerId = principalId();
+        String chatDescriptor = new MessageChatDescriptorBuilder().groupId(groupId).build();
+        removeObserverFromChat(observerId, chatDescriptor);
     }
 
     @Override
-    public Collection<History> find() {
-        return this.historyProvider.findPreviewsByOwnerId(principalId());
+    public void deleteByProfileId(String profileId) {
+        String observerId = principalId();
+        String chatDescriptor = new MessageChatDescriptorBuilder().profileId1(profileId).profileId2(observerId).build();
+        removeObserverFromChat(observerId, chatDescriptor);
     }
 
-    @Override
-    public void remove(String id) {
-        this.historyAccessor.accessById(AccessLevel.MANAGE, id);
-        this.historyRepository.deleteById(id);
+    private void removeObserverFromChat(String observerId, String chatDescriptor) {
+        Criteria criteria = Criteria
+                .where("chatDescriptor").is(chatDescriptor)
+                .and("observerIds").in(observerId);
+        Update update = new Update().pull("observerIds", observerId);
+        this.mongoTemplate.updateMulti(Query.query(criteria), update, MessageEntity.class);
     }
 }

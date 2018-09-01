@@ -17,6 +17,6 @@ import lombok.NoArgsConstructor;
 public class MessageInvoice {
 
     private String text;
-    private String recipientId;
     private String groupId;
+    private String recipientId;
 }

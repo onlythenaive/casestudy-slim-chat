@@ -18,9 +18,12 @@ public class HistoryViewPlainControllerBean extends GenericPlainControllerBean {
 
     @PostMapping("/delete")
     public ModelAndView delete(HistoryFormInput form) {
-        if (form.getHistoryId() != null) {
-            this.historyFacade.remove(form.getHistoryId());
+        if (form.getGroupId() != null) {
+            this.historyFacade.deleteByGroupId(form.getGroupId());
+            return redirect("chats/group/" + form.getGroupId());
+        } else {
+            this.historyFacade.deleteByProfileId(form.getProfileId());
+            return redirect("chats/" + form.getProfileId());
         }
-        return redirect(form.getRedirectUri());
     }
 }

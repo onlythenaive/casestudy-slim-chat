@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 
 import java.time.Instant;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,11 +38,17 @@ public class MessageEntity implements PersistedEntity {
 
     @Field
     @Nullable
-    private String recipientId;
+    private String groupId;
 
     @Field
     @Nullable
-    private String groupId;
+    private String recipientId;
+
+    @Field
+    private String chatDescriptor;
+
+    @Field
+    private Set<String> observerIds;
 
     @Field
     private Instant createdAt;

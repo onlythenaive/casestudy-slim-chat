@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.frontend.plain.history;
+package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoryFormInput {
+public class MessageSearchInvoice {
 
     private String groupId;
-    private String profileId;
+    private String profileId1;
+    private String profileId2;
 }

@@ -3,6 +3,10 @@
     "id": "message-from-alice-to-john",
     "authorId": "alice",
     "recipientId": "john",
-    "text": "Might we know each other?"
+    "text": "Might we know each other?",
+    "observerIds": [
+      "alice",
+      "john"
+    ]
   }
 ]

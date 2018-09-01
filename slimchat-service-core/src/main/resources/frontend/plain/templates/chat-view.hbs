@@ -1,13 +1,19 @@
 {{#partial "content"}}
 
     <div class="chat">
-        {{#data.chat}}
 
-            <h1>Chat with {{data.chat.referencedUser.displayName}}</h1>
+        {{#data}}
+
+            {{#if group}}
+                <h1>Group chat {{group.caption}}</h1>
+            {{else}}
+                <h1>Chat with {{profile.displayName}}</h1>
+            {{/if}}
 
             <form class="message-form" action="messages/create" method="post">
 
-                <input name="recipientId" type="hidden" value="{{referencedUser.id}}">
+                <input name="groupId" type="hidden" value="{{group.id}}">
+                <input name="recipientId" type="hidden" value="{{profile.id}}">
 
                 <div class="form-control">
                     <textarea name="text" placeholder="Enter the message"></textarea>
@@ -20,29 +26,31 @@
 
                 <form class="history-form" action="history/delete" method="post">
 
-                    <input name="historyId" type="hidden" value="{{id}}">
-                    <input name="redirectUri" type="hidden" value="chats/{{referencedUser.id}}">
+                    <input name="groupId" type="hidden" value="{{group.id}}">
+                    <input name="recipientId" type="hidden" value="{{profile.id}}">
 
                     <button type="submit">Clear history</button>
                 </form>
             {{/if}}
 
+
             <div class="history">
+
                 {{#messages}}
-                    <div class="message {{#if writtenByPrincipal}}own{{/if}}">
+                    <div class="message">
                         <div class="avatar-section">
                             <img class="avatar" src="https://www.gravatar.com/avatar/{{author.gravatarHash}}?s=48&default=mp">
                         </div>
                         <div class="content-section">
                             <div>
                                 <span class="author">
-                                    {{#if writtenByPrincipal}}
+                                    {{#if own}}
                                         Me
                                     {{else}}
-                                        <a href="profiles/{{author.id}}">{{author.shortDisplayName}}</a>
+                                        <a href="profiles/{{author.id}}">{{author.displayName}}</a>
                                     {{/if}}
                                 </span>
-                                <span class="timestamp">{{prettyTimestamp}}</span>
+                                <span class="timestamp">{{prettyCreatedAt}}</span>
                             </div>
                             <div class="text">
                                 <span class="text">{{text}}</span>
@@ -51,7 +59,7 @@
                     </div>
                 {{/messages}}
             </div>
-        {{/data.chat}}
+        {{/data}}
     </div>
 {{/partial}}
 
