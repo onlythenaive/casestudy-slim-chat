@@ -11,6 +11,12 @@ import java.util.Optional;
  */
 public interface EntityAccessor<E extends PersistedEntity> {
 
+    /**
+     * Derives the highest allowed access level for specified subject.
+     *
+     * @param subject an existing entity to be accessed.
+     * @return the resulting access level.
+     */
     AccessLevel allowedAccessLevel(E subject);
 
     /**

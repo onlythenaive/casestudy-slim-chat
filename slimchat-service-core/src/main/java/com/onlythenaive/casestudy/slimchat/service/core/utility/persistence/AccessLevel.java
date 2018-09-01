@@ -35,7 +35,12 @@ public enum AccessLevel {
     /**
      * High-privileged update access for crucial operations, f.e. deleting.
      */
-    MANAGE(500);
+    MANAGE(500),
+
+    /**
+     * Maximal possible access level.
+     */
+    ULTIMATE(1000);
 
     private final int weight;
 
