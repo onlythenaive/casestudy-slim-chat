@@ -3,6 +3,7 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.ProposalEntity;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.hash.Md5HashService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
@@ -19,7 +20,7 @@ public class ProfilePersisterBean extends GenericPersisterBean<ProfileEntity> im
 
     @Override
     public String getEntityName() {
-        return "Profile";
+        return ProposalEntity.NAME;
     }
 
     @Override

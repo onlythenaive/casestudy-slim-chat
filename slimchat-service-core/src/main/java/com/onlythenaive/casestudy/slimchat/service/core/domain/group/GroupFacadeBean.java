@@ -67,7 +67,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void inviteUser(String id, String userId) {
-        GroupEntity entity = groupEntity(id);
+        GroupEntity entity = this.groupRepository.getById(id);
         this.groupAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         // TODO: check if user exists
         if (!entity.getParticipantIds().contains(userId)) {
@@ -78,7 +78,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void promoteParticipant(String id, String participantId) {
-        GroupEntity entity = groupEntity(id);
+        GroupEntity entity = this.groupRepository.getById(id);
         this.groupAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         if (entity.getParticipantIds().contains(participantId)) {
             entity.getModeratorIds().add(participantId);
@@ -88,7 +88,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void kickParticipant(String id, String participantId) {
-        GroupEntity entity = groupEntity(id);
+        GroupEntity entity = this.groupRepository.getById(id);
         this.groupAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         entity.getParticipantIds().remove(participantId);
         entity.getModeratorIds().remove(participantId);
@@ -99,7 +99,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void leave(String id) {
-        GroupEntity entity = groupEntity(id);
+        GroupEntity entity = this.groupRepository.getById(id);
         this.groupAccessor.ensureAccess(entity, AccessLevel.VIEW);
         entity.getParticipantIds().remove(principalId());
         entity.getModeratorIds().remove(principalId());
@@ -110,7 +110,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public Group updateCaption(String id, String caption) {
-        GroupEntity entity = groupEntity(id);
+        GroupEntity entity = this.groupRepository.getById(id);
         this.groupAccessor.ensureAccess(entity, AccessLevel.EDIT);
         entity.setCaption(caption);
         entity = this.groupPersister.update(entity);
@@ -139,9 +139,5 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     private Group project(GroupEntity entity) {
         return this.groupProjector.project(entity);
-    }
-
-    private GroupEntity groupEntity(String id) {
-        return this.groupRepository.findById(id).orElseThrow(() -> notFoundById("group", id));
     }
 }

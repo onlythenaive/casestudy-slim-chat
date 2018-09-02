@@ -29,7 +29,7 @@ public class GroupProviderBean extends GenericComponentBean implements GroupProv
 
     @Override
     public Group getById(String id) {
-        GroupEntity entity = this.groupEntity(id);
+        GroupEntity entity = this.groupRepository.getById(id);
         this.groupAccessor.ensureAccess(entity, AccessLevel.VIEW);
         return this.groupProjector.project(entity);
     }
@@ -52,9 +52,5 @@ public class GroupProviderBean extends GenericComponentBean implements GroupProv
 
     private Group projectPreview(GroupEntity entity) {
         return this.groupProjector.projectPreview(entity);
-    }
-
-    private GroupEntity groupEntity(String id) {
-        return this.groupRepository.findById(id).orElseThrow(() -> notFoundById("group", id));
     }
 }

@@ -9,4 +9,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Enti
  */
 public interface ProfileRepository extends EntityRepository<ProfileEntity> {
 
+    @Override
+    default String getEntityName() {
+        return ProfileEntity.NAME;
+    }
 }

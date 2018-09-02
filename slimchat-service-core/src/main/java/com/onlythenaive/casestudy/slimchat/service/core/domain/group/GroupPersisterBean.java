@@ -14,7 +14,7 @@ public class GroupPersisterBean extends GenericPersisterBean<GroupEntity> implem
 
     @Override
     public String getEntityName() {
-        return "Group";
+        return GroupEntity.NAME;
     }
 
     @Override

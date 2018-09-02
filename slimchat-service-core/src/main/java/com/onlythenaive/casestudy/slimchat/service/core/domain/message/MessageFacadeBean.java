@@ -73,7 +73,7 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
 
     @Override
     public Message get(String id) {
-        MessageEntity entity = this.messageRepository.findById(id).orElseThrow(() -> notFoundById("message", id));
+        MessageEntity entity = this.messageRepository.getById(id);
         if (!entity.getObserverIds().contains(principalId())) {
             throw insufficientPrivileges();
         }
@@ -119,12 +119,12 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
     private void ensurePermission(MessageInvoice invoice) {
         String recipientId = invoice.getRecipientId();
         if (recipientId != null) {
-            ProfileEntity recipient = profileEntity(recipientId);
+            ProfileEntity recipient = this.profileRepository.getById(recipientId);
             if (!recipient.getConnectedProfileIds().contains(principalId())) {
                 throw insufficientPrivileges();
             }
         } else {
-            GroupEntity groupEntity = groupEntity(invoice.getGroupId());
+            GroupEntity groupEntity = this.groupRepository.getById(invoice.getGroupId());
             this.groupAccessor.ensureAccess(groupEntity, AccessLevel.CONTRIBUTE);
         }
     }
@@ -147,17 +147,9 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
         if (invoice.getRecipientId() != null) {
             observerIds.add(invoice.getRecipientId());
         } else {
-            GroupEntity groupEntity = groupEntity(invoice.getGroupId());
+            GroupEntity groupEntity = this.groupRepository.getById(invoice.getGroupId());
             observerIds.addAll(groupEntity.getParticipantIds());
         }
         return observerIds;
-    }
-
-    private GroupEntity groupEntity(String id) {
-        return this.groupRepository.findById(id).orElseThrow(() -> notFoundById("group", id));
-    }
-
-    private ProfileEntity profileEntity(String id) {
-        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 }

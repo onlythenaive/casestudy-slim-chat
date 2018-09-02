@@ -14,7 +14,7 @@ public class MessagePersisterBean extends GenericPersisterBean<MessageEntity> im
 
     @Override
     public String getEntityName() {
-        return "Message";
+        return MessageEntity.NAME;
     }
 
     @Override

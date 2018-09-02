@@ -14,7 +14,7 @@ public class ProposalPersisterBean extends GenericPersisterBean<ProposalEntity> 
 
     @Override
     public String getEntityName() {
-        return "Proposal";
+        return ProposalEntity.NAME;
     }
 
     @Override

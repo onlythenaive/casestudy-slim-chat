@@ -45,8 +45,8 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
 
     @Override
     public void remove(String profileId) {
-        ProfileEntity actorEntity = profileEntity(principalId());
-        ProfileEntity objectEntity = profileEntity(profileId);
+        ProfileEntity actorEntity = this.profileRepository.getById(principalId());
+        ProfileEntity objectEntity = this.profileRepository.getById(profileId);
         actorEntity.getConnectedProfileIds().remove(profileId);
         objectEntity.getConnectedProfileIds().remove(principalId());
         actorEntity = this.profilePersister.update(actorEntity);
@@ -54,9 +54,5 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
         Profile actor = this.profileProjector.projectPreview(actorEntity);
         Profile object = this.profileProjector.projectPreview(objectEntity);
         handleAction(this.contactActionHandlers, handler -> handler.onContactDeleted(actor, object));
-    }
-
-    private ProfileEntity profileEntity(String id) {
-        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 }

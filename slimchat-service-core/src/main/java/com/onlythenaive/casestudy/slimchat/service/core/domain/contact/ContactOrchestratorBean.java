@@ -38,8 +38,8 @@ public class ContactOrchestratorBean extends GenericComponentBean implements Pro
     public void onProposalAccepted(Proposal proposal) {
         String acceptorId = proposal.getAcceptor().getId();
         String initiatorId = proposal.getInitiator().getId();
-        ProfileEntity acceptorEntity = profileEntity(acceptorId);
-        ProfileEntity initiatorEntity = profileEntity(initiatorId);
+        ProfileEntity acceptorEntity = this.profileRepository.getById(acceptorId);
+        ProfileEntity initiatorEntity = this.profileRepository.getById(initiatorId);
         acceptorEntity.getConnectedProfileIds().add(initiatorId);
         initiatorEntity.getConnectedProfileIds().add(acceptorId);
         acceptorEntity = this.profilePersister.update(acceptorEntity);
@@ -47,9 +47,5 @@ public class ContactOrchestratorBean extends GenericComponentBean implements Pro
         Profile acceptor = this.profileProjector.projectPreview(acceptorEntity);
         Profile initiator = this.profileProjector.projectPreview(initiatorEntity);
         handleAction(this.contactActionHandlers, handler -> handler.onContactCreated(acceptor, initiator));
-    }
-
-    private ProfileEntity profileEntity(String id) {
-        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 }

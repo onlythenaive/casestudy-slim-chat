@@ -35,4 +35,9 @@ public interface ProposalRepository extends EntityRepository<ProposalEntity> {
      * @return the resulting collection of proposals.
      */
     Collection<ProposalEntity> findByInitiatorId(String initiatorId);
+
+    @Override
+    default String getEntityName() {
+        return ProposalEntity.NAME;
+    }
 }

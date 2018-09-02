@@ -27,6 +27,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Pers
 @Document(collection = "profiles")
 public class ProfileEntity implements PersistedEntity {
 
+    public static final String NAME = "profile";
+
     @Field
     @Id
     private String id;

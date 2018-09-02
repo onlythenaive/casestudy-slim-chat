@@ -21,16 +21,16 @@ public class MessageProjectorBean extends GenericComponentBean implements Messag
     private GroupProvider groupProvider;
 
     @Autowired
-    private ProfilePreviewProvider profileProvider;
+    private ProfilePreviewProvider profilePreviewProvider;
 
     @Override
     public Message project(MessageEntity entity) {
         return Message.builder()
                 .id(entity.getId())
                 .text(entity.getText())
-                .author(profile(entity.getAuthorId()))
+                .author(profilePreview(entity.getAuthorId()))
                 .group(group(entity.getGroupId()))
-                .recipient(profile(entity.getRecipientId()))
+                .recipient(profilePreview(entity.getRecipientId()))
                 .own(entity.getAuthorId().equals(principalId()))
                 .createdAt(entity.getCreatedAt())
                 .build();
@@ -43,10 +43,10 @@ public class MessageProjectorBean extends GenericComponentBean implements Messag
         return this.groupProvider.findPreviewById(groupId).orElse(null);
     }
 
-    private Profile profile(String profileId) {
+    private Profile profilePreview(String profileId) {
         if (profileId == null) {
             return null;
         }
-        return this.profileProvider.getById(profileId);
+        return this.profilePreviewProvider.getById(profileId);
     }
 }

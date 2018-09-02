@@ -95,7 +95,7 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
     }
 
     private ProposalEntity manageableProposalEntity(String id) {
-        ProposalEntity entity = this.proposalRepository.findById(id).orElseThrow(() -> notFoundById("proposal", id));
+        ProposalEntity entity = this.proposalRepository.getById(id);
         this.proposalAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         return entity;
     }

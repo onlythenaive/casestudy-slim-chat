@@ -34,7 +34,7 @@ public class ProfileFacadeBean extends GenericComponentBean implements ProfileFa
 
     @Override
     public Profile getById(String id) {
-        ProfileEntity entity = existingProfileEntity(id);
+        ProfileEntity entity = this.profileRepository.getById(id);
         AccessLevel level = this.profileAccessor.allowedAccessLevel(entity);
         return level.greaterOrEqual(AccessLevel.VIEW) ? project(entity) : projectPreview(entity);
     }
@@ -49,15 +49,11 @@ public class ProfileFacadeBean extends GenericComponentBean implements ProfileFa
 
     @Override
     public Profile update(String id, ProfileUpdateInvoice invoice) {
-        ProfileEntity entity = existingProfileEntity(id);
+        ProfileEntity entity = this.profileRepository.getById(id);
         this.profileAccessor.ensureAccess(entity, AccessLevel.EDIT);
         applyInvoiceProperties(entity, invoice);
         ProfileEntity updatedEntity = this.profilePersister.update(entity);
         return project(updatedEntity);
-    }
-
-    private ProfileEntity existingProfileEntity(String id) {
-        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 
     private Example<ProfileEntity> entityExample(ProfileSearchInvoice searchInvoice) {

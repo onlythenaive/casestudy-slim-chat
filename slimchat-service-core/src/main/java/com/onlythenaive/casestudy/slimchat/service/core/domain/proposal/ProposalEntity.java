@@ -26,6 +26,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Pers
 @Document(collection = "proposals")
 public class ProposalEntity implements PersistedEntity {
 
+    public static final String NAME = "proposal";
+
     @Id
     private String id;
 
@@ -44,4 +46,9 @@ public class ProposalEntity implements PersistedEntity {
 
     @Field
     private Instant lastModifiedAt;
+
+    @Override
+    public String getEntityName() {
+        return NAME;
+    }
 }

@@ -12,4 +12,9 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Enti
 public interface GroupRepository extends EntityRepository<GroupEntity> {
 
     Collection<GroupEntity> findByParticipantIds(String participantId);
+
+    @Override
+    default String getEntityName() {
+        return GroupEntity.NAME;
+    }
 }

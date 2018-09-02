@@ -27,6 +27,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Pers
 @Document(collection = "groups")
 public class GroupEntity implements PersistedEntity {
 
+    public static final String NAME = "message";
+
     @Id
     private String id;
 

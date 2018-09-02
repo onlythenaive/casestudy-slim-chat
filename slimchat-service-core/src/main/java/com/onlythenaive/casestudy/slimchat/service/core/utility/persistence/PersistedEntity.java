@@ -2,6 +2,8 @@ package com.onlythenaive.casestudy.slimchat.service.core.utility.persistence;
 
 import java.time.Instant;
 
+import org.springframework.data.annotation.Transient;
+
 /**
  * Generic persisted entity.
  *
@@ -50,4 +52,14 @@ public interface PersistedEntity {
      * @param lastModifiedAt a timestamp of the latest modification.
      */
     void setLastModifiedAt(Instant lastModifiedAt);
+
+    /**
+     * Gets the name of this entity.
+     *
+     * @return the name of the entity.
+     */
+    @Transient
+    default String getEntityName() {
+        return "generic";
+    }
 }

@@ -9,4 +9,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Enti
  */
 public interface MessageRepository extends EntityRepository<MessageEntity> {
 
+    @Override
+    default String getEntityName() {
+        return MessageEntity.NAME;
+    }
 }
