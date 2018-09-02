@@ -27,7 +27,12 @@ public abstract class GenericPlainControllerBean extends GenericFrontendControll
     private ModelAndView handleOperationException(OperationException exception) {
         switch (exception.getCategory()) {
             case SECURITY:
-                return redirect("login");
+                if (exception.getTextcode().contains("not-authenticated")) {
+                    logger().debug("Not authenticated", exception);
+                    return redirect("login");
+                } else {
+                    throw exception;
+                }
             default:
                 throw exception;
         }
