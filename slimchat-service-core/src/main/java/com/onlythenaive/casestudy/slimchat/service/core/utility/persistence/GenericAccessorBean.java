@@ -25,7 +25,7 @@ public abstract class GenericAccessorBean<E extends PersistedEntity> extends Gen
         if (getBypassThreshold().greaterOrEqual(level)) {
             return subject;
         }
-        if (level.greaterOrEqual(allowedAccessLevel(subject))) {
+        if (level.greaterThan(allowedAccessLevel(subject))) {
             throw insufficientPrivileges();
         }
         return subject;
