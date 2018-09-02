@@ -28,6 +28,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.principal.Princi
 @Component
 public class AuthenticationInterceptorBean extends GenericComponentBean implements AuthenticationInterceptor {
 
+    // TODO: re-work this component (too many actions, logging, configuration)
+
     @Autowired
     private AccountProvider accountProvider;
 
