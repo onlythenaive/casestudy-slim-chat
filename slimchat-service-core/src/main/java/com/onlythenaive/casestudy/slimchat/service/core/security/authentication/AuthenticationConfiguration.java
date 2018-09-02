@@ -1,11 +1,9 @@
-package com.onlythenaive.casestudy.slimchat.service.core.configuration.web;
+package com.onlythenaive.casestudy.slimchat.service.core.security.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.AuthenticationInterceptor;
 
 /**
  * Configuration of web components.
@@ -13,7 +11,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.authentication.
  * @author Ilia Gubarev
  */
 @Configuration
-public class WebConfiguration implements WebMvcConfigurer {
+public class AuthenticationConfiguration implements WebMvcConfigurer {
 
     @Autowired
     private AuthenticationInterceptor authenticationInterceptor;

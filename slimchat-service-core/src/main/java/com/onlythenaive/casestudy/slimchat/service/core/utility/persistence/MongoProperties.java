@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.configuration.persistence;
+package com.onlythenaive.casestudy.slimchat.service.core.utility.persistence;
 
 import lombok.Data;
 
