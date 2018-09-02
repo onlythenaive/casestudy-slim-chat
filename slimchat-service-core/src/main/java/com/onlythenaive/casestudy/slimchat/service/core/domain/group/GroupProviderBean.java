@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
 
 /**
  * Chat group provider implementation.
@@ -29,14 +29,18 @@ public class GroupProviderBean extends GenericComponentBean implements GroupProv
 
     @Override
     public Group getById(String id) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.VIEW, id);
+        GroupEntity entity = this.groupEntity(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.VIEW);
         return this.groupProjector.project(entity);
     }
 
     @Override
     public Optional<Group> findPreviewById(String id) {
-        return this.groupAccessor.accessByIdIfAny(AccessLevel.VIEW, id)
-                .map(this::projectPreview);
+        return this.groupRepository.findById(id)
+                .map(entity -> {
+                    this.groupAccessor.ensureAccess(entity, AccessLevel.VIEW);
+                    return projectPreview(entity);
+                });
     }
 
     @Override
@@ -48,5 +52,9 @@ public class GroupProviderBean extends GenericComponentBean implements GroupProv
 
     private Group projectPreview(GroupEntity entity) {
         return this.groupProjector.projectPreview(entity);
+    }
+
+    private GroupEntity groupEntity(String id) {
+        return this.groupRepository.findById(id).orElseThrow(() -> notFoundById("group", id));
     }
 }

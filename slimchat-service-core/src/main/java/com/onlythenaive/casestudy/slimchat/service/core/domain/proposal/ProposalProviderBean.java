@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 
 /**
  * Connection proposal provider implementation.
@@ -25,12 +24,6 @@ public class ProposalProviderBean extends GenericComponentBean implements Propos
 
     @Autowired
     private ProposalRepository proposalRepository;
-
-    @Override
-    public Proposal getById(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.VIEW, id);
-        return project(entity);
-    }
 
     @Override
     public Collection<Proposal> findIncoming() {

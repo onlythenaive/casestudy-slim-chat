@@ -10,7 +10,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
 
 /**
  * Chat group operations facade implementation.
@@ -67,7 +67,8 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void inviteUser(String id, String userId) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MANAGE, id);
+        GroupEntity entity = groupEntity(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         // TODO: check if user exists
         if (!entity.getParticipantIds().contains(userId)) {
             entity.getParticipantIds().add(id);
@@ -77,7 +78,8 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void promoteParticipant(String id, String participantId) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MANAGE, id);
+        GroupEntity entity = groupEntity(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         if (entity.getParticipantIds().contains(participantId)) {
             entity.getModeratorIds().add(participantId);
         }
@@ -86,7 +88,8 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void kickParticipant(String id, String participantId) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.MANAGE, id);
+        GroupEntity entity = groupEntity(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.MANAGE);
         entity.getParticipantIds().remove(participantId);
         entity.getModeratorIds().remove(participantId);
         // TODO: handle "last moderator" scenario
@@ -96,7 +99,8 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public void leave(String id) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.VIEW, id);
+        GroupEntity entity = groupEntity(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.VIEW);
         entity.getParticipantIds().remove(principalId());
         entity.getModeratorIds().remove(principalId());
         // TODO: handle "last moderator" scenario
@@ -106,7 +110,8 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public Group updateCaption(String id, String caption) {
-        GroupEntity entity = this.groupAccessor.accessById(AccessLevel.EDIT, id);
+        GroupEntity entity = groupEntity(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.EDIT);
         entity.setCaption(caption);
         entity = this.groupPersister.update(entity);
         return project(entity);
@@ -134,5 +139,9 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     private Group project(GroupEntity entity) {
         return this.groupProjector.project(entity);
+    }
+
+    private GroupEntity groupEntity(String id) {
+        return this.groupRepository.findById(id).orElseThrow(() -> notFoundById("group", id));
     }
 }

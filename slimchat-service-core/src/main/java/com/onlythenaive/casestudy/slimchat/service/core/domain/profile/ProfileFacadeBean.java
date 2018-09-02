@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
 
 /**
  * Profile operations facade implementation.
@@ -50,7 +50,7 @@ public class ProfileFacadeBean extends GenericComponentBean implements ProfileFa
     @Override
     public Profile update(String id, ProfileUpdateInvoice invoice) {
         ProfileEntity entity = existingProfileEntity(id);
-        this.profileAccessor.ensureAccess(AccessLevel.EDIT, entity);
+        this.profileAccessor.ensureAccess(entity, AccessLevel.EDIT);
         applyInvoiceProperties(entity, invoice);
         ProfileEntity updatedEntity = this.profilePersister.update(entity);
         return project(updatedEntity);

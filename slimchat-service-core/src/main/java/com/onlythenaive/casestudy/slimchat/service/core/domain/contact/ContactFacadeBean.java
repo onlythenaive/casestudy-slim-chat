@@ -6,14 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePersister;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePreviewProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 
 /**
  * Contact operations facade implementation.
@@ -25,9 +23,6 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
 
     @Autowired(required = false)
     private Collection<ContactActionAware> contactActionHandlers;
-
-    @Autowired
-    private ProfileAccessor profileAccessor;
 
     @Autowired
     private ProfilePersister profilePersister;
@@ -50,8 +45,8 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
 
     @Override
     public void remove(String profileId) {
-        ProfileEntity actorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, principalId());
-        ProfileEntity objectEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, profileId);
+        ProfileEntity actorEntity = profileEntity(principalId());
+        ProfileEntity objectEntity = profileEntity(profileId);
         actorEntity.getConnectedProfileIds().remove(profileId);
         objectEntity.getConnectedProfileIds().remove(principalId());
         actorEntity = this.profilePersister.update(actorEntity);
@@ -59,5 +54,9 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
         Profile actor = this.profileProjector.projectPreview(actorEntity);
         Profile object = this.profileProjector.projectPreview(objectEntity);
         handleAction(this.contactActionHandlers, handler -> handler.onContactDeleted(actor, object));
+    }
+
+    private ProfileEntity profileEntity(String id) {
+        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 }

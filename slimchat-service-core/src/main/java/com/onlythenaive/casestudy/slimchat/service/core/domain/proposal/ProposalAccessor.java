@@ -1,12 +1,12 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.EntityAccessor;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.Accessor;
 
 /**
  * Connection proposal accessor.
  *
  * @author Ilia Gubarev
  */
-public interface ProposalAccessor extends EntityAccessor<ProposalEntity> {
+public interface ProposalAccessor extends Accessor<ProposalEntity> {
 
 }

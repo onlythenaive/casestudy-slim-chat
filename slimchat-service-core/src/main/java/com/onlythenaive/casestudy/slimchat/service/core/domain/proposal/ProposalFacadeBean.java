@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
 
 /**
  * Proposal operations facade.
@@ -59,7 +59,7 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
 
     @Override
     public void accept(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MANAGE, id);
+        ProposalEntity entity = manageableProposalEntity(id);
         if (!entity.getAcceptorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
@@ -70,7 +70,7 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
 
     @Override
     public void cancel(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MANAGE, id);
+        ProposalEntity entity = manageableProposalEntity(id);
         if (!entity.getInitiatorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
@@ -81,7 +81,7 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
 
     @Override
     public void reject(String id) {
-        ProposalEntity entity = this.proposalAccessor.accessById(AccessLevel.MANAGE, id);
+        ProposalEntity entity = manageableProposalEntity(id);
         if (!entity.getAcceptorId().equals(principalId())) {
             throw insufficientPrivileges();
         }
@@ -92,5 +92,11 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
 
     private Proposal project(ProposalEntity entity) {
         return this.proposalProjector.project(entity);
+    }
+
+    private ProposalEntity manageableProposalEntity(String id) {
+        ProposalEntity entity = this.proposalRepository.findById(id).orElseThrow(() -> notFoundById("proposal", id));
+        this.proposalAccessor.ensureAccess(entity, AccessLevel.MANAGE);
+        return entity;
     }
 }

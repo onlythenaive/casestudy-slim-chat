@@ -12,9 +12,7 @@ import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
-import org.springframework.data.mongodb.core.aggregation.LimitOperation;
 import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 import org.springframework.data.mongodb.core.aggregation.ReplaceRootOperation;
 import org.springframework.data.mongodb.core.aggregation.SortOperation;
@@ -24,10 +22,12 @@ import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
 
 /**
  * Chat message operations facade implementation.
@@ -51,6 +51,12 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
 
     @Autowired
     private ProfileAccessor profileAccessor;
+
+    @Autowired
+    private GroupRepository groupRepository;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Autowired
     private MessageRepository messageRepository;
@@ -113,12 +119,13 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
     private void ensurePermission(MessageInvoice invoice) {
         String recipientId = invoice.getRecipientId();
         if (recipientId != null) {
-            ProfileEntity recipient = this.profileAccessor.accessById(AccessLevel.PREVIEW, recipientId);
+            ProfileEntity recipient = profileEntity(recipientId);
             if (!recipient.getConnectedProfileIds().contains(principalId())) {
                 throw insufficientPrivileges();
             }
         } else {
-            this.groupAccessor.accessById(AccessLevel.CONTRIBUTE, invoice.getGroupId());
+            GroupEntity groupEntity = groupEntity(invoice.getGroupId());
+            this.groupAccessor.ensureAccess(groupEntity, AccessLevel.CONTRIBUTE);
         }
     }
 
@@ -140,9 +147,17 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
         if (invoice.getRecipientId() != null) {
             observerIds.add(invoice.getRecipientId());
         } else {
-            GroupEntity groupEntity = this.groupAccessor.accessById(invoice.getGroupId());
+            GroupEntity groupEntity = groupEntity(invoice.getGroupId());
             observerIds.addAll(groupEntity.getParticipantIds());
         }
         return observerIds;
+    }
+
+    private GroupEntity groupEntity(String id) {
+        return this.groupRepository.findById(id).orElseThrow(() -> notFoundById("group", id));
+    }
+
+    private ProfileEntity profileEntity(String id) {
+        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 }

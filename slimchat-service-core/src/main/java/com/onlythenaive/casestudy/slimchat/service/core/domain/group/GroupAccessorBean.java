@@ -2,8 +2,8 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.group;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericEntityAccessorBean;
 
 /**
  * Chat group accessor implementation.
@@ -11,21 +11,16 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
  * @author Ilia Gubarev
  */
 @Service
-public class GroupAccessorBean extends GenericAccessorBean<GroupEntity> implements GroupAccessor {
+public class GroupAccessorBean extends GenericEntityAccessorBean<GroupEntity> implements GroupAccessor {
 
     @Override
-    public AccessLevel allowedAccessLevel(GroupEntity subject) {
-        if (subject.getModeratorIds().contains(principalId())) {
+    public AccessLevel allowedAccessLevel(GroupEntity entity) {
+        if (entity.getModeratorIds().contains(principalId())) {
             return AccessLevel.MANAGE;
         }
-        if (subject.getParticipantIds().contains(principalId())) {
+        if (entity.getParticipantIds().contains(principalId())) {
             return AccessLevel.CONTRIBUTE;
         }
         return AccessLevel.BYPASS;
-    }
-
-    @Override
-    protected String getEntityName() {
-        return "group";
     }
 }

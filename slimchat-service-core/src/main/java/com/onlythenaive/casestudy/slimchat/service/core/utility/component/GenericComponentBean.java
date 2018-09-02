@@ -75,7 +75,7 @@ public abstract class GenericComponentBean {
      *
      * @return the created operation exception.
      */
-    protected RuntimeException insufficientPrivileges() {
+    protected OperationException insufficientPrivileges() {
         return exceptionBuilder()
                 .category(ExceptionCategory.SECURITY)
                 .textcode("x.security.insufficient-privileges")

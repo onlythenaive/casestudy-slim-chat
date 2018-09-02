@@ -2,8 +2,8 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericAccessorBean;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.access.AccessLevel;
+import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericEntityAccessorBean;
 
 /**
  * Connection proposal accessor implementation.
@@ -11,18 +11,13 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
  * @author Ilia Gubarev
  */
 @Service
-public class ProposalAccessorBean extends GenericAccessorBean<ProposalEntity> implements ProposalAccessor {
+public class ProposalAccessorBean extends GenericEntityAccessorBean<ProposalEntity> implements ProposalAccessor {
 
     @Override
-    public AccessLevel allowedAccessLevel(ProposalEntity subject) {
-        if (subject.getInitiatorId().equals(principalId()) || subject.getAcceptorId().equals(principalId())) {
-            return AccessLevel.EDIT;
+    public AccessLevel allowedAccessLevel(ProposalEntity entity) {
+        if (entity.getInitiatorId().equals(principalId()) || entity.getAcceptorId().equals(principalId())) {
+            return AccessLevel.MANAGE;
         }
         return AccessLevel.BYPASS;
-    }
-
-    @Override
-    protected String getEntityName() {
-        return "proposal";
     }
 }

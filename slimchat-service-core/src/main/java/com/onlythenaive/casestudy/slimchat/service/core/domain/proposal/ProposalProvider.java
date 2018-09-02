@@ -10,14 +10,6 @@ import java.util.Collection;
 public interface ProposalProvider {
 
     /**
-     * Retrieves an existing proposal by its ID.
-     *
-     * @param id the ID of an existing proposal.
-     * @return the requested proposal.
-     */
-    Proposal getById(String id);
-
-    /**
      * Finds all incoming proposals.
      *
      * @return the resulting collection of proposals.

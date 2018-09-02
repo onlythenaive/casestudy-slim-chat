@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAccessor;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePersister;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.Proposal;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.proposal.ProposalActionAware;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 
 /**
  * Contact orchestrator implementation.
@@ -27,20 +26,20 @@ public class ContactOrchestratorBean extends GenericComponentBean implements Pro
     private Collection<ContactActionAware> contactActionHandlers;
 
     @Autowired
-    private ProfileAccessor profileAccessor;
-
-    @Autowired
     private ProfilePersister profilePersister;
 
     @Autowired
     private ProfileProjector profileProjector;
 
+    @Autowired
+    private ProfileRepository profileRepository;
+
     @Override
     public void onProposalAccepted(Proposal proposal) {
         String acceptorId = proposal.getAcceptor().getId();
         String initiatorId = proposal.getInitiator().getId();
-        ProfileEntity acceptorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, acceptorId);
-        ProfileEntity initiatorEntity = this.profileAccessor.accessById(AccessLevel.BYPASS, initiatorId);
+        ProfileEntity acceptorEntity = profileEntity(acceptorId);
+        ProfileEntity initiatorEntity = profileEntity(initiatorId);
         acceptorEntity.getConnectedProfileIds().add(initiatorId);
         initiatorEntity.getConnectedProfileIds().add(acceptorId);
         acceptorEntity = this.profilePersister.update(acceptorEntity);
@@ -48,5 +47,9 @@ public class ContactOrchestratorBean extends GenericComponentBean implements Pro
         Profile acceptor = this.profileProjector.projectPreview(acceptorEntity);
         Profile initiator = this.profileProjector.projectPreview(initiatorEntity);
         handleAction(this.contactActionHandlers, handler -> handler.onContactCreated(acceptor, initiator));
+    }
+
+    private ProfileEntity profileEntity(String id) {
+        return this.profileRepository.findById(id).orElseThrow(() -> notFoundById("profile", id));
     }
 }
