@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.datetime.PrettyTimestamps;
 
 /**
  * Chat message.
@@ -29,8 +28,4 @@ public class Message {
     private Profile recipient;
     private Boolean own;
     private Instant createdAt;
-
-    public String getPrettyCreatedAt() {
-        return PrettyTimestamps.pretty(this.createdAt);
-    }
 }
