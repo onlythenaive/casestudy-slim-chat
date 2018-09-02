@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.configuration.web;
+package com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.helpers;
 
 import com.github.jknack.handlebars.Helper;
 

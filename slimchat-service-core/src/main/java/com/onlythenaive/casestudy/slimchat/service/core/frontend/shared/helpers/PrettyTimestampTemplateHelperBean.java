@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.utility.datetime;
+package com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.helpers;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Options;
-import com.onlythenaive.casestudy.slimchat.service.core.configuration.web.GenericTemplateHelperBean;
 
 /**
  * Template helper for rendering timestamps.

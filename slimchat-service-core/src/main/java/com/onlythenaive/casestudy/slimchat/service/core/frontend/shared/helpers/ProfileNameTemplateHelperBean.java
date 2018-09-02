@@ -1,9 +1,8 @@
-package com.onlythenaive.casestudy.slimchat.service.core.frontend.shared;
+package com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.helpers;
 
 import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Options;
-import com.onlythenaive.casestudy.slimchat.service.core.configuration.web.GenericTemplateHelperBean;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 
 /**
