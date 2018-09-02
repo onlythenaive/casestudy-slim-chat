@@ -16,4 +16,12 @@ public interface AccountProvider {
      * @return the requested security account.
      */
     Optional<Account> findById(String id);
+
+    /**
+     * Finds an existing security account by its login key if any.
+     *
+     * @param loginKey the login key of the account.
+     * @return the requested security account.
+     */
+    Optional<Account> findByLoginKey(String loginKey);
 }

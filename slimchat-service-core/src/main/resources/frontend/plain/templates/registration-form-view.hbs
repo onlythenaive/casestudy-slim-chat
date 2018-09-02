@@ -8,17 +8,22 @@
 
         <div class="form-control">
             <i class="fas fa-user-shield"></i>
-            <input name="id" type="text" placeholder="Account name" required autofocus>
+            <input name="id" type="text" placeholder="Username (visible to everyone)" required autofocus>
+        </div>
+
+        <div class="form-control">
+            <i class="fas fa-user-shield"></i>
+            <input name="loginKey" type="text" placeholder="Login" required autofocus>
         </div>
 
         <div class="form-control">
             <i class="fas fa-unlock"></i>
-            <input name="password" type="password" placeholder="Password" required>
+            <input name="loginSecret" type="password" placeholder="Password" required>
         </div>
 
         <div class="form-control">
             <i class="fas fa-unlock"></i>
-            <input name="passwordDuplicate" type="password" placeholder="Password" required>
+            <input name="loginSecretDuplicate" type="password" placeholder="Repeat password" required>
         </div>
 
         <button type="submit">Go</button>

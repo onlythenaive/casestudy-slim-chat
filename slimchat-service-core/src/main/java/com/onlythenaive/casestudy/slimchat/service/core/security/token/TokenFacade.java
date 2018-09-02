@@ -10,10 +10,10 @@ public interface TokenFacade {
     /**
      * Creates a new security token.
      *
-     * @param accountId the ID of an account.
-     * @param accountSecret account's secret.
+     * @param loginKey the login key of an account.
+     * @param loginSecret account's login secret.
      */
-    void createFromAccountCredentials(String accountId, String accountSecret);
+    void createFromAccountLoginPair(String loginKey, String loginSecret);
 
     /**
      * Deletes the current provided token.

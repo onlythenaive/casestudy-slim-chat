@@ -25,8 +25,8 @@ public class TokenGeneratorBean extends GenericComponentBean implements TokenGen
     @Override
     public Token generateForAccountId(String accountId) {
         TokenEntity entity = generate(accountId);
-        entity = this.tokenPersister.insert(entity);
-        Token token = this.tokenProjector.project(entity);
+        TokenEntity insertedEntity = this.tokenPersister.insert(entity);
+        Token token = this.tokenProjector.project(insertedEntity);
         this.tokenContextConfigurator.setGenerated(token);
         logger().debug("Created a new security token with ID = {}", token.getId());
         return token;

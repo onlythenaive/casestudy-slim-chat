@@ -36,32 +36,36 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
 
     @Override
     public void create(AccountInvoice invoice) {
-        ensureIdUniqueness(invoice.getId());
+        ensureUniqueness(invoice);
         AccountEntity entity = accountEntityFromInvoice(invoice);
-        entity = this.accountPersister.insert(entity);
-        handleAccountCreation(entity, invoice);
+        AccountEntity insertedEntity = this.accountPersister.insert(entity);
+        Account account = this.accountProjector.project(insertedEntity);
+        handleAccountCreation(account, invoice);
    }
 
-    private void ensureIdUniqueness(String id) {
-        if (this.accountRepository.existsById(id)) {
-            throw accountAlreadyExists(id);
+    private void ensureUniqueness(AccountInvoice invoice) {
+        if (this.accountRepository.existsById(invoice.getId())) {
+            throw accountAlreadyExists("accountId", invoice.getId());
+        }
+        if (this.accountRepository.existsByLoginKey(invoice.getLoginKey())) {
+            throw accountAlreadyExists("accountLoginKey", invoice.getLoginKey());
         }
     }
 
     private AccountEntity accountEntityFromInvoice(AccountInvoice invoice) {
         return AccountEntity.builder()
                 .id(invoice.getId())
+                .loginKey(invoice.getLoginKey())
+                .loginSecretHash(hashSecret(invoice.getLoginSecret()))
                 .roles(new HashSet<>())
-                .secretHash(hashSecret(invoice.getSecret()))
                 .build();
     }
 
-    private String hashSecret(String password) {
-        return this.hashService.hash(password);
+    private String hashSecret(String loginSecret) {
+        return this.hashService.hash(loginSecret);
     }
 
-    private void handleAccountCreation(AccountEntity entity, AccountInvoice invoice) {
-        Account account = this.accountProjector.project(entity);
+    private void handleAccountCreation(Account account, AccountInvoice invoice) {
         AccountCreationEvent event = AccountCreationEvent.builder()
                 .account(account)
                 .email(invoice.getEmail())
@@ -71,12 +75,12 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
         handleAction(this.accountActionHandlers, handler -> handler.onAccountCreated(event));
     }
 
-    private OperationException accountAlreadyExists(String id) {
+    private OperationException accountAlreadyExists(String property, String value) {
         return OperationException.builder()
                 .comment("Account already exists")
                 .textcode("x.conflict.account.already-exists")
                 .category(ExceptionCategory.CONFLICT)
-                .dataAttribute("accountId", id)
+                .dataAttribute(property, value)
                 .build();
     }
 }

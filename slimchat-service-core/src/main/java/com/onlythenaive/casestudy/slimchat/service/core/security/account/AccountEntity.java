@@ -30,10 +30,13 @@ public class AccountEntity implements PersistedEntity {
     private String id;
 
     @Field
-    private Set<String> roles;
+    private String loginKey;
 
     @Field
-    private String secretHash;
+    private String loginSecretHash;
+
+    @Field
+    private Set<String> roles;
 
     @Field
     private Instant createdAt;

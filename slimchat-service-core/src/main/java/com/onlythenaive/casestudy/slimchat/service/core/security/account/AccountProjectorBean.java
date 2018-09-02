@@ -16,8 +16,9 @@ public class AccountProjectorBean extends GenericComponentBean implements Accoun
     public Account project(AccountEntity entity) {
         return Account.builder()
                 .id(entity.getId())
+                .loginKey(entity.getLoginKey())
+                .loginSecretHash(entity.getLoginSecretHash())
                 .roles(entity.getRoles())
-                .secretHash(entity.getSecretHash())
                 .createdAt(entity.getCreatedAt())
                 .lastModifiedAt(entity.getLastModifiedAt())
                 .build();

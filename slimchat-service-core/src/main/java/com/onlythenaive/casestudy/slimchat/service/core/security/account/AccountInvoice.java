@@ -17,8 +17,9 @@ import lombok.NoArgsConstructor;
 public class AccountInvoice {
 
     private String id;
+    private String loginKey;
+    private String loginSecret;
     private String email;
     private String firstname;
     private String lastname;
-    private String secret;
 }

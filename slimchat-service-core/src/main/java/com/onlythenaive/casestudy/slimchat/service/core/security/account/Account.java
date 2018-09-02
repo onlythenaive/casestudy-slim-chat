@@ -20,8 +20,9 @@ import lombok.NoArgsConstructor;
 public class Account {
 
     private String id;
+    private String loginKey;
+    private String loginSecretHash;
     private Set<String> roles;
-    private String secretHash;
     private Instant createdAt;
     private Instant lastModifiedAt;
 }

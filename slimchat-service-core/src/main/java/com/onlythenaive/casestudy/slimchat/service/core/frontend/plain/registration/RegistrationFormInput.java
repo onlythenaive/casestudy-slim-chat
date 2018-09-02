@@ -19,20 +19,32 @@ import com.onlythenaive.casestudy.slimchat.service.core.security.account.Account
 public class RegistrationFormInput {
 
     private String id;
-    private String secret;
-    private String secretDuplicate;
+    private String loginKey;
+    private String loginSecret;
+    private String loginSecretDuplicate;
     private String email;
     private String firstname;
     private String lastname;
 
     public boolean isSecretDuplicated() {
-        return this.secret.equals(this.secretDuplicate);
+        return this.loginSecret.equals(this.loginSecretDuplicate);
+    }
+
+    public RegistrationFormInput copyWithoutSecret() {
+        return RegistrationFormInput.builder()
+                .id(this.id)
+                .loginKey(this.loginKey)
+                .email(this.email)
+                .firstname(this.firstname)
+                .lastname(this.lastname)
+                .build();
     }
 
     public AccountInvoice toInvoice() {
         return AccountInvoice.builder()
                 .id(this.id)
-                .secret(this.secret)
+                .loginKey(this.loginKey)
+                .loginSecret(this.loginSecret)
                 .email(this.email)
                 .firstname(this.firstname)
                 .lastname(this.lastname)

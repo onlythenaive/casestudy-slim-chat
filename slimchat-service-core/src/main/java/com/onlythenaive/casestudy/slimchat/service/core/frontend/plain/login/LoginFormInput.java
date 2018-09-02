@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginFormInput {
 
-    private String id;
-    private String secret;
+    private String loginKey;
+    private String loginSecret;
 }

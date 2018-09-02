@@ -25,7 +25,10 @@ public class SecurityAccountBootstrapBean extends GenericEntityBootstrapBean<Acc
     protected void executeBootstrap() {
         Collection<AccountEntity> entities = parseList("/bootstrap/dev/accounts.json", AccountEntity.class);
         entities.forEach(entity -> {
-            entity.setSecretHash(this.hashService.hash("*"));
+            if (entity.getLoginKey() == null) {
+                entity.setLoginKey(entity.getId());
+            }
+            entity.setLoginSecretHash(this.hashService.hash("*"));
             entity.setRoles(new HashSet<>());
             insertBootstrappedEntity(entity);
         });
