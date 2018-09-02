@@ -1,7 +1,9 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.profile;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.onlythenaive.casestudy.slimchat.service.core.utility.hash.Md5HashService;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.GenericPersisterBean;
 
 /**
@@ -12,6 +14,9 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 @Service
 public class ProfilePersisterBean extends GenericPersisterBean<ProfileEntity> implements ProfilePersister {
 
+    @Autowired
+    private Md5HashService hashService;
+
     @Override
     public String getEntityName() {
         return "Profile";
@@ -20,5 +25,15 @@ public class ProfilePersisterBean extends GenericPersisterBean<ProfileEntity> im
     @Override
     public Class<ProfileEntity> getEntityType() {
         return ProfileEntity.class;
+    }
+
+    @Override
+    protected void beforeInsert(ProfileEntity entity) {
+        super.beforeInsert(entity);
+        entity.setEmailHash(emailHash(entity.getEmail()));
+    }
+
+    private String emailHash(String email) {
+        return email == null ? null : this.hashService.hash(email);
     }
 }

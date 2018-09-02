@@ -7,7 +7,7 @@
             {{#if group}}
                 <h1>Group chat {{group.caption}}</h1>
             {{else}}
-                <h1>Chat with {{profile.displayName}}</h1>
+                <h1>Chat with {{profileName profile}}</h1>
             {{/if}}
 
             <form class="message-form" action="messages/create" method="post">
@@ -47,7 +47,7 @@
                                     {{#if own}}
                                         Me
                                     {{else}}
-                                        <a href="profiles/{{author.id}}">{{author.displayName}}</a>
+                                        <a href="profiles/{{author.id}}">{{profileName author}}</a>
                                     {{/if}}
                                 </span>
                                 <span class="timestamp">{{prettyCreatedAt}}</span>

@@ -11,7 +11,7 @@
             {{#data.contacts}}
                 <div>
                     <input id="participantId-{{id}}" type="checkbox" name="participantIds" value="{{id}}">
-                    <label for="participantId-{{id}}">{{firstname}} {{lastname}} </label>
+                    <label for="participantId-{{id}}">{{profileName .}}</label>
                 </div>
             {{/data.contacts}}
         </div>

@@ -10,7 +10,8 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileAc
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileEntity;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePersister;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProjector;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePreviewProvider;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileRepository;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.AccessLevel;
 
@@ -35,11 +36,16 @@ public class ContactFacadeBean extends GenericComponentBean implements ContactFa
     private ProfileProjector profileProjector;
 
     @Autowired
-    private ProfileProvider profileProvider;
+    private ProfilePreviewProvider profileProvider;
+
+    @Autowired
+    private ProfileRepository profileRepository;
 
     @Override
     public Collection<Profile> find() {
-        return this.profileProvider.getAllConnected(principalId());
+        ProfileEntity entity = this.profileRepository.findById(principalId()).orElseThrow(RuntimeException::new);
+        Collection<String> connectedIds = entity.getConnectedProfileIds();
+        return this.profileProvider.getById(connectedIds);
     }
 
     @Override

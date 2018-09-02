@@ -12,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileFacade;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileSearchInvoice;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileSearchResult;
 import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericPlainControllerBean;
 
 @Controller
@@ -22,9 +24,9 @@ public class ProfileListViewPlainControllerBean extends GenericPlainControllerBe
     private ProfileFacade profileFacade;
 
     @GetMapping
-    public ModelAndView show() {
-        Collection<Profile> profiles = this.profileFacade.findAll();
-        return render("profile-list-view", data(profiles));
+    public ModelAndView show(ProfileSearchInvoice searchInvoice) {
+        ProfileSearchResult searchResult = this.profileFacade.getSearchResult(searchInvoice);
+        return render("profile-list-view", data(searchResult.getItems()));
     }
 
     private Object data(Collection<Profile> profiles) {

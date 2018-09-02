@@ -7,11 +7,7 @@
         {{#data.profiles}}
 
             <div>
-                {{id}}
-            </div>
-
-            <div>
-                {{firstname}} {{lastname}}
+                {{profileName .}}
             </div>
 
             {{#if connected}}

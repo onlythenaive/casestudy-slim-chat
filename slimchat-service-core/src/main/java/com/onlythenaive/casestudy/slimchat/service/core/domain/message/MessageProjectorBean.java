@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePreviewProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -21,7 +21,7 @@ public class MessageProjectorBean extends GenericComponentBean implements Messag
     private GroupProvider groupProvider;
 
     @Autowired
-    private ProfileProvider profileProvider;
+    private ProfilePreviewProvider profileProvider;
 
     @Override
     public Message project(MessageEntity entity) {

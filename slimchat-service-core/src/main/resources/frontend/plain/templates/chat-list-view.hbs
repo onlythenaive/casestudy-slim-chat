@@ -15,7 +15,7 @@
                 </form>
             {{else}}
                 <div>
-                    {{recipient.id}}
+                    {{profileName recipient}}
                 </div>
                 <form action="chats/{{recipient.id}}" method="get">
                     <button type="submit">Go</button>

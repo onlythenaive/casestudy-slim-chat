@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileProvider;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePreviewProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
@@ -16,7 +16,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.component.Generi
 public class ProposalProjectorBean extends GenericComponentBean implements ProposalProjector {
 
     @Autowired
-    private ProfileProvider profileProvider;
+    private ProfilePreviewProvider profileProvider;
 
     @Override
     public Proposal project(ProposalEntity entity) {

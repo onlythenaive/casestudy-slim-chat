@@ -32,7 +32,12 @@ public class ProfileEntity implements PersistedEntity {
     private String id;
 
     @Field
+    @Nullable
     private String email;
+
+    @Field
+    @Nullable
+    private String emailHash;
 
     @Field
     @Nullable

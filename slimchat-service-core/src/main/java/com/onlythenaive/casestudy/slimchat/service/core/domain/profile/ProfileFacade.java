@@ -10,19 +10,20 @@ import java.util.Collection;
 public interface ProfileFacade {
 
     /**
-     * Finds all existing profiles.
-     *
-     * @return a collection of existing profiles.
-     */
-    Collection<Profile> findAll();
-
-    /**
      * Retrieves an existing profile by its ID (matches with its referenced account ID).
      *
      * @param id the ID of a profile.
      * @return the requested profile.
      */
     Profile getById(String id);
+
+    /**
+     * Retrieves search results among existing profiles by specified invoice.
+     *
+     * @param searchInvoice a search invoice.
+     * @return the results of searching.
+     */
+    ProfileSearchResult getSearchResult(ProfileSearchInvoice searchInvoice);
 
     /**
      * Updates properties of an existing profile by its ID.

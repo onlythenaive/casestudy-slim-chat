@@ -45,12 +45,12 @@
                 </div>
                 <div>
                     <label for="lastSpottedAtPretty">Last spotted at: </label>
-                    <input name="lastSpottedAtPretty" type="text" value="{{prettyLastSpottedAt}}"/>
+                    <input name="lastSpottedAtPretty" type="text" value="{{prettyTimestamp lastSpottedAt}}"/>
                 </div>
                 <div>
                     <label for="restricted">Restricted: </label>
-                    <input name="restricted" type="radio" value="true"/>
-                    <input name="restricted" type="radio" value="false"/>
+                    <input name="restricted" type="radio" value="true" {{#if restricted}}checked{{/if}}/>
+                    <input name="restricted" type="radio" value="false" {{#unless restricted}}checked{{/unless}}/>
                 </div>
                 <div>
                     <button type="submit">Save</button>

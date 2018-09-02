@@ -24,6 +24,7 @@ public class ProfileOrchestratorBean extends GenericComponentBean implements Acc
     public void onAccountCreated(AccountCreationEvent event) {
         ProfileEntity entity = ProfileEntity.builder()
                 .id(event.getAccount().getId())
+                .email(event.getEmail())
                 .firstname(event.getFirstname())
                 .lastname(event.getLastname())
                 .connectedProfileIds(new HashSet<>())
