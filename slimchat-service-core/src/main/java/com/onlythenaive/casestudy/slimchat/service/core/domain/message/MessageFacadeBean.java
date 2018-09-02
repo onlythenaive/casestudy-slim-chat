@@ -9,15 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.GroupOperation;
-import org.springframework.data.mongodb.core.aggregation.MatchOperation;
-import org.springframework.data.mongodb.core.aggregation.ReplaceRootOperation;
-import org.springframework.data.mongodb.core.aggregation.SortOperation;
-import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupAccessor;
@@ -63,10 +54,11 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
 
     @Override
     public Message create(MessageInvoice invoice) {
-        ensurePermission(invoice);
-        MessageEntity entity = messageFromInvoice(invoice);
-        entity = this.messagePersister.insert(entity);
-        Message message = this.messageProjector.project(entity);
+        MessageInvoiceWrapper invoiceWrapper = MessageInvoiceWrapper.of(invoice, principalId());
+        ensurePermission(invoiceWrapper);
+        MessageEntity entity = messageFromInvoice(invoiceWrapper);
+        MessageEntity insertedEntity = this.messagePersister.insert(entity);
+        Message message = this.messageProjector.project(insertedEntity);
         handleAction(this.messageActionHandlers, handler -> handler.onMessageCreated(message));
         return message;
     }
@@ -80,34 +72,11 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
         return this.messageProjector.project(entity);
     }
 
-    @Autowired
-    MongoTemplate mongoTemplate;
-
-    @Override
-    public Collection<Message> getLatestFromEachChat() {
-
-        MatchOperation matchStage = Aggregation.match(new Criteria("observerIds").in(principalId()));
-
-        SortOperation sortStage = Aggregation.sort(Sort.Direction.DESC, "createdAt");
-
-        GroupOperation groupStage = Aggregation.group("chatDescriptor").first(Aggregation.ROOT).as("firstMessageInChat");
-
-
-        ReplaceRootOperation replaceRootStage = Aggregation.replaceRoot("firstMessageInChat");
-
-        TypedAggregation<MessageEntity> aggregation = Aggregation.newAggregation(MessageEntity.class, matchStage, sortStage, groupStage, replaceRootStage);
-
-
-        Collection<Message> messages = this.mongoTemplate.aggregate(aggregation, MessageEntity.class).getMappedResults().stream().map(this.messageProjector::project).collect(Collectors.toList());
-
-        return messages;
-    }
-
     @Override
     public Collection<Message> getSearchResult(MessageSearchInvoice invoice) {
         MessageEntity probe = MessageEntity.builder()
                 .observerIds(new HashSet<>(Collections.singleton(principalId())))
-                .chatDescriptor(MessageChatDescriptorBuilder.of(invoice).build())
+                .chatId(invoice.getChatId())
                 .build();
         Collection<MessageEntity> entities = this.messageRepository.findAll(Example.of(probe));
         return entities.stream()
@@ -116,38 +85,39 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
                 .collect(Collectors.toList());
     }
 
-    private void ensurePermission(MessageInvoice invoice) {
-        String recipientId = invoice.getRecipientId();
+    private void ensurePermission(MessageInvoiceWrapper invoiceWrapper) {
+        String recipientId = invoiceWrapper.getRecipientId();
         if (recipientId != null) {
             ProfileEntity recipient = this.profileRepository.getById(recipientId);
             if (!recipient.getConnectedProfileIds().contains(principalId())) {
                 throw insufficientPrivileges();
             }
         } else {
-            GroupEntity groupEntity = this.groupRepository.getById(invoice.getGroupId());
+            GroupEntity groupEntity = this.groupRepository.getById(invoiceWrapper.getGroupId());
             this.groupAccessor.ensureAccess(groupEntity, AccessLevel.CONTRIBUTE);
         }
     }
 
-    private MessageEntity messageFromInvoice(MessageInvoice invoice) {
+    private MessageEntity messageFromInvoice(MessageInvoiceWrapper invoiceWrapper) {
         return MessageEntity.builder()
                 .id(uuid())
                 .authorId(principalId())
-                .text(invoice.getText())
-                .recipientId(invoice.getRecipientId())
-                .groupId(invoice.getGroupId())
-                .observerIds(observerIdsFromInvoice(invoice))
+                .text(invoiceWrapper.getInvoice().getText())
+                .recipientId(invoiceWrapper.getRecipientId())
+                .groupId(invoiceWrapper.getGroupId())
+                .chatId(invoiceWrapper.getInvoice().getChatId())
+                .observerIds(observerIdsFromInvoice(invoiceWrapper))
                 .createdAt(now())
                 .build();
     }
 
-    private Set<String> observerIdsFromInvoice(MessageInvoice invoice) {
+    private Set<String> observerIdsFromInvoice(MessageInvoiceWrapper invoiceWrapper) {
         Set<String> observerIds = new HashSet<>();
         observerIds.add(principalId());
-        if (invoice.getRecipientId() != null) {
-            observerIds.add(invoice.getRecipientId());
+        if (invoiceWrapper.getRecipientId() != null) {
+            observerIds.add(invoiceWrapper.getRecipientId());
         } else {
-            GroupEntity groupEntity = this.groupRepository.getById(invoice.getGroupId());
+            GroupEntity groupEntity = this.groupRepository.getById(invoiceWrapper.getGroupId());
             observerIds.addAll(groupEntity.getParticipantIds());
         }
         return observerIds;

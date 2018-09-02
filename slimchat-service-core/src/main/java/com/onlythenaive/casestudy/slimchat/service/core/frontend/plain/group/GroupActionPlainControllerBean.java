@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupInvoice;
@@ -21,6 +22,13 @@ public class GroupActionPlainControllerBean extends GenericPlainControllerBean {
     @PostMapping("/create")
     public ModelAndView create(GroupInvoice invoice) {
         Group group = this.groupFacade.create(invoice);
-        return redirect("chat/group/" + group.getId());
+        String descriptor = descriptor(group.getId());
+        return redirect("chats/" + descriptor);
+    }
+
+    private String descriptor(String groupId) {
+        return ChatIdWrapper.empty()
+                .groupId(groupId)
+                .toChatId();
     }
 }

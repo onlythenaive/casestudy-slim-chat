@@ -7,7 +7,7 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Gene
 /**
  * Chat message persister implementation.
  *
- * @author Ili Gubarev
+ * @author Ilia Gubarev
  */
 @Service
 public class MessagePersisterBean extends GenericPersisterBean<MessageEntity> implements MessagePersister {
@@ -25,6 +25,5 @@ public class MessagePersisterBean extends GenericPersisterBean<MessageEntity> im
     @Override
     protected void beforeInsert(MessageEntity entity) {
         super.beforeInsert(entity);
-        entity.setChatDescriptor(MessageChatDescriptorBuilder.of(entity).build());
     }
 }

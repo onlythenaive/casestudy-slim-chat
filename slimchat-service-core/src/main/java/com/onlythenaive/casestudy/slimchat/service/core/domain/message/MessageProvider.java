@@ -9,11 +9,7 @@ import java.util.Collection;
  */
 public interface MessageProvider {
 
-    /**
-     * Provides a collection of existing messages by their IDs.
-     *
-     * @param ids a collection of message IDs.
-     * @return the resulting collection of messages.
-     */
-    Collection<Message> findByIds(Collection<String> ids);
+    Collection<Message> getAllByChatId(String chatId);
+
+    Collection<Message> getAllLatestInChat();
 }

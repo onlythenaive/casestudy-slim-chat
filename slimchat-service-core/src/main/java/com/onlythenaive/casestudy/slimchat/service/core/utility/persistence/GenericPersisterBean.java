@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import com.mongodb.client.result.UpdateResult;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
+import org.bson.BsonValue;
 
 /**
  * Generic entity persister implementation.
@@ -62,8 +63,11 @@ public abstract class GenericPersisterBean<E extends PersistedEntity> extends Ge
     @Override
     public UpdateResult update(Criteria criteria, Update update) {
         UpdateResult result = this.mongoTemplate.updateMulti(Query.query(criteria), update, getEntityType());
-        Object affectedIds = result.getUpsertedId().asArray().getValues();
-        logger().debug("Updated multiple '{}' entity with ID = {}", getEntityName(), affectedIds);
+
+        BsonValue upsertedId = result.getUpsertedId();
+        if (upsertedId != null) {
+            logger().debug("Updated multiple '{}' entity with ID = {}", getEntityName(), upsertedId);
+        }
         return result;
     }
 

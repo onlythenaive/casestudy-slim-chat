@@ -19,7 +19,5 @@ public interface MessageFacade {
 
     Message get(String id);
 
-    Collection<Message> getLatestFromEachChat();
-
     Collection<Message> getSearchResult(MessageSearchInvoice invoice);
 }

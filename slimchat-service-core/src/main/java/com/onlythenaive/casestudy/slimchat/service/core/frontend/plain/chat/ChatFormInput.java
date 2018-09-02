@@ -1,4 +1,4 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
+package com.onlythenaive.casestudy.slimchat.service.core.frontend.plain.chat;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MessageSearchInvoice {
+public class ChatFormInput {
 
-    private String chatId;
+    private String id;
 }

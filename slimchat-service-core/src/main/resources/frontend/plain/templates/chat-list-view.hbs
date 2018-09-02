@@ -4,34 +4,29 @@
 
     <div class="chat-list">
 
-        {{#data.messages}}
+        {{#data.chats}}
 
             {{#if group}}
                 <div>
                     {{group.caption}}
                 </div>
-                <form action="chats/group/{{group.id}}" method="get">
-                    <button type="submit">Go</button>
-                </form>
+                <a href="chats/{{group.id}}">Write a message</a>
             {{else}}
                 <div>
-                    {{profileName recipient}}
+                    {{profileName companion}}
                 </div>
-                <form action="chats/{{recipient.id}}" method="get">
-                    <button type="submit">Go</button>
-                </form>
+                <a href="chats/{{companion.id}}">Write a message</a>
             {{/if}}
 
             <div>
-                <form action="history/delete" method="post">
-                    <input name="groupId" type="hidden" value="{{group.id}}">
-                    <input name="recipientId" type="hidden" value="{{profile.id}}">
+                <form action="chats/clear" method="post">
+                    <input name="id" type="hidden" value="{{chatId}}">
                     <button type="submit">Delete</button>
                 </form>
             </div>
 
             <hr/>
-        {{/data.messages}}
+        {{/data.chats}}
     </div>
 {{/partial}}
 

@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageFacade;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.history.History;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistoryFacade;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistorySearchInvoice;
 import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericPlainControllerBean;
 
 @Controller
@@ -19,17 +20,17 @@ import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericP
 public class ChatListViewPlainControllerBean extends GenericPlainControllerBean {
 
     @Autowired
-    private MessageFacade messageFacade;
+    private HistoryFacade historyFacade;
 
     @GetMapping
-    public ModelAndView show() {
-        Collection<Message> messages = this.messageFacade.getLatestFromEachChat();
-        return renderChatListView(messages);
+    public ModelAndView show(HistorySearchInvoice searchInvoice) {
+        Collection<History> histories = this.historyFacade.getSearchResult(searchInvoice).getItems();
+        return renderChatListView(histories);
     }
 
-    private ModelAndView renderChatListView(Collection<Message> messages) {
+    private ModelAndView renderChatListView(Collection<History> histories) {
         Map<String, Object> data = new HashMap<>();
-        data.put("messages", messages);
+        data.put("chats", histories);
         return render("chat-list-view", data);
     }
 }

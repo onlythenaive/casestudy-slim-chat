@@ -2,7 +2,9 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
 public interface HistoryFacade {
 
-    void deleteByGroupId(String groupId);
+    History getById(String id);
 
-    void deleteByProfileId(String profileId);
+    HistorySearchResult getSearchResult(HistorySearchInvoice searchInvoice);
+
+    void clear(String id);
 }

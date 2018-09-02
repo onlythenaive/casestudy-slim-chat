@@ -1,6 +1,6 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.message;
+package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
-import java.time.Instant;
+import java.util.Collection;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,25 +8,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 
-/**
- * Chat message.
- *
- * @author Ilia Gubarev
- */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class History {
 
     private String id;
-    private String text;
-    private Profile author;
-    private Group group;
-    private Profile recipient;
+    private Integer depth;
     private String chatId;
-    private Boolean own;
-    private Instant createdAt;
+    private Group group;
+    private Profile companion;
+    private Collection<Message> messages;
+    private Boolean preview;
 }

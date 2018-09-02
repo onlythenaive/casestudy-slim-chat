@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.MessageInvoice;
 import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericPlainControllerBean;
@@ -20,11 +20,18 @@ public class MessageFormViewPlainControllerBean extends GenericPlainControllerBe
 
     @PostMapping("/create")
     public ModelAndView create(MessageInvoice invoice) {
-        Message message = this.messageFacade.create(invoice);
-        if (invoice.getGroupId() != null) {
-            return redirect("chats/group/" + invoice.getGroupId());
+        this.messageFacade.create(invoice);
+        String descriptor = descriptor(invoice.getChatId());
+        return redirect("chats/" + descriptor);
+    }
+
+    private String descriptor(String chatId) {
+        ChatIdWrapper chatIdWrapper = ChatIdWrapper.parse(chatId);
+        String groupId = chatIdWrapper.getGroupId();
+        if (groupId != null) {
+            return groupId;
         } else {
-            return redirect("chats/" + invoice.getRecipientId());
+            return chatIdWrapper.getCompanionId(principalId());
         }
     }
 }

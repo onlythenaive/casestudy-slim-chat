@@ -3,6 +3,7 @@
     "id": "message-from-alice-to-john",
     "authorId": "alice",
     "recipientId": "john",
+    "chatId": "alice+john",
     "text": "Might we know each other?",
     "observerIds": [
       "alice",

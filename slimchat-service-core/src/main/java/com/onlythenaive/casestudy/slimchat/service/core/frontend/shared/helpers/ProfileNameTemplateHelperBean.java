@@ -20,6 +20,9 @@ public class ProfileNameTemplateHelperBean extends GenericTemplateHelperBean<Pro
 
     @Override
     public Object apply(Profile profile, Options options) {
+        if (profile == null) {
+            return null;
+        }
         String firstname = profile.getFirstname();
         if (firstname == null) {
             return profile.getId();
