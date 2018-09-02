@@ -12,15 +12,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Enti
 public interface ProposalRepository extends EntityRepository<ProposalEntity> {
 
     /**
-     * Checks if a proposal exists between specified users.
-     *
-     * @param initiatorId the ID of an initiator.
-     * @param acceptorId the ID of an acceptor.
-     * @return true if a proposal exists.
-     */
-    boolean existsByInitiatorIdAndAcceptorId(String initiatorId, String acceptorId);
-
-    /**
      * Finds all existing proposals by their acceptors's ID.
      *
      * @param acceptorId the ID of acceptor.

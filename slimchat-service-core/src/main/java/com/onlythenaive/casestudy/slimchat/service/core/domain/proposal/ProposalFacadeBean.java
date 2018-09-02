@@ -1,6 +1,7 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.proposal;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +30,6 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
     private ProposalProjector proposalProjector;
 
     @Autowired
-    private ProposalProvider proposalProvider;
-
-    @Autowired
     private ProposalRepository proposalRepository;
 
     @Override
@@ -49,12 +47,16 @@ public class ProposalFacadeBean extends GenericComponentBean implements Proposal
 
     @Override
     public Collection<Proposal> findIncoming() {
-        return this.proposalProvider.findIncoming();
+        return this.proposalRepository.findByAcceptorId(principalId()).stream()
+                .map(this::project)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Collection<Proposal> findOutgoing() {
-        return this.proposalProvider.findOutgoing();
+        return this.proposalRepository.findByInitiatorId(principalId()).stream()
+                .map(this::project)
+                .collect(Collectors.toList());
     }
 
     @Override
