@@ -36,7 +36,7 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
     private GroupPersister groupPersister;
 
     @Autowired
-    private GroupProvider groupProvider;
+    private GroupPreviewProvider groupProvider;
 
     @Override
     public Group create(GroupInvoice invoice) {
@@ -57,12 +57,16 @@ public class GroupFacadeBean extends GenericComponentBean implements GroupFacade
 
     @Override
     public Collection<Group> findByParticipation() {
-        return this.groupProvider.findPreviewsByParticipantId(principalId());
+        return this.groupRepository.findByParticipantIds(principalId()).stream()
+                .map(this.groupProjector::projectPreview)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Group getById(String id) {
-        return this.groupProvider.getById(id);
+        GroupEntity entity = this.groupRepository.getById(id);
+        this.groupAccessor.ensureAccess(entity, AccessLevel.VIEW);
+        return this.groupProjector.project(entity);
     }
 
     @Override
