@@ -31,5 +31,5 @@ public interface MessageFacade {
      * @param invoice a search invoice.
      * @return search result.
      */
-    Collection<Message> getSearchResult(MessageSearchInvoice invoice);
+    MessageSearchResult getSearchResult(MessageSearchInvoice invoice);
 }

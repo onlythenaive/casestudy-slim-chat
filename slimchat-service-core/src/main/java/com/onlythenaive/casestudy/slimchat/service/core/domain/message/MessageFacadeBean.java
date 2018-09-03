@@ -73,16 +73,19 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
     }
 
     @Override
-    public Collection<Message> getSearchResult(MessageSearchInvoice invoice) {
+    public MessageSearchResult getSearchResult(MessageSearchInvoice invoice) {
         MessageEntity probe = MessageEntity.builder()
                 .observerIds(new HashSet<>(Collections.singleton(principalId())))
                 .chatId(invoice.getChatId())
                 .build();
         Collection<MessageEntity> entities = this.messageRepository.findAll(Example.of(probe));
-        return entities.stream()
+        Collection<Message> messages = entities.stream()
                 .sorted(Comparator.comparing(MessageEntity::getCreatedAt).reversed())
                 .map(this.messageProjector::project)
                 .collect(Collectors.toList());
+        return MessageSearchResult.builder()
+                .items(messages)
+                .build();
     }
 
     private void ensurePermission(MessageInvoiceWrapper invoiceWrapper) {
