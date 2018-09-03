@@ -52,5 +52,9 @@ public class FrontendWebConfiguration implements WebMvcConfigurer {
                 .addResourceLocations("classpath:/frontend/plain/assets/")
                 .addResourceLocations("classpath:/frontend/shared/assets/")
                 .setCacheControl(CacheControl.noCache());
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**")
+                .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
