@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
 /**
- * Chat message provider.
+ * Chat message provider implementation.
  *
  * @author Ilia Gubarev
  */

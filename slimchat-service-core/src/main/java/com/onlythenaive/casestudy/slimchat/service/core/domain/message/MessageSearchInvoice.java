@@ -5,7 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
+/**
+ * Chat message search invoice.
+ *
+ * @author Ilia Gubarev
+ */@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

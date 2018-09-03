@@ -13,6 +13,11 @@ import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Repository;
 
+/**
+ * Message repository extension implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Repository
 public class MessageRepositoryImpl implements MessageRepositoryExtension {
 

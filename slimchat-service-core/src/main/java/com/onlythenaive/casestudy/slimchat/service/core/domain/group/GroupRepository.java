@@ -11,6 +11,12 @@ import com.onlythenaive.casestudy.slimchat.service.core.utility.persistence.Enti
  */
 public interface GroupRepository extends EntityRepository<GroupEntity> {
 
+    /**
+     * Retrieves existing group entities by specified participant ID.
+     *
+     * @param participantId the ID of a participant.
+     * @return the resulting list of groups.
+     */
     Collection<GroupEntity> findByParticipantIds(String participantId);
 
     @Override

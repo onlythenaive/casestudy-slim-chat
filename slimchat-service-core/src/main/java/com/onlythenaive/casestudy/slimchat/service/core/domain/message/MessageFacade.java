@@ -17,7 +17,19 @@ public interface MessageFacade {
      */
     Message create(MessageInvoice invoice);
 
+    /**
+     * Retrieves an existing message by its ID.
+     *
+     * @param id the ID of the message.
+     * @return the requested message.
+     */
     Message get(String id);
 
+    /**
+     * Retrieves a search result.
+     *
+     * @param invoice a search invoice.
+     * @return search result.
+     */
     Collection<Message> getSearchResult(MessageSearchInvoice invoice);
 }

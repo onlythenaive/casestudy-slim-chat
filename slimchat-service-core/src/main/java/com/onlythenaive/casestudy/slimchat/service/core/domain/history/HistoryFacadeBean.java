@@ -19,6 +19,11 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfilePreviewProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.utility.component.GenericComponentBean;
 
+/**
+ * Chat history operations facade implementation.
+ *
+ * @author Ilia Gubarev
+ */
 @Service
 public class HistoryFacadeBean extends GenericComponentBean implements HistoryFacade {
 
