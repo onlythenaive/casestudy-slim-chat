@@ -36,7 +36,29 @@
     {{! NOTE: document's main part - all the content must be placed here }}
     <body>
 
-        {{! NOTE: a placeholder for page layout }}
-        {{#block "layout"}}{{/block}}
+        <div class="navbar">
+
+            <span class="navbar-item brand">Slim Chat</span>
+
+            {{#if context.user}}
+
+                <a href="chats" class="navbar-item"><i class="fa fa-fw fa-envelope"></i>Chats</a>
+                <a href="contacts" class="navbar-item"><i class="fa fa-fw fa-users"></i>Contacts</a>
+                <a href="profiles" class="navbar-item"><i class="fa fa-fw fa-search"></i>People</a>
+
+                <span class="navbar-spacer"></span>
+
+                <a href="profiles/me" class="navbar-item"><i class="fa fa-fw fa-user"></i>{{profileName context.user}}
+                </a>
+
+                <form class="navbar-item form-logout" action="logout" method="post">
+                    <button type="submit"><i class="fa fa-fw fa-envelope"></i>Logout</button>
+                </form>
+            {{/if}}
+        </div>
+
+        <div>
+            {{#block "content"}}{{/block}}
+        </div>
     </body>
 </html>
