@@ -26,16 +26,16 @@ public class MessageProviderBean extends GenericComponentBean implements Message
     private MessageRepository messageRepository;
 
     @Override
-    public Collection<Message> getAllByChatId(String chatId) {
+    public Collection<Message> getAllByThreadId(String threadId) {
         Pageable pageable = PageRequest.of(0, 1000, Sort.Direction.DESC, "createdAt");
-        return this.messageRepository.findByChatIdAndObserverIds(chatId, principalId(), pageable).stream()
+        return this.messageRepository.findByThreadIdAndObserverIds(threadId, principalId(), pageable).stream()
                 .map(this.messageProjector::project)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<Message> getAllLatestInChat() {
-        return this.messageRepository.getLatestInChat(principalId()).stream()
+    public Collection<Message> getAllLatestInThread() {
+        return this.messageRepository.getLatestInThread(principalId()).stream()
                 .map(this.messageProjector::project)
                 .collect(Collectors.toList());
     }

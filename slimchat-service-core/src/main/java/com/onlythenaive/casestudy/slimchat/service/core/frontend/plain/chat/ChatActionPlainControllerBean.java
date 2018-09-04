@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.thread.ThreadIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistoryFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistoryIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericPlainControllerBean;
@@ -20,7 +20,7 @@ public class ChatActionPlainControllerBean extends GenericPlainControllerBean {
 
     @PostMapping("/clear")
     public ModelAndView clear(ChatFormInput form) {
-        HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.fromChatId(form.getId()).ownerId(principalId());
+        HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.fromThreadId(form.getThreadId()).ownerId(principalId());
         String historyId = historyIdWrapper.toHistoryId();
         this.historyFacade.clear(historyId);
         String descriptor = descriptor(historyIdWrapper);
@@ -28,10 +28,10 @@ public class ChatActionPlainControllerBean extends GenericPlainControllerBean {
     }
 
     private String descriptor(HistoryIdWrapper historyIdWrapper) {
-        ChatIdWrapper chatIdWrapper = historyIdWrapper.getChatIdWrapper();
-        if (chatIdWrapper.getGroupId() != null) {
-            return chatIdWrapper.getGroupId();
+        ThreadIdWrapper threadIdWrapper = historyIdWrapper.getThreadIdWrapper();
+        if (threadIdWrapper.getGroupId() != null) {
+            return threadIdWrapper.getGroupId();
         }
-        return chatIdWrapper.getCompanionId(principalId());
+        return threadIdWrapper.getCompanionId(principalId());
     }
 }

@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MessageSearchInvoice {
 
-    private String chatId;
+    private String threadId;
 }

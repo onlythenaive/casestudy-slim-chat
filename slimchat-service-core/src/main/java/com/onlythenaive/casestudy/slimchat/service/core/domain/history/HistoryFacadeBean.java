@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.thread.ThreadIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupPreviewProvider;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.message.Message;
@@ -42,14 +42,14 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
     @Override
     public History getById(String id) {
         HistoryIdWrapper idWrapper = HistoryIdWrapper.parse(id);
-        String chatId = idWrapper.getChatIdWrapper().toChatId();
-        Group group = groupPreview(idWrapper.getChatIdWrapper().getGroupId());
-        Profile companion = profilePreview(idWrapper.getChatIdWrapper().getCompanionId(principalId()));
+        String threadId = idWrapper.getThreadIdWrapper().toThreadId();
+        Group group = groupPreview(idWrapper.getThreadIdWrapper().getGroupId());
+        Profile companion = profilePreview(idWrapper.getThreadIdWrapper().getCompanionId(principalId()));
         Integer depth = 0;
-        Collection<Message> messages = this.messageProvider.getAllByChatId(chatId);
+        Collection<Message> messages = this.messageProvider.getAllByThreadId(threadId);
         return History.builder()
                 .id(id)
-                .chatId(chatId)
+                .threadId(threadId)
                 .depth(depth)
                 .group(group)
                 .companion(companion)
@@ -59,7 +59,7 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
 
     @Override
     public HistorySearchResult getSearchResult(HistorySearchInvoice searchInvoice) {
-        Collection<Message> messages = this.messageProvider.getAllLatestInChat();
+        Collection<Message> messages = this.messageProvider.getAllLatestInThread();
         Collection<History> histories = messages.stream().map(this::historyFromMessage).collect(Collectors.toList());
         return HistorySearchResult.builder()
                 .items(histories)
@@ -67,14 +67,14 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
     }
 
     private History historyFromMessage(Message message) {
-        ChatIdWrapper chatIdWrapper = ChatIdWrapper.parse(message.getChatId());
-        String companionId = chatIdWrapper.getCompanionId(principalId());
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.parse(message.getThreadId());
+        String companionId = threadIdWrapper.getCompanionId(principalId());
         Profile companion = profilePreview(companionId);
-        HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.empty().chatIdWrapper(chatIdWrapper).ownerId(principalId());
+        HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.empty().threadIdWrapper(threadIdWrapper).ownerId(principalId());
         return History.builder()
                 .id(historyIdWrapper.toHistoryId())
                 .depth(1)
-                .chatId(message.getChatId())
+                .threadId(message.getThreadId())
                 .companion(companion)
                 .group(message.getGroup())
                 .messages(Collections.singleton(message))
@@ -85,9 +85,9 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
     @Override
     public void clear(String id) {
         HistoryIdWrapper idWrapper = HistoryIdWrapper.parse(id);
-        String chatId = idWrapper.getChatIdWrapper().toChatId();
+        String threadId = idWrapper.getThreadIdWrapper().toThreadId();
         Criteria criteria = Criteria
-                .where("chatId").is(chatId)
+                .where("threadId").is(threadId)
                 .and("observerIds").in(principalId());
         Update update = new Update().pull("observerIds", principalId());
         this.messagePersister.update(criteria, update);

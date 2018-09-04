@@ -8,11 +8,12 @@
                 {{#if companion}}
                     <img src="{{companion.gravatarUrl}}">
                     <span>{{companion.prettyName}}</span>
+                    <a href="chats/{{companion.id}}">Send message</a>
                 {{else}}
                     <img src="{{group.gravatarUrl}}">
                     <span>{{group.caption}}</span>
+                    <a href="chats/{{group.id}}">Send message</a>
                 {{/if}}
-                <a href="chats/{{chatId}}">Send message</a>
                 {{#messages}}
                     <span>{{text}}</span>
                     <img src="{{author.smallGravatarUrl}}">

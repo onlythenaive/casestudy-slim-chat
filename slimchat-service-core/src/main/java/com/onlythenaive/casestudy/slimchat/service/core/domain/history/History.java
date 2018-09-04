@@ -24,7 +24,7 @@ public class History {
 
     private String id;
     private Integer depth;
-    private String chatId;
+    private String threadId;
     private Group group;
     private Profile companion;
     private Collection<Message> messages;

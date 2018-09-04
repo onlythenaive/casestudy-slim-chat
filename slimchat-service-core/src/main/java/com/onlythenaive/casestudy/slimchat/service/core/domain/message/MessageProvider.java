@@ -10,17 +10,17 @@ import java.util.Collection;
 public interface MessageProvider {
 
     /**
-     * Provides a collection of messages by specified chat's ID.
+     * Provides a collection of messages by specified thread's ID.
      *
-     * @param chatId the ID of a chat.
+     * @param threadId the ID of a chat.
      * @return the resulting collection.
      */
-    Collection<Message> getAllByChatId(String chatId);
+    Collection<Message> getAllByThreadId(String threadId);
 
     /**
-     * Provides a collection of the latest messages for each principal's chats.
+     * Provides a collection of the latest messages for each principal's threads.
      *
      * @return the resulting collection.
      */
-    Collection<Message> getAllLatestInChat();
+    Collection<Message> getAllLatestInThread();
 }

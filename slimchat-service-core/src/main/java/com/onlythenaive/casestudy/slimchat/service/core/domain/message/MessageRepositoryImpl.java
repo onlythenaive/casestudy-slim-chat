@@ -25,7 +25,7 @@ public class MessageRepositoryImpl implements MessageRepositoryExtension {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public Collection<MessageEntity> getLatestInChat(String observerId) {
+    public Collection<MessageEntity> getLatestInThread(String observerId) {
         AggregationOperation[] stages = stages(observerId);
         TypedAggregation<MessageEntity> aggregation = aggregation(stages);
         AggregationResults<MessageEntity> results = this.mongoTemplate.aggregate(aggregation, MessageEntity.class);
@@ -54,7 +54,7 @@ public class MessageRepositoryImpl implements MessageRepositoryExtension {
     }
 
     private AggregationOperation group() {
-        return Aggregation.group("chatId").first(Aggregation.ROOT).as("latest");
+        return Aggregation.group("threadId").first(Aggregation.ROOT).as("latest");
     }
 
     private AggregationOperation replaceRoot() {

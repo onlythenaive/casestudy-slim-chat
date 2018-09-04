@@ -12,7 +12,7 @@
 
             <form class="message-form" action="messages/create" method="post">
 
-                <input name="chatId" type="hidden" value="{{chatId}}">
+                <input name="threadId" type="hidden" value="{{threadId}}">
 
                 <div class="form-control">
                     <textarea name="text" placeholder="Enter the message"></textarea>
@@ -25,7 +25,7 @@
 
                 <form class="history-form" action="chats/clear" method="post">
 
-                    <input name="id" type="hidden" value="{{chatId}}">
+                    <input name="threadId" type="hidden" value="{{threadId}}">
 
                     <button type="submit">Clear history</button>
                 </form>

@@ -47,7 +47,7 @@ public class MessageEntity implements PersistedEntity {
     private String recipientId;
 
     @Field
-    private String chatId;
+    private String threadId;
 
     @Field
     private Set<String> observerIds;

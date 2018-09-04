@@ -1,11 +1,11 @@
-package com.onlythenaive.casestudy.slimchat.service.core.domain.chat;
+package com.onlythenaive.casestudy.slimchat.service.core.domain.thread;
 
 /**
- * Helper utility for chat ID.
+ * Helper utility for message thread ID.
  *
  * @author Ilia Gubarev
  */
-public class ChatIdWrapper {
+public class ThreadIdWrapper {
 
     private static final String DELIMITER = "+";
     private static final String DELIMITER_REGEX = "\\+";
@@ -15,24 +15,24 @@ public class ChatIdWrapper {
      *
      * @return a new wrapper.
      */
-    public static ChatIdWrapper empty() {
-        return new ChatIdWrapper();
+    public static ThreadIdWrapper empty() {
+        return new ThreadIdWrapper();
     }
 
     /**
-     * Creates a new wrapper from an existing chat ID.
+     * Creates a new wrapper from an existing thread ID.
      *
-     * @param chatId a chat ID to be used.
+     * @param threadId a thread ID to be used.
      * @return a new wrapper.
      */
-    public static ChatIdWrapper parse(String chatId) {
-        ChatIdWrapper wrapper = new ChatIdWrapper();
-        if (chatId.contains(DELIMITER)) {
-            String[] profileIds = chatId.split(DELIMITER_REGEX);
+    public static ThreadIdWrapper parse(String threadId) {
+        ThreadIdWrapper wrapper = new ThreadIdWrapper();
+        if (threadId.contains(DELIMITER)) {
+            String[] profileIds = threadId.split(DELIMITER_REGEX);
             wrapper.profileId1(profileIds[0]);
             wrapper.profileId2(profileIds[1]);
         } else {
-            wrapper.groupId(chatId);
+            wrapper.groupId(threadId);
         }
         return wrapper;
     }
@@ -56,7 +56,7 @@ public class ChatIdWrapper {
      * @param groupId the ID of a group.
      * @return this wrapper.
      */
-    public ChatIdWrapper groupId(String groupId) {
+    public ThreadIdWrapper groupId(String groupId) {
         this.groupId = groupId;
         return this;
     }
@@ -76,7 +76,7 @@ public class ChatIdWrapper {
      * @param profileId1 the ID of the first profile.
      * @return this wrapper.
      */
-    public ChatIdWrapper profileId1(String profileId1) {
+    public ThreadIdWrapper profileId1(String profileId1) {
         this.profileId1 = profileId1;
         return this;
     }
@@ -96,17 +96,17 @@ public class ChatIdWrapper {
      * @param profileId2 the ID of the second profile.
      * @return this wrapper.
      */
-    public ChatIdWrapper profileId2(String profileId2) {
+    public ThreadIdWrapper profileId2(String profileId2) {
         this.profileId2 = profileId2;
         return this;
     }
 
     /**
-     * Gets the ID of a chat.
+     * Gets the ID of a thread.
      *
-     * @return the ID of a chat.
+     * @return the ID of a thread.
      */
-    public String toChatId() {
+    public String toThreadId() {
         if (this.groupId != null) {
             return this.groupId;
         }

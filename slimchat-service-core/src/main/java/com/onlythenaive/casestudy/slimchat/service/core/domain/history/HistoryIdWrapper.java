@@ -1,6 +1,6 @@
 package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.thread.ThreadIdWrapper;
 
 /**
  * Chat history ID wrapper.
@@ -24,12 +24,12 @@ public class HistoryIdWrapper {
     /**
      * Creates a new wrapper.
      *
-     * @param chatId the chat's ID wrapper.
+     * @param threadId the thread's ID wrapper.
      * @return a new wrapper.
      */
-    public static HistoryIdWrapper fromChatId(String chatId) {
+    public static HistoryIdWrapper fromThreadId(String threadId) {
         HistoryIdWrapper wrapper = new HistoryIdWrapper();
-        wrapper.chatIdWrapper = ChatIdWrapper.parse(chatId);
+        wrapper.threadIdWrapper = ThreadIdWrapper.parse(threadId);
         return wrapper;
     }
 
@@ -42,31 +42,31 @@ public class HistoryIdWrapper {
     public static HistoryIdWrapper parse(String historyId) {
         HistoryIdWrapper wrapper = new HistoryIdWrapper();
         String[] parts = historyId.split(DELIMITER_REGEX);
-        wrapper.chatIdWrapper = ChatIdWrapper.parse(parts[0]);
+        wrapper.threadIdWrapper = ThreadIdWrapper.parse(parts[0]);
         wrapper.ownerId = parts[1];
         return wrapper;
     }
 
-    private ChatIdWrapper chatIdWrapper;
+    private ThreadIdWrapper threadIdWrapper;
     private String ownerId;
 
     /**
-     * Gets the chat's ID wrapper.
+     * Gets the thread's ID wrapper.
      *
-     * @return the chat's ID wrapper.
+     * @return the thread's ID wrapper.
      */
-    public ChatIdWrapper getChatIdWrapper() {
-        return this.chatIdWrapper;
+    public ThreadIdWrapper getThreadIdWrapper() {
+        return this.threadIdWrapper;
     }
 
     /**
-     * Sets a new chat's ID wrapper.
+     * Sets a new thread's ID wrapper.
      *
-     * @param chatIdWrapper a chat's ID wrapper.
+     * @param threadIdWrapper a thread's ID wrapper.
      * @return this wrapper.
      */
-    public HistoryIdWrapper chatIdWrapper(ChatIdWrapper chatIdWrapper) {
-        this.chatIdWrapper = chatIdWrapper;
+    public HistoryIdWrapper threadIdWrapper(ThreadIdWrapper threadIdWrapper) {
+        this.threadIdWrapper = threadIdWrapper;
         return this;
     }
 
@@ -96,6 +96,6 @@ public class HistoryIdWrapper {
      * @return history's ID.
      */
     public String toHistoryId() {
-        return this.chatIdWrapper.toChatId() + DELIMITER + ownerId;
+        return this.threadIdWrapper.toThreadId() + DELIMITER + ownerId;
     }
 }

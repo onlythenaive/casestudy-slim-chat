@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ChatFormInput {
 
-    private String id;
+    private String threadId;
 }

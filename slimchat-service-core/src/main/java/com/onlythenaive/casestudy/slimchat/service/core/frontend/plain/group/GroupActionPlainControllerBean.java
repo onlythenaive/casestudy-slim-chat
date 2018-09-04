@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.thread.ThreadIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupInvoice;
@@ -27,8 +27,8 @@ public class GroupActionPlainControllerBean extends GenericPlainControllerBean {
     }
 
     private String descriptor(String groupId) {
-        return ChatIdWrapper.empty()
+        return ThreadIdWrapper.empty()
                 .groupId(groupId)
-                .toChatId();
+                .toThreadId();
     }
 }

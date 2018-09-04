@@ -28,7 +28,7 @@ public class Message {
     private Profile author;
     private Group group;
     private Profile recipient;
-    private String chatId;
+    private String threadId;
     private Boolean own;
     private Instant createdAt;
 

@@ -76,7 +76,7 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
     public MessageSearchResult getSearchResult(MessageSearchInvoice invoice) {
         MessageEntity probe = MessageEntity.builder()
                 .observerIds(new HashSet<>(Collections.singleton(principalId())))
-                .chatId(invoice.getChatId())
+                .threadId(invoice.getThreadId())
                 .build();
         Collection<MessageEntity> entities = this.messageRepository.findAll(Example.of(probe));
         Collection<Message> messages = entities.stream()
@@ -108,7 +108,7 @@ public class MessageFacadeBean extends GenericComponentBean implements MessageFa
                 .text(invoiceWrapper.getInvoice().getText())
                 .recipientId(invoiceWrapper.getRecipientId())
                 .groupId(invoiceWrapper.getGroupId())
-                .chatId(invoiceWrapper.getInvoice().getChatId())
+                .threadId(invoiceWrapper.getInvoice().getThreadId())
                 .observerIds(observerIdsFromInvoice(invoiceWrapper))
                 .createdAt(now())
                 .build();

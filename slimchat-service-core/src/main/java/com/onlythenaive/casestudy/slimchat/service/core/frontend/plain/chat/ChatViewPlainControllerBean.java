@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.onlythenaive.casestudy.slimchat.service.core.domain.chat.ChatIdWrapper;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.thread.ThreadIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.Group;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.group.GroupFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.history.History;
@@ -18,7 +18,6 @@ import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistoryFa
 import com.onlythenaive.casestudy.slimchat.service.core.domain.history.HistoryIdWrapper;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileFacade;
 import com.onlythenaive.casestudy.slimchat.service.core.frontend.shared.GenericPlainControllerBean;
-import com.onlythenaive.casestudy.slimchat.service.core.utility.exception.ExceptionDescriptor;
 
 @Controller
 @RequestMapping("/ui/plain/chats")
@@ -35,22 +34,22 @@ public class ChatViewPlainControllerBean extends GenericPlainControllerBean {
 
     @GetMapping("/{descriptor}")
     public ModelAndView show(@PathVariable("descriptor") String descriptor) {
-        String chatId = chatId(descriptor);
-        String historyId = HistoryIdWrapper.fromChatId(chatId).ownerId(principalId()).toHistoryId();
+        String threadId = threadId(descriptor);
+        String historyId = HistoryIdWrapper.fromThreadId(threadId).ownerId(principalId()).toHistoryId();
         History history = this.historyFacade.getById(historyId);
         return renderHistoryView(history);
     }
 
-    private String chatId(String descriptor) {
-        ChatIdWrapper chatIdWrapper = new ChatIdWrapper();
+    private String threadId(String descriptor) {
+        ThreadIdWrapper threadIdWrapper = new ThreadIdWrapper();
         try {
             Group group = groupFacade.getById(descriptor);
-            chatIdWrapper.groupId(descriptor);
+            threadIdWrapper.groupId(descriptor);
         } catch (Exception e) {
-            chatIdWrapper.profileId1(descriptor);
-            chatIdWrapper.profileId2(principalId());
+            threadIdWrapper.profileId1(descriptor);
+            threadIdWrapper.profileId2(principalId());
         }
-        return chatIdWrapper.toChatId();
+        return threadIdWrapper.toThreadId();
     }
 
     private ModelAndView renderHistoryView(History history) {
