@@ -48,7 +48,7 @@
 
                 <span class="navbar-spacer"></span>
 
-                <a href="profiles/me" class="navbar-item"><i class="fa fa-fw fa-user"></i>{{profileName context.user}}
+                <a href="profiles/me" class="navbar-item"><i class="fa fa-fw fa-user"></i>{{context.user.prettyName}}
                 </a>
 
                 <form class="navbar-item form-logout" action="logout" method="post">

@@ -14,11 +14,11 @@
 
             {{#if initiatedByPrincipal}}
                 <div>
-                    {{profileName acceptor}}
+                    {{acceptor.prettyName}}
                 </div>
             {{else}}
                 <div>
-                    {{profileName initiator}}
+                    {{initiator.prettyName}}
                 </div>
             {{/if}}
 
@@ -71,10 +71,10 @@
         {{#data.contacts}}
             <li>
                 <span>
-                    <img src="https://www.gravatar.com/avatar/{{emailHash}}?s=48&default=identicon">
+                    <img src="{{gravatarUrl}}">
                 </span>
                 <span>
-                    <a href="profiles/{{id}}">{{firstname}} {{lastname}}</a>
+                    <a href="profiles/{{id}}">{{prettyName}}</a>
                 </span>
             </li>
         {{/data.contacts}}

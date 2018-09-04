@@ -6,17 +6,17 @@
         {{#data.chats}}
             <li class="chat-list-item">
                 {{#if companion}}
-                    <img src="https://www.gravatar.com/avatar/{{companion.emailHash}}?s=48&default=identicon">
-                    <span>{{companion.firstname}} {{companion.lastname}}</span>
+                    <img src="{{companion.gravatarUrl}}">
+                    <span>{{companion.prettyName}}</span>
                 {{else}}
-                    <img src="https://www.gravatar.com/avatar/{{group.id}}?s=48&default=identicon">
+                    <img src="{{group.gravatarUrl}}">
                     <span>{{group.caption}}</span>
                 {{/if}}
-                <a href="chats/{{id}}">Send message</a>
+                <a href="chats/{{chatId}}">Send message</a>
                 {{#messages}}
                     <span>{{text}}</span>
-                    <img src="https://www.gravatar.com/avatar/{{author.emailHash}}?s=48&default=identicon">
-                    <span>{{author.firstname}}</span>
+                    <img src="{{author.smallGravatarUrl}}">
+                    <span>{{author.prettyName}}</span>
                 {{/messages}}
             </li>
         {{/data.chats}}

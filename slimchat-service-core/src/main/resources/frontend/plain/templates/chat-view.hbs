@@ -7,7 +7,7 @@
             {{#if group}}
                 <h1>Group chat {{group.caption}}</h1>
             {{else}}
-                <h1>Chat with {{profileName companion}}</h1>
+                <h1>Chat with {{companion.prettyName}}</h1>
             {{/if}}
 
             <form class="message-form" action="messages/create" method="post">
@@ -37,7 +37,7 @@
                 {{#messages}}
                     <div class="message">
                         <div class="avatar-section">
-                            <img class="avatar" src="https://www.gravatar.com/avatar/{{author.gravatarHash}}?s=48&default=mp">
+                            <img class="avatar" src="{{gravatarUrl}}">
                         </div>
                         <div class="content-section">
                             <div>
@@ -45,10 +45,10 @@
                                     {{#if own}}
                                         Me
                                     {{else}}
-                                        <a href="profiles/{{author.id}}">{{profileName author}}</a>
+                                        <a href="profiles/{{author.id}}">{{author.prettyName}}</a>
                                     {{/if}}
                                 </span>
-                                <span class="timestamp">{{prettyTimestamp createdAt}}</span>
+                                <span class="timestamp">{{prettyCreatedAt}}</span>
                             </div>
                             <div class="text">
                                 <span class="text">{{text}}</span>

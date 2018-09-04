@@ -4,11 +4,11 @@
 
         <div class="profile-card">
 
-            <img src="https://www.gravatar.com/avatar/{{emailHash}}?s=64&default=identicon">
+            <img src="{{largeGravatarUrl}}">
 
             <div class="profile-info">
 
-                <h2>{{firstname}} {{lastname}}</h2>
+                <h2>{{prettyName}}</h2>
 
                 {{#if status}}<p>{{status}}</p>{{/if}}
 
