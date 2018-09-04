@@ -1,36 +1,40 @@
 {{#partial "content"}}
-    <h1>User profiles</h1>
 
-    <hr/>
+        <h1>User profiles</h1>
 
-    <div style="width: 400px;">
-        {{#data.profiles}}
+        <table class="profile-table">
 
-            <div>
-                {{profileName .}}
-            </div>
-
-            {{#if connected}}
-                <div>
-                    Connected
-                </div>
-            {{/if}}
-
-            {{#if ownedByPrincipal}}
-                <div>
-                    Me!
-                </div>
-            {{/if}}
-
-            <div>
-                <form action="profiles/{{id}}" method="get">
-                    <button type="submit">View the profile</button>
-                </form>
-            </div>
-
-            <hr/>
-        {{/data.profiles}}
-    </div>
+            <thead>
+                <tr>
+                    <td>Avatar</td>
+                    <td>Name</td>
+                    <td>Status</td>
+                    <td>Connected to me?</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#data.profiles}}
+                    <tr>
+                        <td>
+                            <img src="https://www.gravatar.com/avatar/{{emailHash}}?s=48&default=identicon">
+                        </td>
+                        <td>
+                            <a href="profiles/{{id}}">{{firstname}} {{lastname}}</a>
+                        </td>
+                        <td>
+                            {{status}}
+                        </td>
+                        <td>
+                            {{#if connected}}
+                                Yes
+                            {{else}}
+                                No yet
+                            {{/if}}
+                        </td>
+                    </tr>
+                {{/data.profiles}}
+            </tbody>
+        </table>
 {{/partial}}
 
 {{> plain/templates/layout}}

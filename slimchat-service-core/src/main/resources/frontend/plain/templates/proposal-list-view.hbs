@@ -55,3 +55,30 @@
 {{/partial}}
 
 {{> plain/templates/layout}}
+
+
+{{#partial "content"}}
+
+    <h1>My contact requests</h1>
+
+    <ul>
+        <li><a href="proposals/incoming">Incoming</a></li>
+        <li><a href="proposals/outgoing">Outgoing</a></li>
+        <li><a href="contacts">Back to contacts</a></li>
+    </ul>
+
+    <ul>
+        {{#data.contacts}}
+            <li>
+                <span>
+                    <img src="https://www.gravatar.com/avatar/{{emailHash}}?s=48&default=identicon">
+                </span>
+                <span>
+                    <a href="profiles/{{id}}">{{firstname}} {{lastname}}</a>
+                </span>
+            </li>
+        {{/data.contacts}}
+    </ul>
+{{/partial}}
+
+{{> plain/templates/layout}}

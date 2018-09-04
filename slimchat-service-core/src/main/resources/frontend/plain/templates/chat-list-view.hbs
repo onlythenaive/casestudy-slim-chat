@@ -2,32 +2,25 @@
 
     <h1>My chats</h1>
 
-    <div class="chat-list">
-
+    <ul class="chat-list">
         {{#data.chats}}
-
-            {{#if group}}
-                <div>
-                    {{group.caption}}
-                </div>
-                <a href="chats/{{group.id}}">Write a message</a>
-            {{else}}
-                <div>
-                    {{profileName companion}}
-                </div>
-                <a href="chats/{{companion.id}}">Write a message</a>
-            {{/if}}
-
-            <div>
-                <form action="chats/clear" method="post">
-                    <input name="id" type="hidden" value="{{chatId}}">
-                    <button type="submit">Delete</button>
-                </form>
-            </div>
-
-            <hr/>
+            <li class="chat-list-item">
+                {{#if companion}}
+                    <img src="https://www.gravatar.com/avatar/{{companion.emailHash}}?s=48&default=identicon">
+                    <span>{{companion.firstname}} {{companion.lastname}}</span>
+                {{else}}
+                    <img src="https://www.gravatar.com/avatar/{{group.id}}?s=48&default=identicon">
+                    <span>{{group.caption}}</span>
+                {{/if}}
+                <a href="chats/{{id}}">Send message</a>
+                {{#messages}}
+                    <span>{{text}}</span>
+                    <img src="https://www.gravatar.com/avatar/{{author.emailHash}}?s=48&default=identicon">
+                    <span>{{author.firstname}}</span>
+                {{/messages}}
+            </li>
         {{/data.chats}}
-    </div>
+    </ul>
 {{/partial}}
 
 {{> plain/templates/layout}}
