@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.jknack.handlebars.Options;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.Profile;
+import com.onlythenaive.casestudy.slimchat.service.core.domain.profile.ProfileNames;
 
 /**
  * Template helper for rendering profile display names.
@@ -20,14 +21,6 @@ public class ProfileNameTemplateHelperBean extends GenericTemplateHelperBean<Pro
 
     @Override
     public Object apply(Profile profile, Options options) {
-        if (profile == null) {
-            return null;
-        }
-        String firstname = profile.getFirstname();
-        if (firstname == null) {
-            return profile.getId();
-        }
-        String lastname = profile.getLastname();
-        return lastname != null ? firstname + " " + lastname : firstname;
+        return ProfileNames.pretty(profile);
     }
 }
