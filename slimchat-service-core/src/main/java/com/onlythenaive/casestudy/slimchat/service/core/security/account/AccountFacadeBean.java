@@ -36,12 +36,24 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
 
     @Override
     public void create(AccountInvoice invoice) {
+        ensureInvoiceValidity(invoice);
         ensureUniqueness(invoice);
         AccountEntity entity = accountEntityFromInvoice(invoice);
         AccountEntity insertedEntity = this.accountPersister.insert(entity);
         Account account = this.accountProjector.project(insertedEntity);
         handleAccountCreation(account, invoice);
-   }
+    }
+
+    private void ensureInvoiceValidity(AccountInvoice invoice) {
+        String id = invoice.getId();
+        if (id == null || id.endsWith("-group")) {
+            throw invalidAccountId(invoice);
+        }
+        String loginKey = invoice.getLoginKey();
+        if (loginKey == null) {
+            throw invalidAccountLoginKey(invoice);
+        }
+    }
 
     private void ensureUniqueness(AccountInvoice invoice) {
         if (this.accountRepository.existsById(invoice.getId())) {
@@ -81,6 +93,24 @@ public class AccountFacadeBean extends GenericComponentBean implements AccountFa
                 .textcode("x.conflict.account.already-exists")
                 .category(ExceptionCategory.CONFLICT)
                 .dataAttribute(property, value)
+                .build();
+    }
+
+    private OperationException invalidAccountId(AccountInvoice invoice) {
+        return OperationException.builder()
+                .comment("Account ID is invalid")
+                .textcode("x.validation.account.invalid-id")
+                .category(ExceptionCategory.VALIDATION)
+                .data(invoice.copyInsensitive())
+                .build();
+    }
+
+    private OperationException invalidAccountLoginKey(AccountInvoice invoice) {
+        return OperationException.builder()
+                .comment("Account login key is invalid")
+                .textcode("x.validation.account.invalid-login-key")
+                .category(ExceptionCategory.VALIDATION)
+                .data(invoice.copyInsensitive())
                 .build();
     }
 }
