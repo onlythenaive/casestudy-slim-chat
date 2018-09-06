@@ -38,6 +38,7 @@ public class ProfileProjectorBean extends GenericComponentBean implements Profil
                 .emailHash(entity.getEmailHash())
                 .firstname(entity.getFirstname())
                 .lastname(entity.getLastname())
+                .status(entity.getStatus())
                 .connected(connected(entity))
                 .restricted(entity.getRestricted())
                 .own(own(entity))

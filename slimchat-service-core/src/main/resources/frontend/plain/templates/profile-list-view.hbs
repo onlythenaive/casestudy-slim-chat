@@ -1,40 +1,23 @@
 {{#partial "content"}}
 
-        <h1>User profiles</h1>
+    <h1>People</h1>
 
-        <table class="profile-table">
-
-            <thead>
-                <tr>
-                    <td>Avatar</td>
-                    <td>Name</td>
-                    <td>Status</td>
-                    <td>Connected to me?</td>
-                </tr>
-            </thead>
-            <tbody>
-                {{#data.profiles}}
-                    <tr>
-                        <td>
-                            <img src="{{gravatarUrl}}">
-                        </td>
-                        <td>
-                            <a href="profiles/{{id}}">{{prettyName}}</a>
-                        </td>
-                        <td>
-                            {{status}}
-                        </td>
-                        <td>
-                            {{#if connected}}
-                                Yes
-                            {{else}}
-                                No yet
-                            {{/if}}
-                        </td>
-                    </tr>
-                {{/data.profiles}}
-            </tbody>
-        </table>
+    <ul>
+        {{#data.profiles}}
+            <li>
+                <a href="profiles/{{id}}">
+                    <img class="gravatar" src="{{gravatarUrl}}">
+                    <span>{{prettyName}}</span>
+                    {{#if connected}}
+                        <span class="tag tag-green">connected</span>
+                    {{/if}}
+                    {{#if online}}
+                        <span class="tag tag-blue">online</span>
+                    {{/if}}
+                </a>
+            </li>
+        {{/data.profiles}}
+    </ul>
 {{/partial}}
 
 {{> plain/templates/layout}}

@@ -3,8 +3,11 @@
     <h1>My chats</h1>
 
     <ul class="chat-list">
+
         {{#data.chats}}
+
             <li class="chat-list-item">
+
                 {{#if companion}}
                     <img src="{{companion.gravatarUrl}}">
                     <span>{{companion.prettyName}}</span>
@@ -14,6 +17,7 @@
                     <span>{{group.caption}}</span>
                     <a href="chats/{{group.id}}">Send message</a>
                 {{/if}}
+
                 {{#messages}}
                     <span>{{text}}</span>
                     <img src="{{author.smallGravatarUrl}}">
