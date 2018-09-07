@@ -42,7 +42,7 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
     @Override
     public History getById(String id) {
         HistoryIdWrapper idWrapper = HistoryIdWrapper.parse(id);
-        String threadId = idWrapper.getThreadIdWrapper().toThreadId();
+        String threadId = idWrapper.getThreadIdWrapper().getThreadId();
         Group group = groupPreview(idWrapper.getThreadIdWrapper().getGroupId());
         Profile companion = profilePreview(idWrapper.getThreadIdWrapper().getCompanionId(principalId()));
         Integer depth = 0;
@@ -67,7 +67,7 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
     }
 
     private History historyFromMessage(Message message) {
-        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.parse(message.getThreadId());
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(message.getThreadId());
         String companionId = threadIdWrapper.getCompanionId(principalId());
         Profile companion = profilePreview(companionId);
         HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.empty().threadIdWrapper(threadIdWrapper).ownerId(principalId());
@@ -85,7 +85,7 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
     @Override
     public void clear(String id) {
         HistoryIdWrapper idWrapper = HistoryIdWrapper.parse(id);
-        String threadId = idWrapper.getThreadIdWrapper().toThreadId();
+        String threadId = idWrapper.getThreadIdWrapper().getThreadId();
         Criteria criteria = Criteria
                 .where("threadId").is(threadId)
                 .and("observerIds").in(principalId());

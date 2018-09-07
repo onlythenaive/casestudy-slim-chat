@@ -27,8 +27,6 @@ public class GroupActionPlainControllerBean extends GenericPlainControllerBean {
     }
 
     private String descriptor(String groupId) {
-        return ThreadIdWrapper.empty()
-                .groupId(groupId)
-                .toThreadId();
+        return ThreadIdWrapper.ofGroupId(groupId).getThreadId();
     }
 }

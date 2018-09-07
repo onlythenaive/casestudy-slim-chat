@@ -26,10 +26,9 @@ public class MessageFormViewPlainControllerBean extends GenericPlainControllerBe
     }
 
     private String descriptor(String threadId) {
-        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.parse(threadId);
-        String groupId = threadIdWrapper.getGroupId();
-        if (groupId != null) {
-            return groupId;
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(threadId);
+        if (threadIdWrapper.containsGroupId()) {
+            return threadIdWrapper.getGroupId();
         } else {
             return threadIdWrapper.getCompanionId(principalId());
         }

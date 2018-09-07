@@ -41,15 +41,14 @@ public class ChatViewPlainControllerBean extends GenericPlainControllerBean {
     }
 
     private String threadId(String descriptor) {
-        ThreadIdWrapper threadIdWrapper = new ThreadIdWrapper();
+        ThreadIdWrapper threadIdWrapper;
         try {
             Group group = groupFacade.getById(descriptor);
-            threadIdWrapper.groupId(descriptor);
+            threadIdWrapper = ThreadIdWrapper.ofGroupId(descriptor);
         } catch (Exception e) {
-            threadIdWrapper.profileId1(descriptor);
-            threadIdWrapper.profileId2(principalId());
+            threadIdWrapper = ThreadIdWrapper.ofProfileIds(descriptor, principalId());
         }
-        return threadIdWrapper.toThreadId();
+        return threadIdWrapper.getThreadId();
     }
 
     private ModelAndView renderHistoryView(History history) {

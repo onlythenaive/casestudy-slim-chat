@@ -5,41 +5,84 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.thread;
  *
  * @author Ilia Gubarev
  */
-public class ThreadIdWrapper {
+public final class ThreadIdWrapper {
 
     private static final String DELIMITER = "+";
     private static final String DELIMITER_REGEX = "\\+";
 
     /**
-     * Creates a new wrapper.
+     * Creates a new thread ID wrapper from specified group ID.
      *
-     * @return a new wrapper.
+     * @param groupId the ID of a group.
+     * @return a new instance of the wrapper.
      */
-    public static ThreadIdWrapper empty() {
-        return new ThreadIdWrapper();
+    public static ThreadIdWrapper ofGroupId(String groupId) {
+        ThreadIdWrapper threadIdWrapper = new ThreadIdWrapper();
+        threadIdWrapper.groupId = groupId;
+        threadIdWrapper.threadId = groupId;
+        return threadIdWrapper;
     }
 
     /**
-     * Creates a new wrapper from an existing thread ID.
+     * Creates a new thread ID wrapper from specified profile IDs.
      *
-     * @param threadId a thread ID to be used.
-     * @return a new wrapper.
+     * @param profileId1 the ID of the first profile.
+     * @param profileId2 the ID of the second profile.
+     * @return a new instance of the wrapper.
      */
-    public static ThreadIdWrapper parse(String threadId) {
-        ThreadIdWrapper wrapper = new ThreadIdWrapper();
+    public static ThreadIdWrapper ofProfileIds(String profileId1, String profileId2) {
+        ThreadIdWrapper threadIdWrapper = new ThreadIdWrapper();
+        threadIdWrapper.profileId1 = profileId1;
+        threadIdWrapper.profileId2 = profileId2;
+        String leftParticipantId;
+        String rightParticipantId;
+        if (profileId1.compareTo(profileId2) < 0) {
+            leftParticipantId = profileId1;
+            rightParticipantId = profileId2;
+        } else {
+            leftParticipantId = profileId2;
+            rightParticipantId = profileId1;
+        }
+        threadIdWrapper.threadId = leftParticipantId + DELIMITER + rightParticipantId;
+        return threadIdWrapper;
+    }
+
+    /**
+     * Creates a new thread ID wrapper from specified thread ID.
+     *
+     * @param threadId the ID of a thread.
+     * @return a new instance of the wrapper.
+     */
+    public static ThreadIdWrapper ofThreadId(String threadId) {
+        ThreadIdWrapper threadIdWrapper = new ThreadIdWrapper();
+        threadIdWrapper.threadId = threadId;
         if (threadId.contains(DELIMITER)) {
             String[] profileIds = threadId.split(DELIMITER_REGEX);
-            wrapper.profileId1(profileIds[0]);
-            wrapper.profileId2(profileIds[1]);
+            threadIdWrapper.profileId1 = profileIds[0];
+            threadIdWrapper.profileId2 = profileIds[1];
         } else {
-            wrapper.groupId(threadId);
+            threadIdWrapper.groupId = threadId;
         }
-        return wrapper;
+        return threadIdWrapper;
     }
 
     private String groupId;
     private String profileId1;
     private String profileId2;
+    private String threadId;
+
+    private ThreadIdWrapper() {
+
+    }
+
+    /**
+     * Checks if this wrapper contains an ID of a group.
+     *
+     * @return true if the wrapper contains an ID of group.
+     */
+    public boolean containsGroupId() {
+        return this.groupId != null;
+    }
 
     /**
      * Gets the ID of a group.
@@ -48,17 +91,6 @@ public class ThreadIdWrapper {
      */
     public String getGroupId() {
         return this.groupId;
-    }
-
-    /**
-     * Sets a new ID of a group.
-     *
-     * @param groupId the ID of a group.
-     * @return this wrapper.
-     */
-    public ThreadIdWrapper groupId(String groupId) {
-        this.groupId = groupId;
-        return this;
     }
 
     /**
@@ -71,17 +103,6 @@ public class ThreadIdWrapper {
     }
 
     /**
-     * Sets a new ID of the first profile.
-     *
-     * @param profileId1 the ID of the first profile.
-     * @return this wrapper.
-     */
-    public ThreadIdWrapper profileId1(String profileId1) {
-        this.profileId1 = profileId1;
-        return this;
-    }
-
-    /**
      * Gets the ID of the second profile.
      *
      * @return the ID of the second profile.
@@ -91,35 +112,12 @@ public class ThreadIdWrapper {
     }
 
     /**
-     * Sets a new ID of the second profile.
-     *
-     * @param profileId2 the ID of the second profile.
-     * @return this wrapper.
-     */
-    public ThreadIdWrapper profileId2(String profileId2) {
-        this.profileId2 = profileId2;
-        return this;
-    }
-
-    /**
      * Gets the ID of a thread.
      *
      * @return the ID of a thread.
      */
-    public String toThreadId() {
-        if (this.groupId != null) {
-            return this.groupId;
-        }
-        String leftParticipantId;
-        String rightParticipantId;
-        if (this.profileId1.compareTo(this.profileId2) < 0) {
-            leftParticipantId = profileId1;
-            rightParticipantId = profileId2;
-        } else {
-            leftParticipantId = profileId2;
-            rightParticipantId = profileId1;
-        }
-        return leftParticipantId + DELIMITER + rightParticipantId;
+    public String getThreadId() {
+        return this.threadId;
     }
 
     /**

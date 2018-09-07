@@ -19,7 +19,7 @@ public class MessageInvoiceWrapper {
     public static MessageInvoiceWrapper of(MessageInvoice invoice, String authorId) {
         MessageInvoiceWrapper invoiceWrapper = new MessageInvoiceWrapper();
         invoiceWrapper.invoice = invoice;
-        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.parse(invoice.getThreadId());
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(invoice.getThreadId());
         invoiceWrapper.groupId = threadIdWrapper.getGroupId();
         String profileId1 = threadIdWrapper.getProfileId1();
         String profileId2 = threadIdWrapper.getProfileId2();

@@ -29,7 +29,7 @@ public class HistoryIdWrapper {
      */
     public static HistoryIdWrapper fromThreadId(String threadId) {
         HistoryIdWrapper wrapper = new HistoryIdWrapper();
-        wrapper.threadIdWrapper = ThreadIdWrapper.parse(threadId);
+        wrapper.threadIdWrapper = ThreadIdWrapper.ofThreadId(threadId);
         return wrapper;
     }
 
@@ -42,7 +42,7 @@ public class HistoryIdWrapper {
     public static HistoryIdWrapper parse(String historyId) {
         HistoryIdWrapper wrapper = new HistoryIdWrapper();
         String[] parts = historyId.split(DELIMITER_REGEX);
-        wrapper.threadIdWrapper = ThreadIdWrapper.parse(parts[0]);
+        wrapper.threadIdWrapper = ThreadIdWrapper.ofThreadId(parts[0]);
         wrapper.ownerId = parts[1];
         return wrapper;
     }
@@ -96,6 +96,6 @@ public class HistoryIdWrapper {
      * @return history's ID.
      */
     public String toHistoryId() {
-        return this.threadIdWrapper.toThreadId() + DELIMITER + ownerId;
+        return this.threadIdWrapper.getThreadId() + DELIMITER + ownerId;
     }
 }
