@@ -35,7 +35,7 @@ public class ChatViewPlainControllerBean extends GenericPlainControllerBean {
     @GetMapping("/{descriptor}")
     public ModelAndView show(@PathVariable("descriptor") String descriptor) {
         String threadId = threadId(descriptor);
-        String historyId = HistoryIdWrapper.fromThreadId(threadId).ownerId(principalId()).toHistoryId();
+        String historyId = HistoryIdWrapper.ofThreadIdAndOwnerId(threadId, principalId()).getHistoryId();
         History history = this.historyFacade.getById(historyId);
         return renderHistoryView(history);
     }

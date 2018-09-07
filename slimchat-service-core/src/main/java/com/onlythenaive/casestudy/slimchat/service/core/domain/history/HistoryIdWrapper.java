@@ -3,71 +3,60 @@ package com.onlythenaive.casestudy.slimchat.service.core.domain.history;
 import com.onlythenaive.casestudy.slimchat.service.core.domain.thread.ThreadIdWrapper;
 
 /**
- * Chat history ID wrapper.
+ * Utility helper for chat history ID.
  *
  * @author Ilia Gubarev
  */
-public class HistoryIdWrapper {
+public final class HistoryIdWrapper {
 
     private static final String DELIMITER = "$";
     private static final String DELIMITER_REGEX = "\\$";
 
     /**
-     * Creates a new wrapper.
+     * Creates a new history ID wrapper from specified history ID.
      *
+     * @param historyId the ID of a history to be wrapped.
      * @return a new wrapper.
      */
-    public static HistoryIdWrapper empty() {
-        return new HistoryIdWrapper();
-    }
-
-    /**
-     * Creates a new wrapper.
-     *
-     * @param threadId the thread's ID wrapper.
-     * @return a new wrapper.
-     */
-    public static HistoryIdWrapper fromThreadId(String threadId) {
+    public static HistoryIdWrapper ofHistoryId(String historyId) {
         HistoryIdWrapper wrapper = new HistoryIdWrapper();
-        wrapper.threadIdWrapper = ThreadIdWrapper.ofThreadId(threadId);
-        return wrapper;
-    }
-
-    /**
-     * Creates a new wrapper from specified ID.
-     *
-     * @param historyId the ID of a history to be used.
-     * @return a new wrapper.
-     */
-    public static HistoryIdWrapper parse(String historyId) {
-        HistoryIdWrapper wrapper = new HistoryIdWrapper();
+        wrapper.historyId = historyId;
         String[] parts = historyId.split(DELIMITER_REGEX);
-        wrapper.threadIdWrapper = ThreadIdWrapper.ofThreadId(parts[0]);
         wrapper.ownerId = parts[1];
+        wrapper.threadId = parts[0];
         return wrapper;
     }
 
-    private ThreadIdWrapper threadIdWrapper;
-    private String ownerId;
-
     /**
-     * Gets the thread's ID wrapper.
+     * Creates a new history ID wrapper from specified thread's and owner's IDs.
      *
-     * @return the thread's ID wrapper.
+     * @param threadId the ID of a thread.
+     * @param ownerId the ID of the owner.
+     * @return a new wrapper.
      */
-    public ThreadIdWrapper getThreadIdWrapper() {
-        return this.threadIdWrapper;
+    public static HistoryIdWrapper ofThreadIdAndOwnerId(String threadId, String ownerId) {
+        HistoryIdWrapper wrapper = new HistoryIdWrapper();
+        wrapper.historyId = threadId + DELIMITER + ownerId;
+        wrapper.ownerId = ownerId;
+        wrapper.threadId = threadId;
+        return wrapper;
+    }
+
+    private String historyId;
+    private String ownerId;
+    private String threadId;
+
+    private HistoryIdWrapper() {
+
     }
 
     /**
-     * Sets a new thread's ID wrapper.
+     * Gets the ID of a history.
      *
-     * @param threadIdWrapper a thread's ID wrapper.
-     * @return this wrapper.
+     * @return the ID of a history.
      */
-    public HistoryIdWrapper threadIdWrapper(ThreadIdWrapper threadIdWrapper) {
-        this.threadIdWrapper = threadIdWrapper;
-        return this;
+    public String getHistoryId() {
+        return this.historyId;
     }
 
     /**
@@ -80,22 +69,11 @@ public class HistoryIdWrapper {
     }
 
     /**
-     * Sets a new ID of the owner.
+     * Gets the ID of a thread.
      *
-     * @param ownerId a new ID of the owner.
-     * @return this wrapper.
+     * @return the ID of a thread.
      */
-    public HistoryIdWrapper ownerId(String ownerId) {
-        this.ownerId = ownerId;
-        return this;
-    }
-
-    /**
-     * Gets the ID of a history.
-     *
-     * @return history's ID.
-     */
-    public String toHistoryId() {
-        return this.threadIdWrapper.getThreadId() + DELIMITER + ownerId;
+    public String getThreadId() {
+        return this.threadId;
     }
 }

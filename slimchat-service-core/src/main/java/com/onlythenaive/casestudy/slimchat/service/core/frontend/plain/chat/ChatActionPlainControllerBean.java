@@ -20,16 +20,16 @@ public class ChatActionPlainControllerBean extends GenericPlainControllerBean {
 
     @PostMapping("/clear")
     public ModelAndView clear(ChatFormInput form) {
-        HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.fromThreadId(form.getThreadId()).ownerId(principalId());
-        String historyId = historyIdWrapper.toHistoryId();
+        String threadId = form.getThreadId();
+        String historyId = HistoryIdWrapper.ofThreadIdAndOwnerId(threadId, principalId()).getHistoryId();
         this.historyFacade.clear(historyId);
-        String descriptor = descriptor(historyIdWrapper);
+        String descriptor = descriptor(form.getThreadId());
         return redirect("chats/" + descriptor);
     }
 
-    private String descriptor(HistoryIdWrapper historyIdWrapper) {
-        ThreadIdWrapper threadIdWrapper = historyIdWrapper.getThreadIdWrapper();
-        if (threadIdWrapper.getGroupId() != null) {
+    private String descriptor(String threadId) {
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(threadId);
+        if (threadIdWrapper.containsGroupId()) {
             return threadIdWrapper.getGroupId();
         }
         return threadIdWrapper.getCompanionId(principalId());

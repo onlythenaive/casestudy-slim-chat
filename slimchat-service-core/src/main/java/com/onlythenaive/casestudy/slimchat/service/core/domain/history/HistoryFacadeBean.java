@@ -41,10 +41,11 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
 
     @Override
     public History getById(String id) {
-        HistoryIdWrapper idWrapper = HistoryIdWrapper.parse(id);
-        String threadId = idWrapper.getThreadIdWrapper().getThreadId();
-        Group group = groupPreview(idWrapper.getThreadIdWrapper().getGroupId());
-        Profile companion = profilePreview(idWrapper.getThreadIdWrapper().getCompanionId(principalId()));
+        HistoryIdWrapper idWrapper = HistoryIdWrapper.ofHistoryId(id);
+        String threadId = idWrapper.getThreadId();
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(threadId);
+        Group group = groupPreview(threadIdWrapper.getGroupId());
+        Profile companion = profilePreview(threadIdWrapper.getCompanionId(principalId()));
         Integer depth = 0;
         Collection<Message> messages = this.messageProvider.getAllByThreadId(threadId);
         return History.builder()
@@ -66,26 +67,10 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
                 .build();
     }
 
-    private History historyFromMessage(Message message) {
-        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(message.getThreadId());
-        String companionId = threadIdWrapper.getCompanionId(principalId());
-        Profile companion = profilePreview(companionId);
-        HistoryIdWrapper historyIdWrapper = HistoryIdWrapper.empty().threadIdWrapper(threadIdWrapper).ownerId(principalId());
-        return History.builder()
-                .id(historyIdWrapper.toHistoryId())
-                .depth(1)
-                .threadId(message.getThreadId())
-                .companion(companion)
-                .group(message.getGroup())
-                .messages(Collections.singleton(message))
-                .preview(true)
-                .build();
-    }
-
     @Override
     public void clear(String id) {
-        HistoryIdWrapper idWrapper = HistoryIdWrapper.parse(id);
-        String threadId = idWrapper.getThreadIdWrapper().getThreadId();
+        HistoryIdWrapper idWrapper = HistoryIdWrapper.ofHistoryId(id);
+        String threadId = idWrapper.getThreadId();
         Criteria criteria = Criteria
                 .where("threadId").is(threadId)
                 .and("observerIds").in(principalId());
@@ -105,5 +90,25 @@ public class HistoryFacadeBean extends GenericComponentBean implements HistoryFa
             return null;
         }
         return this.profilePreviewProvider.getById(profileId);
+    }
+
+    private History historyFromMessage(Message message) {
+        String threadId = message.getThreadId();
+        ThreadIdWrapper threadIdWrapper = ThreadIdWrapper.ofThreadId(threadId);
+        Profile companion = null;
+        if (!threadIdWrapper.containsGroupId()) {
+            String companionId = threadIdWrapper.getCompanionId(principalId());
+            companion = profilePreview(companionId);
+        }
+        String historyId = HistoryIdWrapper.ofThreadIdAndOwnerId(threadId, principalId()).getHistoryId();
+        return History.builder()
+                .id(historyId)
+                .depth(1)
+                .threadId(threadId)
+                .companion(companion)
+                .group(message.getGroup())
+                .messages(Collections.singleton(message))
+                .preview(true)
+                .build();
     }
 }
