@@ -1,24 +1,28 @@
 {{#partial "content"}}
 
-    <form action="registration" method="post">
+    <form class="security-form" action="registration" method="post">
 
         <div class="form-heading">
             <span>Sign Up</span>
         </div>
 
         <div class="form-control">
+            <i class="fas fa-user-shield"></i>
             <input name="id" type="text" placeholder="Username (visible to everyone)" required autofocus>
         </div>
 
         <div class="form-control">
+            <i class="fas fa-user-shield"></i>
             <input name="loginKey" type="text" placeholder="Login" required>
         </div>
 
         <div class="form-control">
+            <i class="fas fa-unlock"></i>
             <input name="loginSecret" type="password" placeholder="Password" required>
         </div>
 
         <div class="form-control">
+            <i class="fas fa-unlock"></i>
             <input name="loginSecretDuplicate" type="password" placeholder="Repeat password" required>
         </div>
 
