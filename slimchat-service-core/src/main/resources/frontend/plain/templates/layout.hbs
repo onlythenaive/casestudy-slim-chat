@@ -16,9 +16,11 @@
         <link rel="stylesheet" href="styles/common.css">
         <link rel="stylesheet" href="styles/security.css">
         <link rel="stylesheet" href="styles/profile.css">
+        <link rel="stylesheet" href="styles/navbar.css">
     </head>
 
     <body>
+
 
         <div class="navbar">
 
@@ -26,13 +28,19 @@
 
             {{#if context.user}}
 
+                <a href="chats" class="navbar-item"><i class="fa fa-fw fa-envelope"></i>Chats</a>
+                <a href="contacts" class="navbar-item"><i class="fa fa-fw fa-users"></i>Contacts</a>
+                <a href="profiles" class="navbar-item"><i class="fa fa-fw fa-search"></i>People</a>
+
+                <span class="navbar-spacer"></span>
+
+                <a href="profiles/me" class="navbar-item"><i class="fa fa-fw fa-user"></i>{{context.user.prettyName}}
+                </a>
+
                 <form class="navbar-item form-logout" action="logout" method="post">
-                    <button type="submit">Logout</button>
+                    <button type="submit"><i class="fa fa-fw fa-envelope"></i>Logout</button>
                 </form>
             {{/if}}
-
-            <hr/>
-
         </div>
 
         <div>
