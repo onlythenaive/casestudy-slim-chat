@@ -1,6 +1,23 @@
 {{#partial "content"}}
 
-    Profile List View
+    <h1>People</h1>
+
+    <ul>
+        {{#data.profiles}}
+            <li>
+                <a href="profiles/{{id}}">
+                    <img class="gravatar" src="{{gravatarUrl}}">
+                    <span>{{prettyName}}</span>
+                    {{#if connected}}
+                        <span>connected</span>
+                    {{/if}}
+                    {{#if online}}
+                        <span>online</span>
+                    {{/if}}
+                </a>
+            </li>
+        {{/data.profiles}}
+    </ul>
 {{/partial}}
 
 {{> plain/templates/layout}}
