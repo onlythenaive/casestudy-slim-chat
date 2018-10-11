@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <title>Slim Chat: Plain Old UI</title>
+        <base href="{{@root.context.base}}">
+
+        <meta charset="UTF-8">
+        <link rel="icon" href="images/favicon.png">
+    </head>
+
+    <body>
+
+        <div class="navbar">
+
+            <span class="navbar-item brand">Slim Chat</span>
+
+            {{#if context.user}}
+
+                <form class="navbar-item form-logout" action="logout" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+            {{/if}}
+
+            <hr/>
+
+        </div>
+
+        <div>
+            {{#block "content"}}{{/block}}
+        </div>
+    </body>
+</html>

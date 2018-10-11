@@ -1,35 +1,10 @@
-<!DOCTYPE html>
+{{#partial "content"}}
 
-<html>
+    <div>
+        {{#data.profile}}
+            <h2>{{prettyName}}</h2>
+        {{/data.profile}}
+    </div>
+{{/partial}}
 
-    <head>
-        <base href="{{@root.context.base}}">
-        <meta charset="UTF-8">
-
-        <title>Slim Chat: Plain Old UI</title>
-        <link rel="icon" href="images/favicon.png">
-    </head>
-
-    <body>
-
-        <div class="navbar">
-
-            <span class="navbar-item brand">Slim Chat</span>
-
-            {{#if context.user}}
-                <form class="navbar-item form-logout" action="logout" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-            {{/if}}
-
-            <hr/>
-        </div>
-
-        <div>
-            {{#data.profile}}
-                <h2>{{prettyName}}</h2>
-            {{/data.profile}}
-        </div>
-    </body>
-</html>
-
+{{> plain/templates/layout}}

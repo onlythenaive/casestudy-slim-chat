@@ -1,38 +1,25 @@
-<!DOCTYPE html>
+{{#partial "content"}}
 
-<html>
+    <form action="login" method="post">
 
-    <head>
-        <meta charset="UTF-8">
-        <base href="{{@root.context.base}}">
-
-        <title>Slim Chat: Plain Old UI</title>
-        <link rel="icon" href="images/favicon.png">
-    </head>
-
-    <body>
-        <div>
-
-            <form action="login" method="post">
-
-                <div class="form-heading">
-                    <span>Sign In</span>
-                </div>
-
-                <div class="form-control">
-                    <input name="loginKey" type="text" placeholder="Login" required autofocus>
-                </div>
-
-                <div class="form-control">
-                    <input name="loginSecret" type="password" placeholder="Password">
-                </div>
-
-                <button type="submit">Go</button>
-
-                <div class="form-alternate-link">
-                    <a href="registration">Not registered yet?</a>
-                </div>
-            </form>
+        <div class="form-heading">
+            <span>Sign In</span>
         </div>
-    </body>
-</html>
+
+        <div class="form-control">
+            <input name="loginKey" type="text" placeholder="Login" required autofocus>
+        </div>
+
+        <div class="form-control">
+            <input name="loginSecret" type="password" placeholder="Password">
+        </div>
+
+        <button type="submit">Go</button>
+
+        <div class="form-alternate-link">
+            <a href="registration">Not registered yet?</a>
+        </div>
+    </form>
+{{/partial}}
+
+{{> plain/templates/layout}}
